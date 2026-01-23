@@ -9,12 +9,6 @@ namespace FPS.Input {
         public Vector2 Move();
 
         /// <summary>
-        /// Entity request to attack
-        /// </summary>
-        /// <returns>Bool</returns>
-        public bool Attack();
-
-        /// <summary>
         /// Entity request to look 
         /// </summary>
         /// <returns>Vector2</returns>

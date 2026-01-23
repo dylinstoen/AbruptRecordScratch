@@ -10,7 +10,6 @@ namespace FPS.Player {
         [Header("Input")]
         [SerializeField] private IInputReader inputReader;
         [Header("Movement")]
-        [SerializeField] private Transform moveReference;
         [SerializeField] private float speed = 10f;
         [Header("Look")]
         [SerializeField] private Transform lookReference;
@@ -20,16 +19,9 @@ namespace FPS.Player {
         [SerializeField] private float distance = 5f;
         private float pitch = 0f;
         private float yaw = 0f;
-        
-        /// <summary>
-        /// Injects a moveReference game object target into the player so it can move locally forward based on the cam
-        /// </summary>
-        /// <param name="moveReference"></param>
-        public void Initialize(Transform moveReference) {
-            this.moveReference = moveReference;
-        }
+        private IAimSource aimSource;
         private void Start() {
-            inputReader = GetComponent<PlayerInputReader>();
+            inputReader = GetComponent<InputReader>();
             rb = GetComponent<Rigidbody>();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
@@ -44,7 +36,10 @@ namespace FPS.Player {
         void PerformPause() {
             if (inputReader.Pause()) Cursor.visible = !Cursor.visible;
         }
-        
+
+        public void Inject(IAimSource aimSource) {
+            this.aimSource = aimSource;
+        }
         /// <summary>
         /// Projects a LookReference gameobject target out in front of the player based on the mouse movement
         /// </summary>
@@ -61,14 +56,15 @@ namespace FPS.Player {
         /// Moves the player based on the local forward of the moveReference gameobject target
         /// </summary>
         void PerformMove() {
+            if (aimSource == null) return;
             var direction = inputReader.Move();
-            Vector3 refForward = moveReference.forward;
-            Vector3 refRight = moveReference.right;
-            refForward.y = 0f;
-            refRight.y = 0f;
-            refForward.Normalize();
-            refRight.Normalize();
-            Vector3 moveDir = refForward * direction.y + refRight * direction.x;
+            Vector3 forward = aimSource.Forward;
+            Vector3 right = Vector3.Cross(Vector3.up, forward);
+            forward.y = 0f;
+            right.y = 0f;
+            forward.Normalize();
+            right.Normalize();
+            Vector3 moveDir = forward * direction.y + right * direction.x;
             rb.MovePosition(rb.position + moveDir * (speed * Time.fixedDeltaTime));
         }
     }
