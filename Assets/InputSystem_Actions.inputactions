@@ -52,15 +52,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Reload",
-                    "type": "Button",
-                    "id": "8b0f8977-bfa5-446d-8983-3f9627b4712e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
@@ -330,28 +321,6 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "SecondaryFire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "70a65b75-7fbe-458a-8593-aafecaebfad2",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Reload",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9606322b-2ee5-4673-819d-38774d67b094",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

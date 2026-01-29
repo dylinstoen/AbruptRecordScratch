@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e2bccbc54092e4e8791cc9cd1a675a, type: 3}
+  m_Name: Rifle
+  m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
+  Range: 10
+  Ammo: 30
+  mode: {fileID: 11400000, guid: d5be8405219e0234f90bdcdd5a0dec5a, type: 2}
+  emitter: {fileID: 11400000, guid: e0e8fec568998c943b89c8ed710022ed, type: 2}
