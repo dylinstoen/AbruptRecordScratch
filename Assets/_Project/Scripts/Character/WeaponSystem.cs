@@ -14,7 +14,7 @@ namespace FPS.Character {
         }
         
         private void Update() {
-            weaponInventory.CurrentWeapon.ProcessInput(weaponContext.fireInput.PrimaryFire(), Time.deltaTime);
+            weaponInventory.CurrentWeapon.ProcessInput(weaponContext, Time.deltaTime);
             float switchWeaponInput = weaponContext.fireInput.SwitchWeapon();
             if (switchWeaponInput > 0.5f) {
                 weaponInventory.NextWeapon();
