@@ -15,25 +15,21 @@ namespace FPS.Weapon {
         [SerializeField] private float positionSmoothTime = 0.05f;
         [SerializeField] private float rotationSmoothTime = 0.05f;
         private Vector3 positionVelocity;
-        private IAimSource aimSource;
-        public void Inject(IAimSource source) {
-            aimSource = source;
-        }
-        private void LateUpdate() {
-            if (aimSource == null) return;
-            Vector3 pos = aimSource.Position + aimSource.Forward * forwardOffset + GetRight() * horizontalOffset + GetUp() * verticalOffset;
+
+        public void UpdateView(Vector3 aimSourceForward, Vector3 aimSourcePosition) {
+            Vector3 pos = aimSourcePosition + aimSourceForward * forwardOffset + GetRight(aimSourceForward) * horizontalOffset + GetUp(aimSourceForward) * verticalOffset;
             transform.position = Vector3.SmoothDamp(transform.position, pos, ref positionVelocity, positionSmoothTime);
-            Quaternion rotationTarget = Quaternion.LookRotation(aimSource.Forward);
+            Quaternion rotationTarget = Quaternion.LookRotation(aimSourceForward);
             transform.rotation = Quaternion.Slerp(transform.rotation, rotationTarget, Time.deltaTime/rotationSmoothTime);
         }
 
-        private Vector3 GetRight() {
-            return Vector3.Cross(Vector3.up, aimSource.Forward).normalized;
+        private Vector3 GetRight(Vector3 aimSourceForward) {
+            return Vector3.Cross(Vector3.up, aimSourceForward).normalized;
         }
 
-        private Vector3 GetUp() {
-            Vector3 right = GetRight();
-            return Vector3.Cross(aimSource.Forward, right).normalized;
+        private Vector3 GetUp(Vector3 aimSourceForward) {
+            Vector3 right = GetRight(aimSourceForward);
+            return Vector3.Cross(aimSourceForward, right).normalized;
         }
 
         public void OnFired() {

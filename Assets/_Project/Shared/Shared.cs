@@ -11,13 +11,22 @@ namespace FPS.Weapon {
         public Collider Collider;
     }
 
-    public struct WeaponSnapshot {
-        public Vector3 aimOrigin { get; }
+    public struct WeaponViewSnapshot {
+        public Vector3 aimSourceForward { get; }
+        public Vector3 aimSourcePosition { get; }
+        public WeaponViewSnapshot(Vector3 aimSourceForward, Vector3 aimSourcePosition) {
+            this.aimSourceForward = aimSourceForward;
+            this.aimSourcePosition = aimSourcePosition;
+        }
+    }
+    public struct WeaponControllerSnapshot {
+
         public bool primaryFireState { get; }
+        public Vector3 directionToFire { get; }
         public float DeltaTime { get; }
 
-        public WeaponSnapshot(Vector3 aimOrigin, bool primaryFireState, float DeltaTime) {
-            this.aimOrigin = aimOrigin;
+        public WeaponControllerSnapshot(Vector3 directionToFire, bool primaryFireState, float DeltaTime) {
+            this.directionToFire = directionToFire;
             this.primaryFireState = primaryFireState;
             this.DeltaTime = DeltaTime;
         }

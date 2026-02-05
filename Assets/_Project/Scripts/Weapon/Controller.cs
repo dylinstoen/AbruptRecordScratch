@@ -7,25 +7,25 @@ namespace FPS.Weapon {
     public class Controller : MonoBehaviour {
         // Aim Source, Input, and firePoint, is a scene reference which means it gets injected by objects in the scene
         [SerializeField] private Data data;
-        public IAimSource aim;
         public Transform firePoint;
         public View view;
         private float currentAmmo = 0;
-
-        public void Inject(IAimSource aim) {
-            this.aim = aim;
-        }
         private void Start() {
             currentAmmo = data.Ammo;
         }
-        public void Tick(in WeaponSnapshot snapshot) {
-            if (currentAmmo <= 0 || !data.mode.CanFire(snapshot.primaryFireState, snapshot.DeltaTime)) {
+        public void Tick(in WeaponControllerSnapshot controllerSnapshot) {
+            if (currentAmmo <= 0 || !data.mode.CanFire(controllerSnapshot.primaryFireState, controllerSnapshot.DeltaTime)) {
                 return;
             }
-            Vector3 dir = aim.Forward;
+            Vector3 dir = controllerSnapshot.directionToFire;
             HitResult res = data.emitter.Fire(firePoint.position, dir, data.Range);
             Debug.Log("Hit " + res.Hit);
             view.OnFired();
         }
+
+        public void LateTick(in WeaponViewSnapshot viewSnapshot) {
+            view.UpdateView(viewSnapshot.aimSourceForward, viewSnapshot.aimSourcePosition);
+        }
+
     }
 }

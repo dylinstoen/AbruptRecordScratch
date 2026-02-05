@@ -230,9 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16380123ccf2ff48becdcce2e678567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Controller
+  data: {fileID: 11400000, guid: 7428d3f4436cc754ba6c11cf055a9d5a, type: 2}
   firePoint: {fileID: 827846923}
   view: {fileID: 117293677}
-  data: {fileID: 11400000, guid: 7428d3f4436cc754ba6c11cf055a9d5a, type: 2}
 --- !u!114 &117293677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,9 +320,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e16380123ccf2ff48becdcce2e678567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Controller
+  data: {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
   firePoint: {fileID: 776885551}
   view: {fileID: 384624095}
-  data: {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,7 +2076,7 @@ Transform:
   m_GameObject: {fileID: 2116609314}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03906, z: 1.16}
+  m_LocalPosition: {x: -2.405, y: 0, z: 2.336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -17,9 +17,14 @@ namespace FPS.Character {
         }
         
         private void Update() {
-            WeaponSnapshot snapshot = new WeaponSnapshot(aimSource.Forward, fireInput.PrimaryFire(), Time.deltaTime);
-            weaponInventory.CurrentWeapon.Tick(snapshot);
+            WeaponControllerSnapshot controllerSnapshot = new WeaponControllerSnapshot(aimSource.Forward, fireInput.PrimaryFire(), Time.deltaTime);
+            weaponInventory.CurrentWeapon.Tick(controllerSnapshot);
             HandleWeaponSwitch(fireInput.SwitchWeapon());
+        }
+
+        private void LateUpdate() {
+            WeaponViewSnapshot viewSnapShot = new WeaponViewSnapshot(aimSource.Forward, aimSource.Position);
+            weaponInventory.CurrentWeapon.LateTick(viewSnapShot);
         }
 
         void HandleWeaponSwitch(float switchWeaponState) {
