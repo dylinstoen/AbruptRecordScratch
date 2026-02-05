@@ -1,4 +1,5 @@
 using System;
+using FPS.Aiming;
 using FPS.Input;
 using FPS.Weapon;
 using UnityEngine;
@@ -7,20 +8,30 @@ namespace FPS.Character {
     // Rep Inv: Handle firing selected weapon from WeaponSystem
     public class WeaponSystem : MonoBehaviour {
         [SerializeField] private WeaponInventory weaponInventory;
-        private WeaponContext weaponContext;
+        private IAimSource aimSource;
+        private IFireInput fireInput;
 
-        public void Inject(WeaponContext weaponContext) {
-            this.weaponContext = weaponContext;
+        public void Inject(IAimSource aimSource, IFireInput fireInput) {
+            this.aimSource = aimSource;
+            this.fireInput = fireInput;
         }
         
         private void Update() {
-            weaponInventory.CurrentWeapon.ProcessInput(weaponContext, Time.deltaTime);
-            float switchWeaponInput = weaponContext.fireInput.SwitchWeapon();
-            if (switchWeaponInput > 0.5f) {
-                weaponInventory.NextWeapon();
-            }
-            if (switchWeaponInput < -0.5f) {
-                weaponInventory.PreviousWeapon();
+            WeaponSnapshot snapshot = new WeaponSnapshot(aimSource.Forward, fireInput.PrimaryFire(), Time.deltaTime);
+            weaponInventory.CurrentWeapon.Tick(snapshot);
+            HandleWeaponSwitch(fireInput.SwitchWeapon());
+        }
+
+        void HandleWeaponSwitch(float switchWeaponState) {
+            switch (switchWeaponState) {
+                case <= 0.5f and >= -0.5f:
+                    return;
+                case > 0.5f:
+                    weaponInventory.NextWeapon();
+                    break;
+                default:
+                    weaponInventory.PreviousWeapon();
+                    break;
             }
         }
     }

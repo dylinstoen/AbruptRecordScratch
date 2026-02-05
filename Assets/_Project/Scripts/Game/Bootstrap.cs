@@ -34,7 +34,7 @@ namespace FPS.Game {
 
         void HookPlayer() {
             playerController.Inject(cameraController);
-            weaponSystem.Inject(new WeaponContext(playerFireInput, cameraController));
+            weaponSystem.Inject(cameraController, playerFireInput);
         }
         void HookCamera() {
             cameraController.Inject(playerFollowTarget, playerLookTarget);

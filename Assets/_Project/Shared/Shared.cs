@@ -1,5 +1,6 @@
 using FPS.Aiming;
 using FPS.Input;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace FPS.Weapon {
@@ -10,17 +11,15 @@ namespace FPS.Weapon {
         public Collider Collider;
     }
 
-    public struct WeaponContext {
-        public IAimSource aimSource { get; }
-        public IFireInput fireInput { get; }
+    public struct WeaponSnapshot {
+        public Vector3 aimOrigin { get; }
+        public bool primaryFireState { get; }
+        public float DeltaTime { get; }
 
-        public WeaponContext(IAimSource aimSource, IFireInput fireInput) {
-            this.aimSource = aimSource;
-            this.fireInput = fireInput;
-        }
-        public WeaponContext(IFireInput fireInput, IAimSource aimSource) {
-            this.aimSource = aimSource;
-            this.fireInput = fireInput;
+        public WeaponSnapshot(Vector3 aimOrigin, bool primaryFireState, float DeltaTime) {
+            this.aimOrigin = aimOrigin;
+            this.primaryFireState = primaryFireState;
+            this.DeltaTime = DeltaTime;
         }
     }
 }

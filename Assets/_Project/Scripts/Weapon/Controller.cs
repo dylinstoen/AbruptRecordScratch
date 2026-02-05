@@ -18,8 +18,8 @@ namespace FPS.Weapon {
         private void Start() {
             currentAmmo = data.Ammo;
         }
-        public void ProcessInput(WeaponContext context, float deltaTime) {
-            if (currentAmmo <= 0 || !data.mode.CanFire(context.fireInput.PrimaryFire(), deltaTime)) {
+        public void Tick(in WeaponSnapshot snapshot) {
+            if (currentAmmo <= 0 || !data.mode.CanFire(snapshot.primaryFireState, snapshot.DeltaTime)) {
                 return;
             }
             Vector3 dir = aim.Forward;
