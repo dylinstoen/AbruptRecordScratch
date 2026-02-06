@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6">
   <diagram name="Page-1" id="76aC1JZ24QmviZuzZ2O8">
-    <mxGraphModel dx="1346" dy="322" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1825" dy="428" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -48,7 +48,7 @@
           <mxGeometry height="30" width="60" x="161" y="732" as="geometry" />
         </mxCell>
         <mxCell id="H1rhpNqp-lW1WZ-MnkoQ-44" parent="1" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;" value="IItemCollector&lt;div&gt;Apply(ItemEffect effect)&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="152" x="597" y="639" as="geometry" />
+          <mxGeometry height="60" width="152" x="607" y="651" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

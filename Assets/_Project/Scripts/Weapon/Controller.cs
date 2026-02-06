@@ -23,9 +23,5 @@ namespace FPS.Weapon {
             view.OnFired();
         }
 
-        public void LateTick(in WeaponViewSnapshot viewSnapshot) {
-            view.UpdateView(viewSnapshot.aimSourceForward, viewSnapshot.aimSourcePosition);
-        }
-
     }
 }

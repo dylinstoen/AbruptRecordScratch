@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 42062602}
   - component: {fileID: 42062601}
   - component: {fileID: 42062600}
+  - component: {fileID: 42062603}
   m_Layer: 0
   m_Name: WeaponPack
   m_TagString: Untagged
@@ -295,6 +296,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42062598}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &42062603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42062598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f45574e68d4f040b15b5a5412c60bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPS.Item.Controller
 --- !u!1 &117293673
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,8 +317,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 117293674}
-  - component: {fileID: 117293677}
+  - component: {fileID: 117293678}
   - component: {fileID: 117293675}
+  - component: {fileID: 117293677}
   m_Layer: 7
   m_Name: Rifle
   m_TagString: Untagged
@@ -357,6 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c335b68835974c4f95918c6c616a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  controller: {fileID: 117293675}
   muzzleFlash: {fileID: 0}
   horizontalForce: 10
   verticalForce: 10
@@ -365,6 +380,20 @@ MonoBehaviour:
   verticalOffset: -0.35
   positionSmoothTime: 0
   rotationSmoothTime: 0
+--- !u!114 &117293678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117293673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff32ff49a0bea042a421d759358b52d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  controller: {fileID: 117293675}
+  view: {fileID: 117293677}
 --- !u!1 &384624089
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,8 +403,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 384624090}
-  - component: {fileID: 384624096}
+  - component: {fileID: 384624097}
   - component: {fileID: 384624095}
+  - component: {fileID: 384624096}
   m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
@@ -412,6 +442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c335b68835974c4f95918c6c616a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  controller: {fileID: 384624096}
   muzzleFlash: {fileID: 0}
   horizontalForce: 10
   verticalForce: 10
@@ -434,6 +465,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Controller
   data: {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
   firePoint: {fileID: 776885551}
+  view: {fileID: 384624095}
+--- !u!114 &384624097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384624089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ff32ff49a0bea042a421d759358b52d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  controller: {fileID: 384624096}
   view: {fileID: 384624095}
 --- !u!1 &410087039
 GameObject:
@@ -562,56 +607,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &543778447
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 543778448}
-  - component: {fileID: 543778449}
-  m_Layer: 0
-  m_Name: Bootstrap
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &543778448
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543778447}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &543778449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 543778447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb61f02f639073c48931df21c320b45d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  playerController: {fileID: 1444882299}
-  playerFireInput: {fileID: 1444882305}
-  playerFollowTarget: {fileID: 1972019332}
-  playerLookTarget: {fileID: 2113400609}
-  weaponSystem: {fileID: 1444882306}
-  cameraController: {fileID: 2088565504}
 --- !u!1 &606689060
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,6 +1018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1444882297}
   - component: {fileID: 1444882298}
+  - component: {fileID: 1444882308}
   - component: {fileID: 1444882303}
   - component: {fileID: 1444882305}
   - component: {fileID: 1444882299}
@@ -1151,8 +1147,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   weapons:
-  - {fileID: 384624096}
-  - {fileID: 117293675}
+  - {fileID: 384624097}
+  - {fileID: 117293678}
+--- !u!114 &1444882308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1444882296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3e70f971f4a85143a692a32cf6f3b29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  cameraController: {fileID: 2088565504}
+  weaponSystem: {fileID: 1444882306}
+  playerController: {fileID: 1444882299}
+  camFollowTarget: {fileID: 1972019332}
+  camLookAtTarget: {fileID: 2113400609}
+  playerFireInput: {fileID: 1444882305}
 --- !u!1 &1448995316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,7 +2152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113400609}
   m_Layer: 6
-  m_Name: LookTarget
+  m_Name: LookAtTarget
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -2198,7 +2212,6 @@ SceneRoots:
   - {fileID: 2088565503}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 543778448}
   - {fileID: 1444882297}
   - {fileID: 2116609315}
   - {fileID: 1448995317}

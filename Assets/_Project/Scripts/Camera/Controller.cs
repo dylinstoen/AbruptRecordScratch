@@ -9,7 +9,7 @@ namespace FPS.Camera {
         private Transform lookAtTarget;
         [SerializeField] private float followSpeed = 1.0f;
 
-        public void Inject(Transform followTarget, Transform lookAtTarget) {
+        public void Init(Transform followTarget, Transform lookAtTarget) {
             this.followTarget = followTarget;
             this.lookAtTarget = lookAtTarget;
         }
@@ -25,7 +25,7 @@ namespace FPS.Camera {
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, followSpeed * Time.deltaTime);
             }
         }
-        private void LateUpdate() {
+        public void LateTick() {
             FollowTarget();
             LookAtTarget();
         }

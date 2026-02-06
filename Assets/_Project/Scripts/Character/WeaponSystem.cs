@@ -11,20 +11,20 @@ namespace FPS.Character {
         private IAimSource aimSource;
         private IFireInput fireInput;
 
-        public void Inject(IAimSource aimSource, IFireInput fireInput) {
+        public void Init(IAimSource aimSource, IFireInput fireInput) {
             this.aimSource = aimSource;
             this.fireInput = fireInput;
         }
         
-        private void Update() {
+        public void Tick() {
             WeaponControllerSnapshot controllerSnapshot = new WeaponControllerSnapshot(aimSource.Forward, fireInput.PrimaryFire(), Time.deltaTime);
-            weaponInventory.CurrentWeapon.Tick(controllerSnapshot);
+            weaponInventory.CurrentWeapon.controller.Tick(controllerSnapshot);
             HandleWeaponSwitch(fireInput.SwitchWeapon());
         }
 
-        private void LateUpdate() {
+        public void LateTick() {
             WeaponViewSnapshot viewSnapShot = new WeaponViewSnapshot(aimSource.Forward, aimSource.Position);
-            weaponInventory.CurrentWeapon.LateTick(viewSnapShot);
+            weaponInventory.CurrentWeapon.view.LateTick(viewSnapShot);
         }
 
         void HandleWeaponSwitch(float switchWeaponState) {

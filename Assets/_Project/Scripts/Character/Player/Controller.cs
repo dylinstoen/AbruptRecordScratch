@@ -27,18 +27,18 @@ namespace FPS.Character.Player {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
-        private void Update() {
+        public void Tick() {
             PerformLook();
             PerformPause();
         }
-        private void FixedUpdate() {
+        public void FixedTick() {
             PerformMove();
         }
         void PerformPause() {
             if (_input.Pause()) Cursor.visible = !Cursor.visible;
         }
 
-        public void Inject(IAimSource aimSource) {
+        public void Init(IAimSource aimSource) {
             this.aimSource = aimSource;
         }
         /// <summary>

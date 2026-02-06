@@ -6,9 +6,9 @@ using UnityEngine;
 namespace FPS.Character {
     // Rep Inv: Switch weaponst assigning the current selected weapon
     public class WeaponInventory : MonoBehaviour {
-        [SerializeField] private List<FPS.Weapon.Controller> weapons;
-        private FPS.Weapon.Controller currentWeapon;
-        public FPS.Weapon.Controller CurrentWeapon => currentWeapon;
+        [SerializeField] private List<FPS.Weapon.Weapon> weapons;
+        private FPS.Weapon.Weapon currentWeapon;
+        public FPS.Weapon.Weapon CurrentWeapon => currentWeapon;
         private int currentIndex = 0;
 
         private void Start() {
@@ -50,7 +50,7 @@ namespace FPS.Character {
             currentWeapon.gameObject.SetActive(true);
         }
         
-        public void AddWeapon(FPS.Weapon.Controller weapon)
+        public void AddWeapon(FPS.Weapon.Weapon weapon)
         {
             weapons.Add(weapon);
             weapon.gameObject.SetActive(false);
