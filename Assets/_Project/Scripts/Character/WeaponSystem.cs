@@ -2,10 +2,13 @@ using System;
 using FPS.Aiming;
 using FPS.Input;
 using FPS.Weapon;
+using FPS.Weapon.Stucts;
 using UnityEngine;
 
 namespace FPS.Character {
-    // Rep Inv: Handle firing selected weapon from WeaponSystem
+    // Rep Inv: Handle firing selected weapon or weapons from WeaponSystem
+    // Maps input and direction to aim into the current weapon or weapons
+    // Sends where its aiming to the current weapon or weapons visual controls
     public class WeaponSystem : MonoBehaviour {
         [SerializeField] private WeaponInventory weaponInventory;
         private IAimSource aimSource;
@@ -17,14 +20,13 @@ namespace FPS.Character {
         }
         
         public void Tick() {
-            WeaponControllerSnapshot controllerSnapshot = new WeaponControllerSnapshot(aimSource.Forward, fireInput.PrimaryFire(), Time.deltaTime);
-            weaponInventory.CurrentWeapon.controller.Tick(controllerSnapshot);
+            // If i want right click to fire i just change what i pass into tick
+            weaponInventory.CurrentWeapon.Tick(fireInput.PrimaryFire(), aimSource.Forward);
             HandleWeaponSwitch(fireInput.SwitchWeapon());
         }
 
         public void LateTick() {
-            WeaponViewSnapshot viewSnapShot = new WeaponViewSnapshot(aimSource.Forward, aimSource.Position);
-            weaponInventory.CurrentWeapon.view.LateTick(viewSnapShot);
+            weaponInventory.CurrentWeapon.LateTick(aimSource.Forward, aimSource.Position);
         }
 
         void HandleWeaponSwitch(float switchWeaponState) {

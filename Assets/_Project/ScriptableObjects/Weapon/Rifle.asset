@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
   Range: 10
   Ammo: 30
-  mode: {fileID: 11400000, guid: d5be8405219e0234f90bdcdd5a0dec5a, type: 2}
-  emitter: {fileID: 11400000, guid: e0e8fec568998c943b89c8ed710022ed, type: 2}
+  FireMode: 1
+  emitterMode: 0

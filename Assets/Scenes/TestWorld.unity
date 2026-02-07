@@ -318,7 +318,6 @@ GameObject:
   m_Component:
   - component: {fileID: 117293674}
   - component: {fileID: 117293678}
-  - component: {fileID: 117293675}
   - component: {fileID: 117293677}
   m_Layer: 7
   m_Name: Rifle
@@ -344,21 +343,6 @@ Transform:
   - {fileID: 827846923}
   m_Father: {fileID: 750564601}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &117293675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117293673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e16380123ccf2ff48becdcce2e678567, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Controller
-  data: {fileID: 11400000, guid: 7428d3f4436cc754ba6c11cf055a9d5a, type: 2}
-  firePoint: {fileID: 827846923}
-  view: {fileID: 117293677}
 --- !u!114 &117293677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c335b68835974c4f95918c6c616a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  controller: {fileID: 117293675}
+  weapon: {fileID: 117293678}
   muzzleFlash: {fileID: 0}
   horizontalForce: 10
   verticalForce: 10
@@ -392,8 +376,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff32ff49a0bea042a421d759358b52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  controller: {fileID: 117293675}
+  data: {fileID: 11400000, guid: 7428d3f4436cc754ba6c11cf055a9d5a, type: 2}
   view: {fileID: 117293677}
+  firePoint: {fileID: 827846923}
 --- !u!1 &384624089
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +390,6 @@ GameObject:
   - component: {fileID: 384624090}
   - component: {fileID: 384624097}
   - component: {fileID: 384624095}
-  - component: {fileID: 384624096}
   m_Layer: 7
   m_Name: Pistol
   m_TagString: Untagged
@@ -442,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c335b68835974c4f95918c6c616a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  controller: {fileID: 384624096}
+  weapon: {fileID: 384624097}
   muzzleFlash: {fileID: 0}
   horizontalForce: 10
   verticalForce: 10
@@ -451,21 +435,6 @@ MonoBehaviour:
   verticalOffset: -0.35
   positionSmoothTime: 0
   rotationSmoothTime: 0
---- !u!114 &384624096
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 384624089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e16380123ccf2ff48becdcce2e678567, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Controller
-  data: {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
-  firePoint: {fileID: 776885551}
-  view: {fileID: 384624095}
 --- !u!114 &384624097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,8 +447,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff32ff49a0bea042a421d759358b52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  controller: {fileID: 384624096}
+  data: {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
   view: {fileID: 384624095}
+  firePoint: {fileID: 776885551}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

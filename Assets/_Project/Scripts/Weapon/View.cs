@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
+using FPS.Weapon.Stucts;
 using FPS.Aiming;
 namespace FPS.Weapon {
     public class View : MonoBehaviour {
-        [Header("Controller")]
-        [SerializeField] private Controller controller;
         [Header("Muzzle Flash")]
         public GameObject muzzleFlash;
         [Header("Recoil")]
@@ -20,8 +19,7 @@ namespace FPS.Weapon {
 
         private Vector3 positionVelocity;
 
-        public void LateTick(in WeaponViewSnapshot snapshot) {
-            Vector3 aimSourceForward = snapshot.aimSourceForward, aimSourcePosition = snapshot.aimSourcePosition;
+        public void LateTick(Vector3 aimSourceForward, Vector3 aimSourcePosition) {
             Vector3 pos = aimSourcePosition + aimSourceForward * forwardOffset + GetRight(aimSourceForward) * horizontalOffset + GetUp(aimSourceForward) * verticalOffset;
             transform.position = Vector3.SmoothDamp(transform.position, pos, ref positionVelocity, positionSmoothTime);
             Quaternion rotationTarget = Quaternion.LookRotation(aimSourceForward);
