@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
   Range: 10
-  Ammo: 8
-  mode: {fileID: 11400000, guid: 872e210e22f779d4ab8b715b8e5a214a, type: 2}
-  emitter: {fileID: 11400000, guid: e0e8fec568998c943b89c8ed710022ed, type: 2}
+  coolDown: 0.1
+  bulletsPerShot: 1
+  Ammo: 10
+  projectile: {fileID: 0}
+  FireMode: 0
+  emitterMode: 0
+  hitLayerMask:
+    serializedVersion: 2
+    m_Bits: 55

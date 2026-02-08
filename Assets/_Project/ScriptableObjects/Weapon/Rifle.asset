@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
   Range: 10
+  coolDown: 0.1
+  bulletsPerShot: 1
   Ammo: 30
+  projectile: {fileID: 0}
   FireMode: 1
   emitterMode: 0
+  hitLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
