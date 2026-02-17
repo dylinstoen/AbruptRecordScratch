@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a657aab9331943f2865234e60b6e6872, type: 3}
+  m_Name: PlayerConfig
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerConfig
+  startingHealth: 100
+  weaponLoadoutSo: {fileID: 11400000, guid: 3806c06ff868dcc4a878af346e6f7edc, type: 2}
+  ammoProfileSo: {fileID: 11400000, guid: 28da8814ebce51b4a9d659b772918aad, type: 2}

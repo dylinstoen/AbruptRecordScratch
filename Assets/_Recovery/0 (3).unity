@@ -328,7 +328,6 @@ MonoBehaviour:
   playerSpawner: {fileID: 946010130}
   playerSpawnPoint: {fileID: 2051109755}
   cameraRig: {fileID: 2088565504}
-  playerConfigSo: {fileID: 11400000, guid: c9d7f949542995c4aad9751292e714f7, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e2bccbc54092e4e8791cc9cd1a675a, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
-  Range: 10
-  coolDown: 0.1
-  bulletsPerShot: 1
-  Ammo: 30
-  projectile: {fileID: 0}
-  FireMode: 1
-  emitterMode: 0
+  ammoType: 1
+  magSize: 8
+  viewPrefab: {fileID: 1757784133552273146, guid: 0f78d08fb69c8b44a93921778254c0c8, type: 3}
+  motorPrefab: {fileID: 8882331434630217937, guid: 8f21481d06b098c40a0826730d5a4b2d, type: 3}
+  fireMode: {fileID: 11400000, guid: e33065e8394d48f4398fe33c9c5dcd92, type: 2}
+  emitterMode: {fileID: 11400000, guid: bc0f2b32e33bfae4d806b8fabd20dfe5, type: 2}
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 55
