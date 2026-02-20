@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 34570735153446090}
   - component: {fileID: 4256056816849893406}
+  - component: {fileID: -7455912640347792601}
+  - component: {fileID: 5487777589867352293}
+  - component: {fileID: 408815892515352260}
   m_Layer: 7
   m_Name: RifleView
   m_TagString: Untagged
@@ -47,14 +50,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c335b68835974c4f95918c6c616a7a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.WeaponView
-  muzzleFlash: {fileID: 0}
-  horizontalForce: 10
-  verticalForce: 10
-  forwardOffset: 0.65
-  horizontalOffset: 0.43
-  verticalOffset: -0.29
+  reloadView: {fileID: -7455912640347792601}
+  aimView: {fileID: 5487777589867352293}
+--- !u!114 &-7455912640347792601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757784133552273146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c924d84af6424aaeaa47248dcdf1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapon.WeaponReloadView
+  animator: {fileID: 408815892515352260}
+--- !u!114 &5487777589867352293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757784133552273146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e73f35a3054e5981da25b1bc991cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapon.WeaponAimView
+  forwardOffset: 0.5
+  horizontalOffset: 0.25
+  verticalOffset: -0.2
   positionSmoothTime: 0.05
   rotationSmoothTime: 0.05
+--- !u!95 &408815892515352260
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757784133552273146}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9e55f67e1b6bbdb4780c9deb3e4855bd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2105008954356566696
 GameObject:
   m_ObjectHideFlags: 0

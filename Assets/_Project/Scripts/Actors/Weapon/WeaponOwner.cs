@@ -1,41 +1,42 @@
 ﻿using System;
+using _Project.Input;
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Actors.Weapon;
+using TMPro;
 using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public class WeaponOwner : MonoBehaviour {
-        
+        [SerializeField] private WeaponHudPresenter weaponHudPresenter;
+        [SerializeField] private WeaponInventory weaponInventory;
         private WeaponRunner _weaponRunner;
-        private bool _activated = false;
+        private bool _builtRunner = false;
+        private bool _builtWeapons = false;
 
-        public void Activate(WeaponDeps weaponDeps, WeaponLoadoutSO weaponLoadoutSo, AmmoProfileSO ammoProfileSo, IIntentSource intent) {
-            if(_activated) 
-                throw new InvalidOperationException("Already bounded");
-            
-            var ammoInventory = new AmmoInventory();
-            foreach (var startingAmmo in ammoProfileSo.Entries) {
-                ammoInventory.SetMax(startingAmmo.AmmoType, startingAmmo.MaxReserve);
-                ammoInventory.Add(startingAmmo.AmmoType, startingAmmo.StartingReserve);
-            }
-            
-            var weaponInventory = new WeaponInventory();
+        public void BuildWeapons(WeaponDeps weaponDeps, WeaponLoadoutSO weaponLoadoutSo) {
+            if(_builtWeapons) 
+                throw new InvalidOperationException("Weapons have already been built");
             IWeaponFactory weaponFactory = new WeaponFactory();
             foreach (var weapon in weaponLoadoutSo.Entries) {
-                var currentWeapon = weaponFactory.Create(weapon, ammoInventory, weaponDeps);
+                var currentWeapon = weaponFactory.Create(weapon, weaponDeps);
                 weaponInventory.Equip(currentWeapon);
             }
-            _weaponRunner = new WeaponRunner(intent, weaponDeps.AimRaySource, weaponInventory, ammoInventory);
-            _activated = true;
+            _builtWeapons = true;
+        }
+        public void BuildRunner(IIntentSource intent, IAimRaySource aimRaySource) {
+            if(_builtRunner) 
+                throw new InvalidOperationException("Already bounded");
+            _weaponRunner = new WeaponRunner(intent, aimRaySource, weaponInventory);
+            _builtRunner = true;
         }
 
         private void Update() {
-            if (!_activated) return;
+            if (!_builtRunner || !_builtWeapons) return;
             _weaponRunner.Tick(Time.deltaTime);
         }
 
         private void LateUpdate() {
-            if (!_activated) return;
+            if (!_builtRunner || !_builtWeapons) return;
             _weaponRunner.LateTick(Time.deltaTime);
         }
     }

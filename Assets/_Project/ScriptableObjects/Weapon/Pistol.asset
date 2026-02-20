@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e2bccbc54092e4e8791cc9cd1a675a, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
-  ammoType: {fileID: 11400000, guid: a246354e525fed34fac16d59416a4747, type: 2}
+  ammoType: 0
   magSize: 8
+  costPerShot: 1
+  reloadDuration: 1.06
   viewPrefab: {fileID: 3729660994958902430, guid: 41c377462d537d34c8e43fab67129530, type: 3}
   motorPrefab: {fileID: 1725937524618992135, guid: 117b3f91e5f12b8468f0cd74c00246f6, type: 3}
   fireMode: {fileID: 11400000, guid: 67afb9793fa34e2478b01984e4af7d0a, type: 2}

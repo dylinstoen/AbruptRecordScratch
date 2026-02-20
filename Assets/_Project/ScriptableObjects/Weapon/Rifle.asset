@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
   ammoType: 1
-  magSize: 8
+  magSize: 20
+  costPerShot: 1
+  reloadDuration: 1.06
   viewPrefab: {fileID: 1757784133552273146, guid: 0f78d08fb69c8b44a93921778254c0c8, type: 3}
   motorPrefab: {fileID: 8882331434630217937, guid: 8f21481d06b098c40a0826730d5a4b2d, type: 3}
   fireMode: {fileID: 11400000, guid: e33065e8394d48f4398fe33c9c5dcd92, type: 2}

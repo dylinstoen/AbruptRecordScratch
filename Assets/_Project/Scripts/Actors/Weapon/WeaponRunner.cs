@@ -5,16 +5,14 @@ using UnityEngine.Assertions;
 
 namespace _Project.Scripts.Actors {
     public sealed class WeaponRunner {
-        private readonly WeaponInventory _weaponInventory;
-        private readonly IAmmoInventory _ammoInventory;
+        private readonly IWeaponInventory _weaponInventory;
         private readonly IIntentSource _intent;
         private readonly IAimRaySource _aimRaySource;
         private bool _fireWasHeld = false;
         
-        public WeaponRunner(IIntentSource intent, IAimRaySource aimRaySource, WeaponInventory weaponInventory, IAmmoInventory ammoInventory) {
+        public WeaponRunner(IIntentSource intent, IAimRaySource aimRaySource, IWeaponInventory weaponInventory) {
             _intent = intent;
             _weaponInventory = weaponInventory;
-            _ammoInventory = ammoInventory;
             _aimRaySource = aimRaySource;
             
         }
@@ -31,20 +29,16 @@ namespace _Project.Scripts.Actors {
 
         public void LateTick(float deltaTime) {
             var weapon = _weaponInventory.CurrentWeapon;
-            weapon?.LateTick(deltaTime);
+            weapon?.LateTick(CreateContext(deltaTime));
         }
 
         private void HandleWeaponSwitch() {
-            switch (_intent.Current.SwitchDelta) {
-                case <= 0.5f and >= -0.5f:
-                    return;
-                case > 0.5f:
-                    _weaponInventory.NextWeapon();
-                    break;
-                default:
-                    _weaponInventory.PreviousWeapon();
-                    break;
-            }
+            float delta = _intent.Current.SwitchDelta;
+            if (delta is <= 0.5f and >= -0.5f)
+                return;
+            if (delta > 0.5f) _weaponInventory.NextWeapon();
+            else _weaponInventory.PreviousWeapon();
+   
         }
         private WeaponUseContext CreateContext(float deltaTime) {
             return new WeaponUseContext(_aimRaySource.GetAimRay(), deltaTime);

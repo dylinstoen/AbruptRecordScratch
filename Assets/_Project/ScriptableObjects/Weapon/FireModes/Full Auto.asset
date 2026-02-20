@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ead558abef94a5ca8612823c349842c, type: 3}
   m_Name: Full Auto
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapon.FullAutoFireModeDefinition
-  fireRate: 3
+  fireRate: 10

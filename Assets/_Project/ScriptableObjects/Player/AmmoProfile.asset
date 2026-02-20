@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AmmoProfile
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Weapon.AmmoProfileSO
   entries:
-  - AmmoType: 0
-    MaxReserve: 20
-    StartingReserve: 10
+  - ammoType: 0
+    startingInventory: 32
+    maxInventory: 32
+  - ammoType: 1
+    startingInventory: 100
+    maxInventory: 100

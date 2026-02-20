@@ -6,26 +6,37 @@ namespace _Project.Scripts.Actors {
     using UnityEngine;
     using Weapon;
     public class WeaponFactory: IWeaponFactory {
-        public IWeapon Create(WeaponDefinition weaponDefinition, IAmmoInventory ammoInventory, WeaponDeps weaponDeps) {
-            // Spawn the weapon visuals under the visual mount
-            // Spawn the weapon logic under the logic mount
-            Assert.IsNotNull(weaponDefinition.motorPrefab);
-            Assert.IsNotNull(weaponDefinition.viewPrefab);
-            Assert.IsNotNull(weaponDefinition.fireMode);
-            Assert.IsNotNull(weaponDefinition.emitterMode);
+        // Spawn the weapon visuals under the visual mount
+        // Spawn the weapon logic under the logic mount
+        public IWeapon Create(WeaponSO weaponSo, WeaponDeps weaponDeps) {
+            Assert.IsNotNull(weaponSo.motorPrefab);
+            Assert.IsNotNull(weaponSo.viewPrefab);
+            Assert.IsNotNull(weaponSo.fireMode);
+            Assert.IsNotNull(weaponSo.emitterMode);
             Assert.IsNotNull(weaponDeps.WeaponLogicMount);
             Assert.IsNotNull(weaponDeps.WeaponViewMount); ;
-            IEmitterMode emitterMode = weaponDefinition.emitterMode.Create();
-            IFireMode fireMode = weaponDefinition.fireMode.Create(new WeaponAmmo(ammoInventory, weaponDefinition.magSize, weaponDefinition.ammoType), emitterMode); // TODO: Make an upper layer ActorWeapons class that coordinates everything
-            var motor = Object.Instantiate(weaponDefinition.motorPrefab, weaponDeps.WeaponLogicMount).GetComponent<WeaponMotor>();
+            
+            var view = Object.Instantiate(weaponSo.viewPrefab, weaponDeps.WeaponViewMount);
+            var weaponView = view.GetComponent<WeaponView>();
+            
+            IWeaponMagazine weaponMagazine = new WeaponMagazine(weaponSo.magSize);
+            IReloadPolicy reloadPolicy = new ReloadPolicy(weaponDeps.AmmoInventory, weaponMagazine, weaponSo.ammoType, weaponSo.reloadDuration);
+            var reloadStateView = new WeaponReloadViewBridge(reloadPolicy);
+            IEmitterMode emitterMode = weaponSo.emitterMode.Create();
+            var fireMode = weaponSo.fireMode.Create(weaponMagazine, emitterMode, weaponSo.costPerShot);
+            var controller = new WeaponStateController(fireMode, reloadPolicy);
+            
+            var motor = Object.Instantiate(weaponSo.motorPrefab, weaponDeps.WeaponLogicMount).GetComponent<WeaponMotor>();
             motor.transform.localPosition = Vector3.zero;
             motor.transform.localRotation = Quaternion.identity;
-            motor.Initialize(fireMode);
-            var view = Object.Instantiate(weaponDefinition.viewPrefab, weaponDeps.WeaponViewMount).GetComponent<WeaponView>();
+            motor.Initialize(controller);
+            
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
-            view.Initialize(weaponDeps.AimRaySource);
-            return new WeaponInstance(motor, view);
+            weaponView.Initialize(reloadStateView);
+            WeaponInstance weaponInstance = new WeaponInstance(motor, weaponView);
+            weaponInstance.OnCreate();
+            return weaponInstance;
         }
     }
 }

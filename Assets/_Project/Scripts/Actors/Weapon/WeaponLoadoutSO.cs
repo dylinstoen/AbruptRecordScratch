@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Project.Scripts.Actors.Structs {
     [CreateAssetMenu(fileName = "WeaponLoadout", menuName = "Player/WeaponLoadout")]
     public class WeaponLoadoutSO : ScriptableObject {
-        [SerializeField] private List<WeaponDefinition> entries;
-        public IReadOnlyList<WeaponDefinition> Entries => entries;
+        [SerializeField] private List<WeaponSO> entries;
+        public IReadOnlyList<WeaponSO> Entries => entries;
     }
 }

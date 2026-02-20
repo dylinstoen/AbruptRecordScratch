@@ -1,28 +1,42 @@
-﻿using _Project.Scripts.Weapon.Stucts;
+﻿using System;
+using _Project.Scripts.Weapon.Enums;
+using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
     public sealed class SingleShotFireMode: IFireMode {
-        private IEmitterMode _emitterMode;
-        private float _coolDown;
-        private float _nextTimeToFire;
-        private IWeaponAmmo _weaponAmmo;
-        public SingleShotFireMode(IWeaponAmmo weaponAmmo, IEmitterMode emitterMode, float coolDown) {
+        public event Action<FireAttempt, float> FireAttempted;
+        private readonly IEmitterMode _emitterMode;
+        private readonly float _coolDown;
+        private readonly IWeaponMagazine _weaponMagazine;
+        private readonly int _costPerShot;
+        private float _coolDownRemaining;
+        public SingleShotFireMode(IWeaponMagazine weaponMagazine, IEmitterMode emitterMode, float coolDown, int costPerShot) {
             _emitterMode = emitterMode;
             _coolDown = coolDown;
-            _weaponAmmo = weaponAmmo;
+            _weaponMagazine = weaponMagazine;
+            _costPerShot = costPerShot;
         }
+        
         public void OnEquip() { }
 
         public void StartFire(WeaponUseContext ctx) {
-            if (Time.time < _nextTimeToFire) 
+            if (_coolDownRemaining > 0f) return;
+            if (!_weaponMagazine.TryConsumeAmmo(_costPerShot)) {
+                FireAttempted.Invoke(FireAttempt.Empty, ctx.DeltaTime);
                 return;
+            }
+            FireAttempted?.Invoke(FireAttempt.Fired, ctx.DeltaTime);
             _emitterMode.Fire(ctx);
-            _nextTimeToFire = Time.time + _coolDown;
+            _coolDownRemaining = _coolDown;
         }
 
         public void StopFire(WeaponUseContext ctx) { }
 
-        public void Tick(WeaponUseContext ctx) { }
+        public void Tick(WeaponUseContext ctx) {
+            if (_coolDownRemaining > 0f) {
+                _coolDownRemaining -= ctx.DeltaTime;
+            }
+        }
     }
 }

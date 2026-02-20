@@ -15,6 +15,8 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private ActorMotor actorMotor;
         [SerializeField] private PlayerPause playerPause;
         [SerializeField] private WeaponOwner weaponOwner;
+        [SerializeField] private AmmoInventory ammoInventory;
+        [SerializeField] private WeaponHudPresenter weaponHudPresenter;
         
 
         private void Awake() {
@@ -27,11 +29,14 @@ namespace _Project.Scripts.Actors {
             actorMotor.BindAimSource(deps.CameraRig);
             playerLookController.BindCamera(deps.CameraRig);
             WeaponDeps weaponDeps = new WeaponDeps {
-                AimRaySource = deps.CameraRig, 
                 WeaponLogicMount = weaponLogicMount,
                 WeaponViewMount = deps.WeaponViewMount,
+                AmmoInventory = ammoInventory,
             };
-            weaponOwner.Activate(weaponDeps, deps.PlayerConfigSo.weaponLoadoutSo, deps.PlayerConfigSo.ammoProfileSo, playerIntentSource);
+            ammoInventory.BuildAmmo(deps.PlayerConfigSo.ammoProfileSo);
+            weaponHudPresenter.BindAmmoText(deps.AmmoText);
+            weaponOwner.BuildWeapons(weaponDeps, deps.PlayerConfigSo.weaponLoadoutSo);
+            weaponOwner.BuildRunner(playerIntentSource, deps.CameraRig);
             Activate();
         }
 

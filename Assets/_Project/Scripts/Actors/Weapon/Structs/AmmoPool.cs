@@ -8,13 +8,5 @@ namespace _Project.Scripts.Actors.Structs {
             Current = current;
             Max = max;
         }
-
-        public void Add(int amount) => Current = Mathf.Min(Current + amount, Max);
-
-        public bool TryConsume(int amount) {
-            if (Current < amount) return false;
-            Current -= amount;
-            return true;
-        }
     }
 }

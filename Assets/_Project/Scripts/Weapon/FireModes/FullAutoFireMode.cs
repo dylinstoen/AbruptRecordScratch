@@ -1,24 +1,29 @@
-﻿using _Project.Scripts.Weapon.Stucts;
+﻿using System;
+using _Project.Scripts.Weapon.Enums;
+using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
     public class FullAutoFireMode : IFireMode {
-        private float _fireRate;
-        private WeaponUseContext _lastCtx;
+        public event Action<FireAttempt, float> FireAttempted;
+        private readonly float _fireRate;
         private bool _firing;
-        private float _nextTimeToFire;
-        private IEmitterMode _emitterMode;
-        private IWeaponAmmo _weaponAmmo;
+        private float _coolDownRemaining;
+        private readonly IEmitterMode _emitterMode;
+        private readonly IWeaponMagazine _weaponMagazine;
+        private readonly int _costPerShot;
         
-        public FullAutoFireMode(IWeaponAmmo weaponAmmo, IEmitterMode emitter, float fireRate) {
+        public FullAutoFireMode(IWeaponMagazine weaponMagazine, IEmitterMode emitter, float fireRate, int costPerShot) {
             _fireRate = 1f/fireRate;
             _emitterMode = emitter;
-            _weaponAmmo = weaponAmmo;
+            _weaponMagazine = weaponMagazine;
+            _costPerShot = costPerShot;
         }
+        
 
         public void OnEquip() {
             _firing = false;
-            _nextTimeToFire = 0f;
+            _coolDownRemaining = 0f;
         }
 
         public void StartFire(WeaponUseContext ctx) {
@@ -31,9 +36,19 @@ namespace _Project.Scripts.Weapon {
 
         public void Tick(WeaponUseContext ctx) {
             if (!_firing) return;
-            if (Time.time < _nextTimeToFire) return;
-            _emitterMode.Fire(ctx);
-            _nextTimeToFire = Time.time + _fireRate;
+            if (_coolDownRemaining > 0f) {
+                _coolDownRemaining -= ctx.DeltaTime;
+                if (_coolDownRemaining > 0f) return;
+            }
+            while (_coolDownRemaining <= 0f) {
+                if (!_weaponMagazine.TryConsumeAmmo(_costPerShot)) {
+                    FireAttempted?.Invoke(FireAttempt.Empty, ctx.DeltaTime);
+                    return;
+                }
+                FireAttempted?.Invoke(FireAttempt.Fired, ctx.DeltaTime);
+                _emitterMode.Fire(ctx);
+                _coolDownRemaining = _fireRate; 
+            }
         }
     }
 }
