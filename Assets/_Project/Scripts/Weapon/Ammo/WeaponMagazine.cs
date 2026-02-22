@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Weapon {
     public sealed class WeaponMagazine : IWeaponMagazine {
-        public event Action<int> OnMagazineChange;
+        public event Action OnMagazineChange;
         public int MagSize => _magSize;
         public int CurrentAmmo => _currentAmmo;
         public int MissingAmmo => _magSize - _currentAmmo;
@@ -13,7 +13,7 @@ namespace _Project.Scripts.Weapon {
             if(costPerShot > _currentAmmo) return false;
             _currentAmmo -= costPerShot;
             // TODO: Update UI
-            OnMagazineChange?.Invoke(CurrentAmmo);
+            OnMagazineChange?.Invoke();
             return true;
         }
 
@@ -23,7 +23,7 @@ namespace _Project.Scripts.Weapon {
             if(space <= 0) return 0;
             int accepted = amount > space ? space : amount;
             _currentAmmo += accepted;
-            OnMagazineChange?.Invoke(CurrentAmmo);
+            OnMagazineChange?.Invoke();
             return accepted;
         }
     }

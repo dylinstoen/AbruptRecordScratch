@@ -2,7 +2,7 @@
 
 namespace _Project.Scripts.Weapon {
     public interface IWeaponMagazine {
-        public event Action<int> OnMagazineChange;
+        public event Action OnMagazineChange;
         int MagSize { get; }
         int CurrentAmmo { get; }
         int MissingAmmo { get; }

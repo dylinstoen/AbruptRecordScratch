@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e2bccbc54092e4e8791cc9cd1a675a, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.Data
+  iD: Rifle
   ammoType: 1
   magSize: 20
   costPerShot: 1

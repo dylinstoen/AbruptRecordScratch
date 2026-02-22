@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 8205430879811824407}
   - component: {fileID: 1823688684021100976}
   - component: {fileID: 6882218635549651981}
-  - component: {fileID: 3814547916654497768}
   - component: {fileID: 1937229759529003722}
   - component: {fileID: 5980384112135939184}
   - component: {fileID: 3201018648563673954}
@@ -124,7 +123,7 @@ MonoBehaviour:
   playerPause: {fileID: 2447973506402264930}
   weaponOwner: {fileID: 5980384112135939184}
   ammoInventory: {fileID: 1937229759529003722}
-  weaponHudPresenter: {fileID: 3814547916654497768}
+  weaponInventory: {fileID: 6882218635549651981}
 --- !u!114 &1823688684021100976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,19 +148,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3d6a67fcd19024fa93fd86ad60ec66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponInventory
---- !u!114 &3814547916654497768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b001d75ec375491fba34ee8f71143baa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponHudPresenter
-  weaponInventory: {fileID: 6882218635549651981}
 --- !u!114 &1937229759529003722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,9 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Actors.WeaponOwner
   weaponInventory: {fileID: 6882218635549651981}
-  playerIntentSource: {fileID: 1823688684021100976}
-  ammoInventory: {fileID: 1937229759529003722}
-  weaponHudPresenter: {fileID: 3814547916654497768}
 --- !u!114 &3201018648563673954
 MonoBehaviour:
   m_ObjectHideFlags: 0

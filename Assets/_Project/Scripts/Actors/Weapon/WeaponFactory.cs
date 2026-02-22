@@ -1,5 +1,6 @@
 ﻿using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Weapon;
+using _Project.Scripts.Weapon.Stucts;
 using UnityEngine.Assertions;
 
 namespace _Project.Scripts.Actors {
@@ -8,7 +9,7 @@ namespace _Project.Scripts.Actors {
     public class WeaponFactory: IWeaponFactory {
         // Spawn the weapon visuals under the visual mount
         // Spawn the weapon logic under the logic mount
-        public IWeapon Create(WeaponSO weaponSo, WeaponDeps weaponDeps) {
+        public WeaponFacets Create(WeaponSO weaponSo, WeaponDeps weaponDeps) {
             Assert.IsNotNull(weaponSo.motorPrefab);
             Assert.IsNotNull(weaponSo.viewPrefab);
             Assert.IsNotNull(weaponSo.fireMode);
@@ -34,9 +35,9 @@ namespace _Project.Scripts.Actors {
             view.transform.localPosition = Vector3.zero;
             view.transform.localRotation = Quaternion.identity;
             weaponView.Initialize(reloadStateView);
-            WeaponInstance weaponInstance = new WeaponInstance(motor, weaponView);
-            weaponInstance.OnCreate();
-            return weaponInstance;
+            WeaponInstance weaponInstance = new WeaponInstance(weaponSo.iD, weaponSo.ammoType, motor, weaponView, weaponDeps.AmmoInventory, weaponMagazine);
+            WeaponFacets weaponFacets = new WeaponFacets(weaponInstance); 
+            return weaponFacets;
         }
     }
 }

@@ -16,9 +16,8 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private PlayerPause playerPause;
         [SerializeField] private WeaponOwner weaponOwner;
         [SerializeField] private AmmoInventory ammoInventory;
-        [SerializeField] private WeaponHudPresenter weaponHudPresenter;
-        
-
+        [SerializeField] private WeaponInventory weaponInventory;
+        private WeaponHudPresenter _weaponHudPresenter;
         private void Awake() {
             actorMotor.Initialize(playerIntentSource);
             playerLookController.Initialize(playerIntentSource);
@@ -33,20 +32,23 @@ namespace _Project.Scripts.Actors {
                 WeaponViewMount = deps.WeaponViewMount,
                 AmmoInventory = ammoInventory,
             };
+            _weaponHudPresenter = new WeaponHudPresenter(weaponInventory, deps.WeaponHud);
             ammoInventory.BuildAmmo(deps.PlayerConfigSo.ammoProfileSo);
-            weaponHudPresenter.BindAmmoText(deps.AmmoText);
             weaponOwner.BuildWeapons(weaponDeps, deps.PlayerConfigSo.weaponLoadoutSo);
             weaponOwner.BuildRunner(playerIntentSource, deps.CameraRig);
             Activate();
         }
 
-        
+        private void OnDestroy() {
+            _weaponHudPresenter.Dispose();
+        }
 
         private void Activate() {
             actorMotor.enabled = true;
             playerPause.enabled = true;
             playerLookController.enabled = true;
             weaponOwner.enabled = true;
+            ammoInventory.enabled = true;
         }
     }
 }

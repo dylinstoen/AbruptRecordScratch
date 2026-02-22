@@ -329,7 +329,7 @@ MonoBehaviour:
   playerSpawnPoint: {fileID: 2051109755}
   cameraRig: {fileID: 2088565504}
   playerConfigSo: {fileID: 11400000, guid: c9d7f949542995c4aad9751292e714f7, type: 2}
-  currentAmmoText: {fileID: 1402379297}
+  weaponHud: {fileID: 1047731385}
 --- !u!1 &292359934
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,6 +921,7 @@ GameObject:
   - component: {fileID: 1047731383}
   - component: {fileID: 1047731382}
   - component: {fileID: 1047731381}
+  - component: {fileID: 1047731385}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -1011,6 +1012,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1047731385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047731380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2710aa7a1a664f99843b834f0981fefb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Weapon.WeaponHud
+  currentAmmoText: {fileID: 1402379297}
 --- !u!1 &1189549025
 GameObject:
   m_ObjectHideFlags: 0

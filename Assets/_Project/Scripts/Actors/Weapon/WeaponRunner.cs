@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Input;
 using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,16 +20,16 @@ namespace _Project.Scripts.Actors {
 
         public void Tick(float deltaTime) {
             HandleWeaponSwitch();
-            var weapon = _weaponInventory.CurrentWeapon;
+            var weapon = _weaponInventory.CurrentWeapon.Logic;
             weapon?.Tick(CreateContext(deltaTime));
             var fireHeld = _intent.Current.FireHeld;
-            if (fireHeld && !_fireWasHeld) _weaponInventory.CurrentWeapon.StartFire(CreateContext(deltaTime));
-            if (!fireHeld && _fireWasHeld) _weaponInventory.CurrentWeapon.StopFire(CreateContext(deltaTime));
+            if (fireHeld && !_fireWasHeld) weapon?.StartFire(CreateContext(deltaTime));
+            if (!fireHeld && _fireWasHeld) weapon?.StopFire(CreateContext(deltaTime));
             _fireWasHeld = fireHeld;
         }
 
         public void LateTick(float deltaTime) {
-            var weapon = _weaponInventory.CurrentWeapon;
+            var weapon = _weaponInventory.CurrentWeapon.Logic;
             weapon?.LateTick(CreateContext(deltaTime));
         }
 

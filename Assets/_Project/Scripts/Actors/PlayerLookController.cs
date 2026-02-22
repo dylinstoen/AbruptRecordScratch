@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Input;
+using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public sealed class PlayerLookController : MonoBehaviour {

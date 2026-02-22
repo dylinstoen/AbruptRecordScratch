@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public class AmmoInventory : MonoBehaviour, IAmmoInventory {
-        public event Action<int> OnCurrentAmmoChange;
+        public event Action<AmmoType, int> OnCurrentAmmoChange;
         private readonly AmmoPool[] _ammoPool = new AmmoPool[Enum.GetValues(typeof(AmmoType)).Length];
 
         public void BuildAmmo(AmmoProfileSO ammoProfile) {
@@ -37,7 +37,13 @@ namespace _Project.Scripts.Actors {
             SetCurrent(type, current + accepted);
             return accepted;
         }
-        private void SetCurrent(AmmoType type, int requested) => _ammoPool[(int)type].Current = requested;
+
+        private void SetCurrent(AmmoType type, int requested) {
+            int i = (int)type;
+            _ammoPool[i].Current = requested;
+            OnCurrentAmmoChange?.Invoke(type, GetCurrent(type));
+        }
+        
 
 
         public int ConsumeUpTo(AmmoType type, int requested) {
@@ -46,7 +52,7 @@ namespace _Project.Scripts.Actors {
             int take = available < requested ? available : requested;
             if(take > 0)
                 SetCurrent(type, available - take);
-            OnCurrentAmmoChange?.Invoke(GetCurrent(type));
+            
             return take;
         }
 

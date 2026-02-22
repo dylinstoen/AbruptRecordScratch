@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using _Project.Scripts.UI.Weapon;
+using TMPro;
 using UnityEngine;
 
 namespace _Project.Scripts.Actors {
@@ -6,6 +7,6 @@ namespace _Project.Scripts.Actors {
         public CameraRig CameraRig;
         public PlayerConfigSO PlayerConfigSo;
         public Transform WeaponViewMount;
-        public TMP_Text AmmoText;
+        public WeaponHud WeaponHud;
     }
 }

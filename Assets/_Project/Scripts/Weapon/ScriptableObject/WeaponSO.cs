@@ -4,6 +4,7 @@ using UnityEngine;
 namespace _Project.Scripts.Weapon {
     [CreateAssetMenu(fileName = "Weapon", menuName = "Weapon/Weapon")]
     public sealed class WeaponSO : ScriptableObject {
+        public string iD;
         public AmmoType ammoType;
         public int magSize;
         public int costPerShot;

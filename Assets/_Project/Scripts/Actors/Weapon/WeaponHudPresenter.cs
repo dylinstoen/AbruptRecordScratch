@@ -1,29 +1,41 @@
 ﻿using System;
+using _Project.Scripts.UI.Weapon;
 using _Project.Scripts.Weapon;
+using _Project.Scripts.Weapon.Stucts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _Project.Scripts.Actors {
-    public class WeaponHudPresenter : MonoBehaviour {
-        private TMP_Text _ammoText;
-        private IWeaponMagazine _weaponMagazine;
-        [SerializeField] private WeaponInventory weaponInventory;
-        private IWeaponAmmoView _weaponAmmoView;
-
-        private void Start() {
-
+    public class WeaponHudPresenter : IDisposable {
+        private readonly IWeaponInventory _weaponInventory;
+        private readonly IWeaponHud _hud;
+        private IWeaponAmmoView _ammoView;
+        public WeaponHudPresenter(IWeaponInventory weaponInventory, IWeaponHud hud) {
+            _weaponInventory = weaponInventory;
+            _hud = hud;
+            _weaponInventory.OnWeaponChanged += OnWeaponChanged;
         }
 
-        public void BindAmmoText(TMP_Text ammoText) {
-            _ammoText = ammoText;
+        private void OnWeaponChanged(WeaponFacets weapon) {
+            if (_ammoView != null)
+                _ammoView.AmmoChanged -= Refresh;
+            _ammoView = weapon.AmmoView;
+            _ammoView.AmmoChanged += Refresh;
+            Refresh();
         }
-        
-        
-        
-        public void OnAmmoChange(IWeaponAmmoView weaponAmmoView) {
-            _ammoText.text = weaponAmmoView.Mag.ToString() + "/" + weaponAmmoView.Reserve.ToString();
+
+        private void Refresh() {
+            if (_ammoView == null) {
+                _hud.SetAmmo(0,0);
+                return;
+            }
+            _hud.SetAmmo(_ammoView.Mag, _ammoView.Reserve);
         }
-        
+
+        public void Dispose() {
+            _weaponInventory.OnWeaponChanged -= OnWeaponChanged;
+            if(_ammoView != null) _ammoView.AmmoChanged -= Refresh;
+        }
     }
 }

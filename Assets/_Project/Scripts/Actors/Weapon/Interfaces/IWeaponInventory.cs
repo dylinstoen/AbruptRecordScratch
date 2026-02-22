@@ -1,12 +1,13 @@
 ﻿using System;
 using _Project.Scripts.Weapon;
+using _Project.Scripts.Weapon.Stucts;
 
 namespace _Project.Scripts.Actors {
     public interface IWeaponInventory {
-        public event Action<IWeaponAmmoView> OnWeaponChanged;
-        IWeapon CurrentWeapon { get; }
+        public event Action<WeaponFacets> OnWeaponChanged;
+        WeaponFacets CurrentWeapon { get; }
         void NextWeapon();
         void PreviousWeapon();
-        void Equip(IWeapon weapon);
+        bool TryEquip(WeaponFacets weapon);
     }
 }

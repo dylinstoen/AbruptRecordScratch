@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using _Project.Input;
+using _Project.Scripts.Input;
 using UnityEngine.InputSystem;
 namespace _Project.Scripts.Actors {
     public sealed class ActorMotor : MonoBehaviour {

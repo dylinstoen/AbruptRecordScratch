@@ -2,6 +2,7 @@
 using _Project.Input;
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Actors.Weapon;
+using _Project.Scripts.Input;
 using TMPro;
 using UnityEngine;
 
@@ -19,7 +20,11 @@ namespace _Project.Scripts.Actors {
             IWeaponFactory weaponFactory = new WeaponFactory();
             foreach (var weapon in weaponLoadoutSo.Entries) {
                 var currentWeapon = weaponFactory.Create(weapon, weaponDeps);
-                weaponInventory.Equip(currentWeapon);
+                if (!weaponInventory.TryEquip(currentWeapon)) {
+                    Debug.LogWarning("Duplicate weapon ID " + currentWeapon.Identity.ID + " in weapon loadout SO. Disposing it...");
+                    currentWeapon.Disposable.Dispose();
+                }
+                currentWeapon.Logic.OnCreate();
             }
             _builtWeapons = true;
         }
@@ -31,13 +36,30 @@ namespace _Project.Scripts.Actors {
         }
 
         private void Update() {
-            if (!_builtRunner || !_builtWeapons) return;
+            if (!_builtRunner) {
+                Debug.LogError("No runner has been built in weapon owner and its trying to run");
+                return;
+            }
+
+            if (!_builtWeapons) {
+                Debug.LogError("No weapon has been built in weapon owner and its trying to run");
+                return;
+            }
             _weaponRunner.Tick(Time.deltaTime);
         }
 
         private void LateUpdate() {
-            if (!_builtRunner || !_builtWeapons) return;
+            if (!_builtRunner) {
+                Debug.LogError("No runner has been built in weapon owner and its trying to run");
+                return;
+            }
+
+            if (!_builtWeapons) {
+                Debug.LogError("No weapon has been built in weapon owner and its trying to run");
+                return;
+            }
             _weaponRunner.LateTick(Time.deltaTime);
         }
+
     }
 }
