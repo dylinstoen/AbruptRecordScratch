@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Project.Input;
+using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Weapon;
 using _Project.Scripts.Weapon.Stucts;
 using JetBrains.Annotations;
@@ -35,11 +36,17 @@ namespace _Project.Scripts.Actors {
             OnWeaponChanged?.Invoke(CurrentWeapon);
         }
 
+        public bool ContainsWeapon(WeaponSO weaponSo) {
+            if (_weaponDictionary.ContainsKey(weaponSo.iD)) {
+                return true;
+            }
+            return false;
+        }
         public bool TryEquip(WeaponFacets weapon) {
             if(_weaponDictionary.ContainsKey(weapon.Identity.ID))
                 return false;
             _weapons.Add(weapon);
-            weapon.Equipable?.Equip();
+            weapon.Equipable?.FirstEquipped();
             SwitchWeapon(_weapons.Count - 1);
             _weaponDictionary.Add(weapon.Identity.ID, weapon);
             return true;

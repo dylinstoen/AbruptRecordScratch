@@ -21,7 +21,7 @@ namespace _Project.Scripts.Weapon {
         }
         
 
-        public void OnEquip() {
+        public void Equip() {
             _firing = false;
             _coolDownRemaining = 0f;
         }

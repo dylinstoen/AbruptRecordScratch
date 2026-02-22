@@ -43,10 +43,10 @@ GameObject:
   - component: {fileID: 1734394991737735141}
   - component: {fileID: 1527638510618972849}
   - component: {fileID: 8205430879811824407}
+  - component: {fileID: 5980384112135939184}
   - component: {fileID: 1823688684021100976}
   - component: {fileID: 6882218635549651981}
   - component: {fileID: 1937229759529003722}
-  - component: {fileID: 5980384112135939184}
   - component: {fileID: 3201018648563673954}
   - component: {fileID: 5441531317031305250}
   - component: {fileID: 2447973506402264930}
@@ -124,6 +124,20 @@ MonoBehaviour:
   weaponOwner: {fileID: 5980384112135939184}
   ammoInventory: {fileID: 1937229759529003722}
   weaponInventory: {fileID: 6882218635549651981}
+--- !u!114 &5980384112135939184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPS.Actors.WeaponOwner
+  weaponInventory: {fileID: 6882218635549651981}
+  ammoInventory: {fileID: 1937229759529003722}
 --- !u!114 &1823688684021100976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,19 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59cc0fde6a44c33adbc09e248031bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.AmmoInventory
---- !u!114 &5980384112135939184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Actors.WeaponOwner
-  weaponInventory: {fileID: 6882218635549651981}
 --- !u!114 &3201018648563673954
 MonoBehaviour:
   m_ObjectHideFlags: 0

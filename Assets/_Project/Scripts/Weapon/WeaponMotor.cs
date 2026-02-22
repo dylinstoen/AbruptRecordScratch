@@ -14,9 +14,9 @@ namespace _Project.Scripts.Weapon {
         public void StartFire(in WeaponUseContext ctx) => _weaponStateController.StartFire(ctx);
         public void StopFire(in WeaponUseContext ctx) => _weaponStateController.StopFire(ctx);
         public void RequestReload(in WeaponUseContext ctx) => _weaponStateController.RequestReload();
-        public void Create() => _weaponStateController.OnCreate();
-        public void Equip() => _weaponStateController.OnEquip();
-        public void Unequip() => _weaponStateController.OnUnequip();
+        public void FirstEquipped() => _weaponStateController.FirstEquipped();
+        public void Equip() => _weaponStateController.Equip();
+        public void Unequip() => _weaponStateController.Unequip();
 
         public void Dispose() => _weaponStateController.Dispose();
 

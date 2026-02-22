@@ -26,20 +26,23 @@ namespace _Project.Scripts.Weapon {
 
         public void Dispose() => UnbindEvents();
 
-        public void OnCreate() {
+        public void FirstEquipped() {
             _reloadPolicy.QuickFill();
-        }
-        
-        public void OnEquip() {
             _state = State.Ready;
-            _fireMode.OnEquip();
-            _reloadPolicy.OnEquip();
+            _fireMode.Equip();
+            _reloadPolicy.Equip();
         }
         
-        public void OnUnequip() {
+        public void Equip() {
+            _state = State.Ready;
+            _fireMode.Equip();
+            _reloadPolicy.Equip();
+        }
+        
+        public void Unequip() {
             if (_state != State.Reloading) return;
             _state = State.Ready;
-            _reloadPolicy.OnUnequip();
+            _reloadPolicy.Unequip();
         }
 
         public void Tick(in WeaponUseContext ctx) {

@@ -47,19 +47,18 @@ namespace _Project.Scripts.Weapon {
             AmmoChanged?.Invoke();
         }
 
-        public void OnCreate() {
+        public void FirstEquipped() {
             _weaponMagazine.OnMagazineChange += HandleMagazineChanged;
             _ammoInventory.OnCurrentAmmoChange += HandleReserveChanged;
+            _motor.FirstEquipped();
+            _motor.SetActive(true);
+            _view.SetActive(true);
             AmmoChanged?.Invoke();
-            _motor.Create();
         }
 
         public void LateTick(in WeaponUseContext ctx) => _view.LateTick(ctx);
 
-        public void SetActive(bool active) {
-            _view.SetActive(active);
-            _motor.SetActive(active);
-        }
+
         public void Dispose()
         {
             _motor.Dispose();

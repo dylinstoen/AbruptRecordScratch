@@ -7,9 +7,6 @@ namespace _Project.Scripts.Weapon {
         void Tick(in WeaponUseContext ctx);
         void StartFire(in WeaponUseContext ctx);
         void StopFire(in WeaponUseContext ctx);
-        void SetActive(bool active);
         void LateTick(in WeaponUseContext ctx);
-        void OnCreate();
-        
     }
 }

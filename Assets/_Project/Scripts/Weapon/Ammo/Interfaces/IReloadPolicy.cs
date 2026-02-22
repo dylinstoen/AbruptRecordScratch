@@ -9,8 +9,8 @@ namespace _Project.Scripts.Weapon {
         public event Action<float> ReloadStarted;
         public event Action ReloadStopped;
         void Tick(in WeaponUseContext ctx);
-        void OnEquip();
-        void OnUnequip();
+        void Equip();
+        void Unequip();
         bool StartReloading();
         void QuickFill();
     }

@@ -83,10 +83,10 @@ namespace _Project.Scripts.Weapon {
             ReloadAttempted?.Invoke(ReloadAttempt.Complete);
             ReloadStopped?.Invoke();
         }
-        public void OnUnequip() {
+        public void Unequip() {
             CancelReloading();
         }
-        public void OnEquip() {
+        public void Equip() {
             CancelReloading();
         }
     }

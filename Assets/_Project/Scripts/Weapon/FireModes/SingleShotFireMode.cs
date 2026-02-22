@@ -18,7 +18,7 @@ namespace _Project.Scripts.Weapon {
             _costPerShot = costPerShot;
         }
         
-        public void OnEquip() { }
+        public void Equip() { }
 
         public void StartFire(WeaponUseContext ctx) {
             if (_coolDownRemaining > 0f) return;

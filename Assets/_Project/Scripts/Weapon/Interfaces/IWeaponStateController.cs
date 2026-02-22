@@ -7,9 +7,9 @@ namespace _Project.Scripts.Weapon {
         void StartFire(in WeaponUseContext ctx);
         void StopFire(in WeaponUseContext ctx);
         void RequestReload();
-        void OnEquip();
-        void OnCreate();
+        void Equip();
+        void FirstEquipped();
         void Dispose();
-        void OnUnequip();
+        void Unequip();
     }
 }
