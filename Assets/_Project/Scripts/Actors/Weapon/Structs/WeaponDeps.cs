@@ -5,6 +5,6 @@ namespace _Project.Scripts.Actors.Structs {
     public struct WeaponDeps {
         public Transform WeaponViewMount;
         public Transform WeaponLogicMount;
-        public IAmmoInventory AmmoInventory;
+        public AmmoInventory AmmoInventory;
     }
 }

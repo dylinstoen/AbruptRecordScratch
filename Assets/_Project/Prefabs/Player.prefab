@@ -43,13 +43,15 @@ GameObject:
   - component: {fileID: 1734394991737735141}
   - component: {fileID: 1527638510618972849}
   - component: {fileID: 8205430879811824407}
+  - component: {fileID: 2447973506402264930}
+  - component: {fileID: -2528807739321883957}
+  - component: {fileID: 4844002079849957283}
+  - component: {fileID: -4394609101264696944}
+  - component: {fileID: 1025070313789834829}
   - component: {fileID: 5980384112135939184}
-  - component: {fileID: 1823688684021100976}
-  - component: {fileID: 6882218635549651981}
-  - component: {fileID: 1937229759529003722}
+  - component: {fileID: -9042345197067019723}
   - component: {fileID: 3201018648563673954}
   - component: {fileID: 5441531317031305250}
-  - component: {fileID: 2447973506402264930}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -116,29 +118,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   headAnchor: {fileID: 6521090238496344333}
-  weaponLogicMount: {fileID: 1137244887726031900}
-  playerIntentSource: {fileID: 1823688684021100976}
-  playerLookController: {fileID: 3201018648563673954}
   actorMotor: {fileID: 5441531317031305250}
-  playerPause: {fileID: 2447973506402264930}
+  playerLookController: {fileID: 3201018648563673954}
+  health: {fileID: -2528807739321883957}
+  playerDeathHandler: {fileID: -9042345197067019723}
+  weaponHudPresenter: {fileID: 1025070313789834829}
+  ammoInventory: {fileID: -4394609101264696944}
   weaponOwner: {fileID: 5980384112135939184}
-  ammoInventory: {fileID: 1937229759529003722}
-  weaponInventory: {fileID: 6882218635549651981}
---- !u!114 &5980384112135939184
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Actors.WeaponOwner
-  weaponInventory: {fileID: 6882218635549651981}
-  ammoInventory: {fileID: 1937229759529003722}
---- !u!114 &1823688684021100976
+  pause: {fileID: 2447973506402264930}
+--- !u!114 &2447973506402264930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -147,10 +135,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 2525985033772882391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07f38862aa6e418e96230b4a451d130f, type: 3}
+  m_Script: {fileID: 11500000, guid: b42ed4e334844235b746ff74db88fc98, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Input.PlayerIntentSource
---- !u!114 &6882218635549651981
+  m_EditorClassIdentifier: Assembly-CSharp::FPS.Character.Player.Pause
+--- !u!114 &-2528807739321883957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070fe56c8552478db0d54dd12189df3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Health.HealthOwner
+--- !u!114 &4844002079849957283
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d3d6a67fcd19024fa93fd86ad60ec66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponInventory
---- !u!114 &1937229759529003722
+--- !u!114 &-4394609101264696944
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,6 +174,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59cc0fde6a44c33adbc09e248031bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.AmmoInventory
+--- !u!114 &1025070313789834829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b001d75ec375491fba34ee8f71143baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponHudPresenter
+--- !u!114 &5980384112135939184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPS.Actors.WeaponOwner
+  weaponLogicMount: {fileID: 1137244887726031900}
+--- !u!114 &-9042345197067019723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e597eb9ff74673acaf989ce866e8e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Health.PlayerDeathHandler
 --- !u!114 &3201018648563673954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0952c3e40a0421898cb8214e5827b65, type: 3}
   m_Name: 
@@ -193,25 +230,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 778fdd77fb0ab2a4f80864b9337726dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Motor
-  rb: {fileID: 1527638510618972849}
   speed: 10
---- !u!114 &2447973506402264930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b42ed4e334844235b746ff74db88fc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Character.Player.Pause
 --- !u!1 &3784474664259711098
 GameObject:
   m_ObjectHideFlags: 0

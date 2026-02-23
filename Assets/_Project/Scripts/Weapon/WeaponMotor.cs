@@ -6,7 +6,7 @@ using UnityEngine;
 namespace _Project.Scripts.Weapon {
     public sealed class WeaponMotor : MonoBehaviour {
         private IWeaponStateController _weaponStateController;
-        private IAmmoInventory _inventory;
+        private AmmoInventory _inventory;
         public void Initialize(IWeaponStateController weaponStateController) {
             _weaponStateController = weaponStateController;
         }

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using _Project.Input;
+using _Project.Scripts.Input;
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Weapon;
 using _Project.Scripts.Weapon.Stucts;
@@ -8,8 +8,8 @@ using JetBrains.Annotations;
 using UnityEngine;
 
 namespace _Project.Scripts.Actors {
-    // Rep Inv: Switch weaponst assigning the current selected weapon
-    public sealed class WeaponInventory : MonoBehaviour, IWeaponInventory {
+    // Rep Inv: Switch weapons assigning the current selected weapon
+    public sealed class WeaponInventory : MonoBehaviour, IDisposable {
         private readonly List<WeaponFacets> _weapons = new();
         private readonly Dictionary<string, WeaponFacets> _weaponDictionary = new();
         public event Action<WeaponFacets> OnWeaponChanged;
@@ -51,8 +51,12 @@ namespace _Project.Scripts.Actors {
             _weaponDictionary.Add(weapon.Identity.ID, weapon);
             return true;
         }
-        
+
         private void OnDestroy() {
+            Dispose();
+        }
+
+        public void Dispose() {
             foreach (var weapon in _weapons) {
                 weapon.Disposable.Dispose();
             }

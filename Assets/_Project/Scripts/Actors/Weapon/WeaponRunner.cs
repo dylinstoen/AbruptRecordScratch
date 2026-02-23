@@ -6,16 +6,15 @@ using UnityEngine.Assertions;
 
 namespace _Project.Scripts.Actors {
     public sealed class WeaponRunner {
-        private readonly IWeaponInventory _weaponInventory;
+        private readonly WeaponInventory _weaponInventory;
         private readonly IIntentSource _intent;
         private readonly IAimRaySource _aimRaySource;
         private bool _fireWasHeld = false;
         
-        public WeaponRunner(IIntentSource intent, IAimRaySource aimRaySource, IWeaponInventory weaponInventory) {
+        public WeaponRunner(IIntentSource intent, IAimRaySource aimRaySource, WeaponInventory weaponInventory) {
             _intent = intent;
             _weaponInventory = weaponInventory;
             _aimRaySource = aimRaySource;
-            
         }
 
         public void Tick(float deltaTime) {

@@ -2,6 +2,7 @@
 using _Project.Scripts.Actors;
 using _Project.Scripts.Weapon.Enums;
 using _Project.Scripts.Weapon.Stucts;
+using UnityEngine;
 using IDisposable = _Project.Scripts.Actors.IDisposable;
 using Object = UnityEngine.Object;
 
@@ -17,9 +18,9 @@ namespace _Project.Scripts.Weapon {
         
         private readonly WeaponMotor  _motor;
         private readonly WeaponView _view;
-        private readonly IAmmoInventory _ammoInventory;
+        private readonly AmmoInventory _ammoInventory;
         private readonly IWeaponMagazine _weaponMagazine; 
-        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, IAmmoInventory ammoInventory, IWeaponMagazine weaponMagazine) {
+        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, AmmoInventory ammoInventory, IWeaponMagazine weaponMagazine) {
             AmmoType = ammoType;
             _weaponMagazine = weaponMagazine;
             _ammoInventory = ammoInventory;

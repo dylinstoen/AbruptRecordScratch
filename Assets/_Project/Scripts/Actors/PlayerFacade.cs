@@ -1,41 +1,37 @@
 using System;
-using _Project.Input;
+using _Project.Scripts.Input;
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Gameplay;
 using UnityEngine;
 
+
 namespace _Project.Scripts.Actors {
     public sealed class PlayerFacade : MonoBehaviour, IPlayerFacade {
         public Transform HeadAnchor => headAnchor;
-        
-        [SerializeField] private Transform headAnchor;
-        [SerializeField] private Transform weaponLogicMount;
-        [SerializeField] private PlayerIntentSource playerIntentSource;
-        [SerializeField] private PlayerLookController playerLookController;
-        [SerializeField] private ActorMotor actorMotor;
-        [SerializeField] private PlayerPause playerPause;
-        [SerializeField] private WeaponOwner weaponOwner;
-        private void Awake() {
-            actorMotor.Initialize(playerIntentSource);
-            playerLookController.Initialize(playerIntentSource);
-            playerPause.Initialize(playerIntentSource);
-        }
+        public IHealthEvents HealthEvents => health;
+        public IDeathEvents DeathEvents => playerDeathHandler;
+        public IAmmoEvents AmmoEvents => weaponHudPresenter;
 
+        [SerializeField] private Transform headAnchor;
+        [SerializeField] private ActorMotor actorMotor;
+        [SerializeField] private PlayerLookController playerLookController;
+        [SerializeField] private Health health;
+        [SerializeField] private PlayerDeathHandler playerDeathHandler;
+        [SerializeField] private WeaponHudPresenter weaponHudPresenter;
+        [SerializeField] private AmmoInventory ammoInventory;
+        [SerializeField] private WeaponOwner weaponOwner;
+        
         public void BindServices(PlayerDeps deps) {
+            actorMotor.BindIntent(deps.IntentSource);
+            playerLookController.BindIntent(deps.IntentSource);
+            weaponOwner.BindIntent(deps.IntentSource);
+            
             actorMotor.BindAimSource(deps.CameraRig);
             playerLookController.BindCamera(deps.CameraRig);
-            weaponOwner.BuildWeaponHud(deps.WeaponHud);
-            weaponOwner.BuildAmmo(deps.PlayerConfigSo.ammoProfileSo);
-            weaponOwner.BuildWeapons(weaponLogicMount, deps.WeaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo);
-            weaponOwner.BuildRunner(playerIntentSource, deps.CameraRig);
-            Activate();
-        }
-
-        private void Activate() {
-            actorMotor.enabled = true;
-            playerPause.enabled = true;
-            playerLookController.enabled = true;
-            weaponOwner.enabled = true;
+            health.BindPlayerHealth(deps.PlayerConfigSo.startingHealth);
+            ammoInventory.BindAmmoProfile(deps.PlayerConfigSo.ammoProfileSo);
+            weaponOwner.BuildWeapons(deps.CameraRig.weaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo);
+            weaponOwner.BuildRunner(deps.CameraRig);
         }
     }
 }

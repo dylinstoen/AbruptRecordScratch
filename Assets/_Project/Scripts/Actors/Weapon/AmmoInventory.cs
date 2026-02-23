@@ -7,11 +7,11 @@ using _Project.Scripts.Weapon.Enums;
 using UnityEngine;
 
 namespace _Project.Scripts.Actors {
-    public class AmmoInventory : MonoBehaviour, IAmmoInventory {
+    public class AmmoInventory : MonoBehaviour {
         public event Action<AmmoType, int> OnCurrentAmmoChange;
         private readonly AmmoPool[] _ammoPool = new AmmoPool[Enum.GetValues(typeof(AmmoType)).Length];
 
-        public void BuildAmmo(AmmoProfileSO ammoProfile) {
+        public void BindAmmoProfile(AmmoProfileSO ammoProfile) {
             foreach(AmmoType t in Enum.GetValues(typeof(AmmoType))) {
                 _ammoPool[(int)t].Current = 0;
                 _ammoPool[(int)t].Max = 0;
@@ -21,8 +21,6 @@ namespace _Project.Scripts.Actors {
                 StoreUpToMax(startingAmmo.ammoType, startingAmmo.startingInventory);
             }
         }
-        
-
         
         public int GetCurrent(AmmoType type) => _ammoPool[(int)type].Current;
         public int GetMax(AmmoType type) => _ammoPool[(int)type].Max;
@@ -44,8 +42,6 @@ namespace _Project.Scripts.Actors {
             OnCurrentAmmoChange?.Invoke(type, GetCurrent(type));
         }
         
-
-
         public int ConsumeUpTo(AmmoType type, int requested) {
             if(requested <= 0) return 0;
             int available = GetCurrent(type);

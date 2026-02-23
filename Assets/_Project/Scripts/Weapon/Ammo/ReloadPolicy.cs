@@ -9,7 +9,7 @@ namespace _Project.Scripts.Weapon {
         public event Action<ReloadAttempt> ReloadAttempted;
         public event Action<float> ReloadStarted;
         public event Action ReloadStopped;
-        private IAmmoInventory _inventory;
+        private AmmoInventory _inventory;
         private readonly IWeaponMagazine _magazine;
         private readonly WeaponReloadViewBridge _weaponReloadViewBridge;
         private readonly float _reloadDuration;
@@ -19,7 +19,7 @@ namespace _Project.Scripts.Weapon {
         public AmmoType AmmoType { get; }
 
 
-        public ReloadPolicy(IAmmoInventory ammoInventory, IWeaponMagazine magazine, AmmoType ammoType, float reloadDuration) {
+        public ReloadPolicy(AmmoInventory ammoInventory, IWeaponMagazine magazine, AmmoType ammoType, float reloadDuration) {
             _inventory = ammoInventory;
             _magazine = magazine;
             AmmoType = ammoType;
