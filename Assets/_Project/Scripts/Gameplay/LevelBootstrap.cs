@@ -24,16 +24,15 @@ namespace _Project.Scripts.Gameplay {
         private void Start() {
             // System
             inputModeService.SetGameplay();
-            gameManager.BindInputModeService(inputModeService);
-            gameManager.BindDeathScreen(deathScreen);
+            
             
             // Player
             var player = playerSpawner.Spawn(playerSpawnPoint.position, playerSpawnPoint.rotation);
             cameraRig.SetFollowTarget(player.HeadAnchor);
             player.BindServices(new PlayerDeps{PlayerConfigSo = playerConfigSo, CameraRig = cameraRig, IntentSource = playerIntentSource});
-            gameManager.BindPlayerHealthEvents(player.DeathEvents);
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);
+            gameManager.Initialize(player.DeathEvents, deathScreen, inputModeService, inputModeService.DeathUIIInputEvent);
         }
     }
 }

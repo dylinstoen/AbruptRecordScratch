@@ -7,63 +7,107 @@ using _Project.Scripts.Input;
 using _Project.Scripts.UI.DeathScreen;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using IDisposable = _Project.Scripts.Actors.IDisposable;
 
 namespace _Project.Scripts.Gameplay {
-    public class GameManager : MonoBehaviour, IDisposable {
-        [SerializeField] private float deathScreenCoolDown = 5f;
-        private IDeathEvents _playerDeathEvents;
-        private GameState _gameState;
-        private IDeathScreen _deathScreen;
-        private IInputModeService _inputModeService;
+    public class GameManager : MonoBehaviour {
+     [SerializeField] private float deathScreenDelay = 5f;
 
-        public void BindPlayerHealthEvents(IDeathEvents playerDeathEvents) {
-            _gameState = GameState.Alive;
-            _inputModeService.SetGameplay();
-            _playerDeathEvents = playerDeathEvents;
-            _playerDeathEvents.Died += OnPlayerDied;
-        }
-        
+    private IDeathEvents _deathEvents;
+    private IDeathScreen _deathScreen;
+    private IInputModeService _inputMode;
+    private IDeathUIIInputEvent _deathUiiInputEvent;
 
-        private void OnPlayerDied() {
-            _gameState = GameState.Dead;
-            _playerDeathEvents.Died -= OnPlayerDied;
-            StartCoroutine(ShowDeathScreen());
-            // TODO: Wait for x seconds
-        }
+    private Coroutine _deathRoutine;
+    private bool _isDead;
 
-        private IEnumerator ShowDeathScreen() {
-            yield return new WaitForSeconds(deathScreenCoolDown);
-            _deathScreen.Show();
-            _inputModeService.SetDead();
-        }
+    public void Initialize(IDeathEvents deathEvents, IDeathScreen deathScreen, IInputModeService inputMode, IDeathUIIInputEvent deathUiiInputEvent) {
+        Unsubscribe();
+        _deathUiiInputEvent  = deathUiiInputEvent ?? throw new ArgumentNullException(nameof(deathUiiInputEvent));
+        _deathEvents  = deathEvents  ?? throw new ArgumentNullException(nameof(deathEvents));
+        _deathScreen  = deathScreen  ?? throw new ArgumentNullException(nameof(deathScreen));
+        _inputMode    = inputMode    ?? throw new ArgumentNullException(nameof(inputMode));
 
-        private void OnDestroy() {
-            Dispose();
-        }
+        _isDead = false;
 
-        public void Dispose() {
-            if (_playerDeathEvents != null) {
-                _playerDeathEvents.Died -= OnPlayerDied;
-            }
+        _deathScreen.Hide();
+        _inputMode.SetGameplay();
 
-            if (_inputModeService != null) {
-                _inputModeService.DeathUIIInputEvent.ContinueRequested -= ContinueRequest;
-            }
-        }
+        Subscribe();
+    }
 
-        public void BindInputModeService(IInputModeService inputModeService) {
-            _inputModeService = inputModeService;
-        }
-        
-        public void BindDeathScreen(IDeathScreen deathScreen) {
-            _deathScreen = deathScreen;
-            _inputModeService.DeathUIIInputEvent.ContinueRequested += ContinueRequest;
-        }
+    private void OnEnable()
+    {
+        Subscribe();
+    }
 
-        private void ContinueRequest() {
-            _deathScreen.Hide();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    private void OnDisable()
+    {
+        Unsubscribe();
+        StopDeathRoutine();
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
+    private void Subscribe()
+    {
+        if (_deathEvents != null)
+            _deathEvents.Died += OnPlayerDied;
+
+        if (_inputMode != null)
+            _deathUiiInputEvent.ContinueRequested += OnContinueRequested;
+    }
+
+    private void Unsubscribe()
+    {
+        if (_deathEvents != null)
+            _deathEvents.Died -= OnPlayerDied;
+
+        if (_inputMode != null)
+            _deathUiiInputEvent.ContinueRequested -= OnContinueRequested;
+    }
+
+    private void OnPlayerDied()
+    {
+        if (_isDead) return;
+        _isDead = true;
+
+        StopDeathRoutine();
+        _deathRoutine = StartCoroutine(DeathSequence());
+    }
+
+    private IEnumerator DeathSequence()
+    {
+        _inputMode.SetDead();
+
+        yield return new WaitForSeconds(deathScreenDelay);
+
+        _deathScreen.Show();
+    }
+
+    private void StopDeathRoutine()
+    {
+        if (_deathRoutine != null)
+        {
+            StopCoroutine(_deathRoutine);
+            _deathRoutine = null;
         }
+    }
+
+    private void OnContinueRequested()
+    {
+        if (!_isDead) return;
+
+        _deathScreen.Hide();
+        ReloadActiveScene();
+    }
+
+    private static void ReloadActiveScene()
+    {
+        var scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.buildIndex);
+    }
     }
 }
