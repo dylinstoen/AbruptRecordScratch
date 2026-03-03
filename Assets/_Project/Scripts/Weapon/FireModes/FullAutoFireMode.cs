@@ -1,23 +1,30 @@
 ﻿using System;
-using _Project.Scripts.Weapon.Enums;
+using _Project.Scripts.Actors;
+using _Project.Scripts.Weapon.Static;
 using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
     public class FullAutoFireMode : IFireMode {
-        public event Action<FireAttempt, float> FireAttempted;
+        public event Action DryFired;
+        public event Action<RecoilSO> ShotFired;
+
         private readonly float _fireRate;
         private bool _firing;
         private float _coolDownRemaining;
         private readonly IEmitterMode _emitterMode;
         private readonly IWeaponMagazine _weaponMagazine;
         private readonly int _costPerShot;
+        private RecoilSO _recoilConfig;
+        private ICameraRecoilService _cameraRecoilService;
         
-        public FullAutoFireMode(IWeaponMagazine weaponMagazine, IEmitterMode emitter, float fireRate, int costPerShot) {
+        public FullAutoFireMode(IWeaponMagazine weaponMagazine, IEmitterMode emitter, float fireRate, int costPerShot, RecoilSO recoilConfig, ICameraRecoilService cameraRecoilService) {
             _fireRate = 1f/fireRate;
             _emitterMode = emitter;
             _weaponMagazine = weaponMagazine;
             _costPerShot = costPerShot;
+            _recoilConfig = recoilConfig;
+            _cameraRecoilService = cameraRecoilService;
         }
         
 
@@ -26,12 +33,15 @@ namespace _Project.Scripts.Weapon {
             _coolDownRemaining = 0f;
         }
 
+        public void Unequip() { }
+
         public void StartFire(WeaponUseContext ctx) {
             _firing = true;
         }
 
         public void StopFire(WeaponUseContext ctx) {
             _firing = false;
+            _cameraRecoilService.OnTriggerReleased();
         }
 
         public void Tick(WeaponUseContext ctx) {
@@ -42,10 +52,11 @@ namespace _Project.Scripts.Weapon {
             }
             while (_coolDownRemaining <= 0f) {
                 if (!_weaponMagazine.TryConsumeAmmo(_costPerShot)) {
-                    FireAttempted?.Invoke(FireAttempt.Empty, ctx.DeltaTime);
+                    DryFired?.Invoke();
                     return;
                 }
-                FireAttempted?.Invoke(FireAttempt.Fired, ctx.DeltaTime);
+                _cameraRecoilService.OnShotFired();
+                ShotFired?.Invoke(_recoilConfig);
                 _emitterMode.Fire(ctx);
                 _coolDownRemaining = _fireRate; 
             }

@@ -55,6 +55,7 @@ namespace _Project.Scripts.Actors {
         private void OnDestroy() {
             Dispose();
         }
+        
 
         public void Dispose() {
             foreach (var weapon in _weapons) {

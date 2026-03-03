@@ -12,6 +12,7 @@ namespace _Project.Scripts.Input {
         private InputAction _switchDelta;
         private InputAction _pauseAction;
         private bool applicationFocused;
+        private bool applicationPausedWithKeyboard;
 
         public ActorIntent Current { get; private set; }
 
@@ -28,6 +29,7 @@ namespace _Project.Scripts.Input {
             if (playerInput.currentActionMap is not { name: "Gameplay" }) return;
             bool fireHeld = false;
             bool firePressed = false;
+
             
             if (applicationFocused) {
                 if (_fireAction.WasReleasedThisFrame()) {
@@ -48,7 +50,8 @@ namespace _Project.Scripts.Input {
             };
             Current = intent;
         }
-
+        
+        
         private void OnApplicationFocus(bool hasFocus) {
             if (hasFocus) {
                 applicationFocused = true;

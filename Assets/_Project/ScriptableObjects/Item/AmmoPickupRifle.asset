@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AmmoPickupRifle
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Items.AmmoPickupItemDefinition
   ammoType: 1
-  ammoToAdd: 10
+  ammoToAdd: 30

@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Actors;
+using UnityEngine;
 
 namespace _Project.Scripts.Items {
     [CreateAssetMenu(menuName = "Item/HealthPickup",  fileName = "HealthPickup")]
     public class HealthPickupItemDefinition : ItemDefinition {
-        [SerializeField] private float amount;
+        [SerializeField] private int amount;
         public override bool TryApply(GameObject target) {
-            // TODO: Implement health pickup
-            return true;
+            var healthAcquirer = target.GetComponent<IHealthAcquirer>();
+            if(healthAcquirer == null) return false;
+            return healthAcquirer.AddHealth(amount);
         }
     }
 }

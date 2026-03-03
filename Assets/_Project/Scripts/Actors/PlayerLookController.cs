@@ -4,23 +4,20 @@ using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public sealed class PlayerLookController : MonoBehaviour {
-        private IPlayerCamera _playerCamera;
+        private ILookCameraSource _lookCameraSource;
         private IIntentSource  _intent;
-        private bool _boundCamera = false;
+        private bool _initialized = false;
 
-        public void BindIntent(IIntentSource intent) {
+        public void Initialize(IIntentSource intent, ILookCameraSource lookCameraSource) {
+            if(_initialized) return;
             _intent = intent;
-        }
-
-        public void BindCamera(IPlayerCamera playerCamera) {
-            if(_boundCamera) return;
-            _playerCamera = playerCamera;
-            _boundCamera = true;
+            _lookCameraSource = lookCameraSource;
+            _initialized = true;
         }
 
         private void Update() {
-            if(!_boundCamera) return;
-            _playerCamera.SetLookInput(_intent.Current.Look);
+            if(!_initialized) return;
+            _lookCameraSource.SetLookInput(_intent.Current.Look);
         }
         
     }

@@ -1,5 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Actors.Structs;
+using _Project.Scripts.Combat;
+using _Project.Scripts.Gameplay;
 using _Project.Scripts.Input;
 using _Project.Scripts.Weapon;
 using _Project.Scripts.Weapon.Enums;
@@ -16,8 +18,7 @@ namespace _Project.Scripts.Actors {
         private WeaponDeps _weaponDeps;
         private IWeaponFactory _weaponFactory;
         private IIntentSource _intent;
-        private bool _builtRunner = false;
-        private bool _builtWeapons = false;
+        private bool _initialized = false;
         
         private void Awake() {
             _weaponInventory = GetComponent<WeaponInventory>();
@@ -39,14 +40,24 @@ namespace _Project.Scripts.Actors {
             return false;
         }
 
-        public void BindIntent(IIntentSource intent) {
+        public void Initialize(IIntentSource intent, IHitService hitService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, IAimRaySource aimRaySource, Transform reticleMount, ICameraRecoilService cameraRecoilService) {
+            if (_initialized) return;
             _intent = intent;
+            BuildWeapons(hitService, weaponViewMount, weaponLoadoutSo, reticleMount, cameraRecoilService);
+            _weaponRunner = new WeaponRunner(_intent, aimRaySource, _weaponInventory);
+            _initialized = true;
         }
         
-        public void BuildWeapons(Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo) {
-            if(_builtWeapons) 
-                throw new InvalidOperationException("Weapons have already been built");
-            var weaponDeps = new WeaponDeps {WeaponLogicMount = weaponLogicMount, WeaponViewMount = weaponViewMount, AmmoInventory = _ammoInventory};
+        private void BuildWeapons(IHitService hitService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, Transform reticleMount, ICameraRecoilService cameraRecoilService) {
+            var weaponDeps = new WeaponDeps {
+                WeaponLogicMount = weaponLogicMount,
+                WeaponViewMount = weaponViewMount,
+                AmmoInventory = _ammoInventory,
+                Owner = gameObject,
+                ReticleMount = reticleMount,
+                CameraRecoilService = cameraRecoilService,
+                HitService = hitService
+            };
             IWeaponFactory weaponFactory = new WeaponFactory();
             foreach (var weapon in weaponLoadoutSo.Entries) {
                 var currentWeapon = weaponFactory.Create(weapon, weaponDeps);
@@ -57,23 +68,15 @@ namespace _Project.Scripts.Actors {
             }
             _weaponFactory = weaponFactory;
             _weaponDeps = weaponDeps;
-            _builtWeapons = true;
-        }
-        
-        public void BuildRunner(IAimRaySource aimRaySource) {
-            if(_builtRunner) 
-                throw new InvalidOperationException("Already bounded");
-            _weaponRunner = new WeaponRunner(_intent, aimRaySource, _weaponInventory);
-            _builtRunner = true;
         }
 
         private void Update() {
-            if (!_builtWeapons || !_builtRunner) return;
+            if (!_initialized) return;
             _weaponRunner.Tick(Time.deltaTime);
         }
 
         private void LateUpdate() {
-            if (!_builtWeapons || !_builtRunner) return;
+            if (!_initialized) return;
             _weaponRunner.LateTick(Time.deltaTime);
         }
     }

@@ -80,10 +80,8 @@ namespace _Project.Scripts.Gameplay {
 
     private IEnumerator DeathSequence()
     {
-        _inputMode.SetDead();
-
         yield return new WaitForSeconds(deathScreenDelay);
-
+        _inputMode.SetDead();
         _deathScreen.Show();
     }
 

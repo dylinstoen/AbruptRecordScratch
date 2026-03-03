@@ -8,8 +8,6 @@ using Object = UnityEngine.Object;
 
 namespace _Project.Scripts.Weapon {
     public sealed class WeaponInstance : IWeaponLogic, IWeaponAmmoView, IWeaponIdentity, IDisposable, IEquipable {
-        // TODO: Make a central OnAmmoChange(mag,current) that the internals of this weapon subscribe too and broadcast to this script when something changes
-        // TODO: Once that gets excepted broadcast an external version for hud
         public string ID { get; }
         public AmmoType AmmoType { get; }
         public int Mag => _weaponMagazine.CurrentAmmo;
@@ -18,15 +16,23 @@ namespace _Project.Scripts.Weapon {
         
         private readonly WeaponMotor  _motor;
         private readonly WeaponView _view;
+        private readonly GameObject _reticle;
         private readonly AmmoInventory _ammoInventory;
         private readonly IWeaponMagazine _weaponMagazine; 
-        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, AmmoInventory ammoInventory, IWeaponMagazine weaponMagazine) {
+        private readonly ICameraRecoilService _cameraRecoilService;
+        private RecoilSO _recoilSO;
+        private uint _baseSeed;
+        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, GameObject reticle, AmmoInventory ammoInventory, IWeaponMagazine weaponMagazine, ICameraRecoilService cameraRecoilService, RecoilSO recoilSo) {
             AmmoType = ammoType;
             _weaponMagazine = weaponMagazine;
             _ammoInventory = ammoInventory;
+            _reticle = reticle;
             _motor = motor;
             _view = view;
             ID = iD;
+            _cameraRecoilService = cameraRecoilService;
+            _recoilSO = recoilSo;
+            _baseSeed = (uint)UnityEngine.Random.Range(0, int.MaxValue);
         }
         
         public void Tick(in WeaponUseContext ctx) => _motor.Tick(ctx);
@@ -39,12 +45,15 @@ namespace _Project.Scripts.Weapon {
             _motor.Unequip();
             _motor.SetActive(false);
             _view.SetActive(false);
+            _reticle.SetActive(false);
         } 
 
         public void Equip() {
             _motor.SetActive(true);
             _view.SetActive(true);
+            _reticle.SetActive(true);
             _motor.Equip();
+            _cameraRecoilService.SetProfile(_recoilSO, _baseSeed);
             AmmoChanged?.Invoke();
         }
 
@@ -68,6 +77,7 @@ namespace _Project.Scripts.Weapon {
             _ammoInventory.OnCurrentAmmoChange -= HandleReserveChanged;
             if (_view != null) Object.Destroy(_view.gameObject);
             if (_motor != null) Object.Destroy(_motor.gameObject);
+            if(_reticle != null) Object.Destroy(_reticle.gameObject);
         }
 
         private void HandleMagazineChanged() => AmmoChanged?.Invoke();
@@ -76,8 +86,5 @@ namespace _Project.Scripts.Weapon {
             if (type != AmmoType) return;
             AmmoChanged?.Invoke();
         }
-
-
-        
     }
 }

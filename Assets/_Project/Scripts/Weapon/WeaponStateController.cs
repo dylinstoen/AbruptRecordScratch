@@ -16,11 +16,11 @@ namespace _Project.Scripts.Weapon {
         }
 
         private void BindEvents() {
-            _fireMode.FireAttempted += HandleFireAttempt;
+            _fireMode.DryFired += HandleDryFire;
             _reloadPolicy.ReloadAttempted += HandleReloadAttempt;
         }
         private void UnbindEvents() {
-            _fireMode.FireAttempted -= HandleFireAttempt;
+            _fireMode.DryFired -= HandleDryFire;
             _reloadPolicy.ReloadAttempted -= HandleReloadAttempt;
         }
 
@@ -43,6 +43,7 @@ namespace _Project.Scripts.Weapon {
             if (_state != State.Reloading) return;
             _state = State.Ready;
             _reloadPolicy.Unequip();
+            _fireMode.Unequip();
         }
 
         public void Tick(in WeaponUseContext ctx) {
@@ -76,11 +77,9 @@ namespace _Project.Scripts.Weapon {
             _state = State.Ready;
         }
         
-        public void HandleFireAttempt(FireAttempt attempt, float dt) {
+        public void HandleDryFire() {
             if(_state == State.Reloading) return;
-            if (attempt == FireAttempt.Empty) {
-                RequestReload();
-            }
+            RequestReload();
         }
     }
 }

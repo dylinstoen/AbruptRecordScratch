@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Weapon.Stucts;
+﻿using System;
+using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
@@ -11,14 +12,17 @@ namespace _Project.Scripts.Weapon {
         [SerializeField] private float positionSmoothTime = 0.05f;
         [SerializeField] private float rotationSmoothTime = 0.05f;
         private Vector3 _positionVelocity;
-
+        
         public void LateTick(in WeaponUseContext ctx) {
-            Vector3 aimSourceForward = ctx.AimRay.direction;
-            Vector3 aimSourcePosition = ctx.AimRay.origin;
-            Vector3 pos = aimSourcePosition + aimSourceForward * forwardOffset + GetRight(aimSourceForward) * horizontalOffset + GetUp(aimSourceForward) * verticalOffset;
-            transform.position = Vector3.SmoothDamp(transform.position, pos, ref _positionVelocity, positionSmoothTime);
-            Quaternion rotationTarget = Quaternion.LookRotation(aimSourceForward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotationTarget, Time.deltaTime/rotationSmoothTime);
+            // Adjust model to face camera
+            Vector3 fwd = ctx.AimRay.direction;
+            Vector3 org = ctx.AimRay.origin;
+            Vector3 posTarget = org + fwd * forwardOffset + GetRight(fwd) * horizontalOffset + GetUp(fwd) * verticalOffset;
+            transform.position = Vector3.SmoothDamp(transform.position, posTarget, ref _positionVelocity, positionSmoothTime);
+
+            Quaternion rotTarget = Quaternion.LookRotation(fwd);
+            float t = (rotationSmoothTime <= 0f) ? 1f : Time.deltaTime / rotationSmoothTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotTarget, Mathf.Clamp01(t));
         }
         private Vector3 GetRight(Vector3 aimSourceForward) {
             return Vector3.Cross(Vector3.up, aimSourceForward).normalized;
@@ -28,5 +32,9 @@ namespace _Project.Scripts.Weapon {
             Vector3 right = GetRight(aimSourceForward);
             return Vector3.Cross(aimSourceForward, right).normalized;
         }
+        
+        
+
+
     }
 }

@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 1734394991737735141}
   - component: {fileID: 1527638510618972849}
   - component: {fileID: 8205430879811824407}
-  - component: {fileID: 2447973506402264930}
   - component: {fileID: -2528807739321883957}
   - component: {fileID: 4844002079849957283}
   - component: {fileID: -4394609101264696944}
@@ -125,19 +124,6 @@ MonoBehaviour:
   weaponHudPresenter: {fileID: 1025070313789834829}
   ammoInventory: {fileID: -4394609101264696944}
   weaponOwner: {fileID: 5980384112135939184}
-  pause: {fileID: 2447973506402264930}
---- !u!114 &2447973506402264930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2525985033772882391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b42ed4e334844235b746ff74db88fc98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FPS.Character.Player.Pause
 --- !u!114 &-2528807739321883957
 MonoBehaviour:
   m_ObjectHideFlags: 0

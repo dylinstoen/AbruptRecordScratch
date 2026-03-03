@@ -17,7 +17,6 @@ namespace _Project.Scripts.UI {
         }
         
         public void SetAmmo(int mag, int reserve) {
-            Debug.Log("SetAmmo");
             currentAmmoText.text = mag.ToString() + " / " + reserve.ToString();
         }
 

@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249414527119661416}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.27, z: 0.14}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4312415540266276347}
+  m_Father: {fileID: 7668188193291787655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2254274776476123439
 MeshFilter:
@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 5892858983096224151}
   - component: {fileID: -7516260797563563841}
   - component: {fileID: 3087647908862359656}
+  - component: {fileID: 9176882277850049238}
   - component: {fileID: 5495564086815015397}
   m_Layer: 7
   m_Name: PistolView
@@ -123,8 +124,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1063252726487775686}
-  - {fileID: 8632314864204410243}
+  - {fileID: 7668188193291787655}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5892858983096224151
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.WeaponView
   reloadView: {fileID: -7516260797563563841}
+  weaponFireView: {fileID: 9176882277850049238}
   aimView: {fileID: 3087647908862359656}
 --- !u!114 &-7516260797563563841
 MonoBehaviour:
@@ -171,6 +172,19 @@ MonoBehaviour:
   verticalOffset: -0.2
   positionSmoothTime: 0.05
   rotationSmoothTime: 0.05
+--- !u!114 &9176882277850049238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3729660994958902430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbf0bb577154fb9a9e01dfe7d5d4b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Weapon.WeaponFireView
+  recoilAnimator: {fileID: 5495564086815015397}
 --- !u!95 &5495564086815015397
 Animator:
   serializedVersion: 7
@@ -193,6 +207,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &5725769104747105748
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7668188193291787655}
+  m_Layer: 0
+  m_Name: GFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7668188193291787655
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5725769104747105748}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1063252726487775686}
+  - {fileID: 8632314864204410243}
+  m_Father: {fileID: 4312415540266276347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8794722466117068267
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,12 +266,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8794722466117068267}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.123, z: 0.105}
   m_LocalScale: {x: 0.13, y: 0.15, z: 0.26}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4312415540266276347}
+  m_Father: {fileID: 7668188193291787655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2103088640832107722
 MeshFilter:

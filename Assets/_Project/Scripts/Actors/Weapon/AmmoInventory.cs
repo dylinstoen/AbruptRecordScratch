@@ -11,7 +11,7 @@ namespace _Project.Scripts.Actors {
         public event Action<AmmoType, int> OnCurrentAmmoChange;
         private readonly AmmoPool[] _ammoPool = new AmmoPool[Enum.GetValues(typeof(AmmoType)).Length];
 
-        public void BindAmmoProfile(AmmoProfileSO ammoProfile) {
+        public void Initialize(AmmoProfileSO ammoProfile) {
             foreach(AmmoType t in Enum.GetValues(typeof(AmmoType))) {
                 _ammoPool[(int)t].Current = 0;
                 _ammoPool[(int)t].Max = 0;

@@ -11,7 +11,7 @@ namespace _Project.Scripts.Weapon {
         public event Action ReloadStopped;
         private AmmoInventory _inventory;
         private readonly IWeaponMagazine _magazine;
-        private readonly WeaponReloadViewBridge _weaponReloadViewBridge;
+        private readonly WeaponReloadBridge _weaponReloadBridge;
         private readonly float _reloadDuration;
         private float _currentReloadTime;
         private bool _isReloading;
@@ -77,7 +77,6 @@ namespace _Project.Scripts.Weapon {
             int accepted = _magazine.LoadUpTo(staged);
             int leftover = staged - accepted;
             if(leftover > 0) _inventory.StoreUpToMax(AmmoType, leftover);
-            Debug.Log("Reload Complete: pulled" + staged + " from ammo inventory. Leftover was " +  leftover);
             _elapsed = 0f;
             _isReloading = false;
             ReloadAttempted?.Invoke(ReloadAttempt.Complete);
