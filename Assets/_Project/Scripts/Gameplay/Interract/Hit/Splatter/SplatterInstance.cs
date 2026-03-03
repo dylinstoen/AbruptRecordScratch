@@ -24,7 +24,6 @@ namespace _Project.Scripts.Gameplay {
         public void MarkFree() => InUse = false;
 
         public void Play(Vector3 pos, Quaternion rot) {
-            transform.SetParent(null, true);
             transform.SetPositionAndRotation(pos, rot);
 
             gameObject.SetActive(true);
