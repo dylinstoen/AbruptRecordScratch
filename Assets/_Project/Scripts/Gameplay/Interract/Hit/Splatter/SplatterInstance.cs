@@ -57,10 +57,7 @@ namespace _Project.Scripts.Gameplay {
                 if (!ps) continue;
                 var main = ps.main;
 
-                float lifeMax =
-                    main.startLifetime.mode == ParticleSystemCurveMode.TwoConstants
-                        ? main.startLifetime.constantMax
-                        : main.startLifetime.constant;
+                float lifeMax = main.startLifetime.mode == ParticleSystemCurveMode.TwoConstants ? main.startLifetime.constantMax : main.startLifetime.constant;
 
                 float estimate = main.duration + lifeMax;
                 if (estimate > max) max = estimate;
