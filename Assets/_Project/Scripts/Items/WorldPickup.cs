@@ -10,10 +10,9 @@ namespace _Project.Scripts.Items {
         private void OnTriggerEnter(Collider other) {
             if (((1 << other.gameObject.layer) & allowedLayers) == 0) return;
             var target =  other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
-            if (item != null && item.TryApply(target)) {
-                if(destroyOnApply)
-                    Destroy(gameObject);
-            }
+            if (!item || !item.TryApply(target)) return;
+            if(destroyOnApply)
+                Destroy(gameObject);
         }
     }
 }

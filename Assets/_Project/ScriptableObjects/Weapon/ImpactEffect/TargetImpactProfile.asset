@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01a5c85278664d239a9edd41914a331d, type: 3}
   m_Name: TargetImpactProfile
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.TargetImpactProfileSO
-  splatterType: 1
-  splatterBlendType: 0
-  stainType: 1
-  stainBlendType: 0
+  SplatterType: 1
+  SplatterBlendType: 0
+  StainType: 1
+  StainBlendType: 0

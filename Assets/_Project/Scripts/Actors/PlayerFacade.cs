@@ -16,6 +16,7 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private WeaponHudPresenter weaponHudPresenter;
         [SerializeField] private AmmoInventory ammoInventory;
         [SerializeField] private WeaponOwner weaponOwner;
+        [SerializeField] private PlayerInteraction playerInteraction;
         
         public void BindServices(PlayerDeps deps) {
             actorMotor.Initialize(deps.IntentSource, deps.AimRaySource);
@@ -23,6 +24,7 @@ namespace _Project.Scripts.Actors {
             health.Initialize(deps.PlayerConfigSo.startingHealth);
             ammoInventory.Initialize(deps.PlayerConfigSo.ammoProfileSo);
             weaponOwner.Initialize(deps.IntentSource, deps.HitService, deps.WeaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo, deps.AimRaySource, deps.ReticleMount, deps.CameraRecoilService);
+            playerInteraction.Initialize(deps.InteractionPresenter, deps.IntentSource, deps.AimRaySource);
         }
     }
 }

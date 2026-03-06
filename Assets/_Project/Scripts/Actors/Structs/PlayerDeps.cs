@@ -14,5 +14,6 @@ namespace _Project.Scripts.Actors {
         public IIntentSource IntentSource;
         public Transform ReticleMount;
         public Transform WeaponViewMount;
+        public IInteractionPresenter InteractionPresenter;
     }
 }

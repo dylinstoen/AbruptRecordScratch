@@ -22,6 +22,7 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private HealthHud healthHud;
         [SerializeField] private DeathScreen deathScreen;
         [SerializeField] private Transform reticleMount;
+        [SerializeField] private InteractionPresenter interactionPresenter;
         [Header("Input")]
         [SerializeField] private InputModeService inputModeService;
         [Header("Services")]
@@ -38,8 +39,9 @@ namespace _Project.Scripts.Gameplay {
                 LookCameraSource = cameraSourceRig, 
                 IntentSource = playerIntentSource, 
                 ReticleMount = reticleMount,
-                CameraRecoilService =  cameraRecoilService as ICameraRecoilService,
-                WeaponViewMount = weaponViewMount
+                CameraRecoilService =  cameraRecoilService,
+                WeaponViewMount = weaponViewMount,
+                InteractionPresenter = interactionPresenter
             });
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);

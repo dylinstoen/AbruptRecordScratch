@@ -20,15 +20,18 @@ namespace _Project.Scripts.Gameplay {
 
             if (target && source) {
                 Debug.Log("Spawned Source and Target");
-                ProcessSplatter(source.SplatterType, target.splatterType, target.splatterBlendType);
+                ProcessSplatter(source.SplatterType, target.SplatterType, target.SplatterBlendType);
+                ProcessStain(source.StainType, target.StainType, target.StainBlendType);
             }
             else if (source) {
                 Debug.Log("Spawned Source");
                 ProcessSplatter(source.SplatterType);
+                ProcessStain(source.StainType);
             }
             else if(target) {
                 Debug.Log("Spawned Target");
-                ProcessSplatter(target.splatterType);
+                ProcessSplatter(target.SplatterType);
+                ProcessStain(target.StainType);
             }
         }
 
@@ -44,6 +47,20 @@ namespace _Project.Scripts.Gameplay {
             var inst = splatterPool.Rent(sourceType);
             if (inst)
                 inst.Play(_ctx.Position, Quaternion.LookRotation(_ctx.Normal));
+            
+        }
+        private void ProcessStain(StainType sourceType, StainType targetType, BlendType targetBlendType) {
+            if (targetBlendType == BlendType.Override) {
+                ProcessStain(targetType);
+                return;
+            }
+            ProcessStain(sourceType);
+            ProcessStain(targetType);
+        }
+        private void ProcessStain(StainType sourceType) {
+            var inst = stainPool.Rent(sourceType);
+            if (inst)
+                inst.Activate(_ctx.Position, Quaternion.LookRotation(_ctx.Normal), 5f, _ctx.HitCollider.transform);
             
         }
     }

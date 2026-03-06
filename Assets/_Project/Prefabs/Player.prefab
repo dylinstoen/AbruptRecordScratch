@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: -9042345197067019723}
   - component: {fileID: 3201018648563673954}
   - component: {fileID: 5441531317031305250}
+  - component: {fileID: -4728137856743582134}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -124,6 +125,7 @@ MonoBehaviour:
   weaponHudPresenter: {fileID: 1025070313789834829}
   ammoInventory: {fileID: -4394609101264696944}
   weaponOwner: {fileID: 5980384112135939184}
+  playerInteraction: {fileID: -4728137856743582134}
 --- !u!114 &-2528807739321883957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,6 +224,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Motor
   speed: 10
+--- !u!114 &-4728137856743582134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb8e726cd5f425ea41974538f45f1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerInteraction
+  mask:
+    serializedVersion: 2
+    m_Bits: 55
+  radius: 0.15
+  range: 3
 --- !u!1 &3784474664259711098
 GameObject:
   m_ObjectHideFlags: 0

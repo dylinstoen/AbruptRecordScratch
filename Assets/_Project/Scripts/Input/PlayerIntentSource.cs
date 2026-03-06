@@ -9,6 +9,7 @@ namespace _Project.Scripts.Input {
         private InputAction _lookAction;
         private InputAction _moveAction;
         private InputAction _fireAction;
+        private InputAction _interactAction;
         private InputAction _switchDelta;
         private InputAction _pauseAction;
         private bool applicationFocused;
@@ -24,6 +25,7 @@ namespace _Project.Scripts.Input {
             _fireAction = actions.FindAction("Fire");
             _switchDelta = actions.FindAction("Switch Delta");
             _pauseAction = actions.FindAction("Pause");
+            _interactAction = actions.FindAction("Interact");
         }
         private void Update() {
             if (playerInput.currentActionMap is not { name: "Gameplay" }) return;
@@ -46,7 +48,8 @@ namespace _Project.Scripts.Input {
                 Look = _lookAction.ReadValue<Vector2>(),
                 FireHeld = fireHeld,
                 FirePressed = firePressed,
-                SwitchDelta = _switchDelta.ReadValue<float>() 
+                SwitchDelta = _switchDelta.ReadValue<float>(),
+                Interact = _interactAction.WasReleasedThisFrame()
             };
             Current = intent;
         }
