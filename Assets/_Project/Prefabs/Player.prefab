@@ -69,6 +69,7 @@ MonoBehaviour:
   weaponOwner: {fileID: 5980384112135939184}
   playerInteraction: {fileID: -4728137856743582134}
   playerCamTargetDriver: {fileID: 5705126728993406110}
+  playerWalker: {fileID: 0}
 --- !u!114 &-2528807739321883957
 MonoBehaviour:
   m_ObjectHideFlags: 0
