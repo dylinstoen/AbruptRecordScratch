@@ -1,5 +1,7 @@
+using _Project.Scripts.Audio.ScriptableObjects;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.Weapon.Enums;
+using _Project.Scripts.Weapon.Struct;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
@@ -13,6 +15,9 @@ namespace _Project.Scripts.Weapon {
         public float reloadDuration;
         public float fireRate;
         public int damage;
+        public float spread;
+        public RecoilProfile recoilProfile;
+        
         [Header("Prefabs")]
         public GameObject viewPrefab;
         public GameObject motorPrefab;
@@ -20,9 +25,11 @@ namespace _Project.Scripts.Weapon {
         [Header("Scriptable Objects")]
         public FireModeSO fireMode;
         public EmitterModeSO emitterMode;
-        public RecoilSO recoil;
+        public AudioCue gunShotSfx;
+        public AudioCue reloadSfx;
         public SourceImpactProfileSO sourceImpactProfile;
         [Header("Layer Masks")]
         public LayerMask hitLayerMask;
     }
+
 }

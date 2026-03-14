@@ -3,6 +3,7 @@ using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Weapon;
 using _Project.Scripts.Weapon.Static;
 using _Project.Scripts.Weapon.Stucts;
+using Unity.Cinemachine;
 using UnityEngine.Assertions;
 
 namespace _Project.Scripts.Actors {
@@ -14,6 +15,8 @@ namespace _Project.Scripts.Actors {
         public WeaponFacets Create(WeaponSO so, WeaponDeps deps) {
             if (!so) throw new ArgumentNullException(nameof(so));
             var scene = Utilities.SpawnScene(so, deps);
+            var recoil = scene.Motor.GetComponent<CinemachineImpulseSource>();
+            if(recoil) deps.ImpulseSource = recoil;
             var logic = Utilities.BuildLogic(so, deps);
             scene.Motor.Initialize(logic.Controller);
             scene.View.Initialize(logic.ReloadBridge, logic.FireMode, so.fireRate);
@@ -24,9 +27,7 @@ namespace _Project.Scripts.Actors {
                 scene.View,
                 scene.Reticle,
                 deps.AmmoInventory,
-                logic.Magazine,
-                deps.CameraRecoilService,
-                so.recoil
+                logic.Magazine
             );
             return new WeaponFacets(instance);
         }

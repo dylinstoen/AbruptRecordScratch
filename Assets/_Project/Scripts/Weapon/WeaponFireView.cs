@@ -20,7 +20,7 @@ namespace _Project.Scripts.Weapon {
             
         }
 
-        public void ShotFired(RecoilSO recoil) {
+        public void ShotFired() {
             recoilAnimator.SetTrigger(IsFiring);
         }
 

@@ -9,7 +9,7 @@ namespace _Project.Scripts.Actors {
         public IAmmoEvents AmmoEvents => weaponHudPresenter;
 
         [SerializeField] private Transform headAnchor;
-        [SerializeField] private ActorMotor actorMotor;
+        [SerializeField] private PlayerMover playerMover;
         [SerializeField] private PlayerLookController playerLookController;
         [SerializeField] private Health health;
         [SerializeField] private PlayerDeathHandler playerDeathHandler;
@@ -17,14 +17,16 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private AmmoInventory ammoInventory;
         [SerializeField] private WeaponOwner weaponOwner;
         [SerializeField] private PlayerInteraction playerInteraction;
+        [SerializeField] private PlayerCamTargetDriver playerCamTargetDriver;
         
         public void BindServices(PlayerDeps deps) {
-            actorMotor.Initialize(deps.IntentSource, deps.AimRaySource);
-            playerLookController.Initialize(deps.IntentSource, deps.LookCameraSource);
+            playerCamTargetDriver.Initialize(deps.CameraBrain);
+            playerMover.Initialize(deps.IntentSource, playerCamTargetDriver);
+            playerLookController.Initialize(deps.IntentSource, playerCamTargetDriver);
             health.Initialize(deps.PlayerConfigSo.startingHealth);
             ammoInventory.Initialize(deps.PlayerConfigSo.ammoProfileSo);
-            weaponOwner.Initialize(deps.IntentSource, deps.HitService, deps.WeaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo, deps.AimRaySource, deps.ReticleMount, deps.CameraRecoilService);
-            playerInteraction.Initialize(deps.InteractionPresenter, deps.IntentSource, deps.AimRaySource);
+            weaponOwner.Initialize(deps.IntentSource, deps.ImpactService, deps.WeaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo, playerCamTargetDriver, deps.ReticleMount, deps.AudioService);
+            playerInteraction.Initialize(deps.InteractionPresenter, deps.IntentSource, playerCamTargetDriver);
         }
     }
 }

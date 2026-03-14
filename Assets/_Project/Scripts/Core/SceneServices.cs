@@ -1,4 +1,5 @@
 ﻿using System;
+using _Project.Scripts.Audio.Interfaces;
 using _Project.Scripts.Combat;
 using _Project.Scripts.Gameplay;
 using UnityEngine;
@@ -9,14 +10,19 @@ namespace _Project.Scripts.Core {
     /// </summary>
     public sealed class SceneServices : MonoBehaviour {
         [Header("Gameplay")]
-        [SerializeField] private MonoBehaviour hitService;
+        [SerializeField] private MonoBehaviour impactService;
+        [SerializeField] private MonoBehaviour audioService;
         
-        public IHitService Hit => (IHitService)hitService;
+        public IImpactService Impact => (IImpactService)impactService;
+        public IAudioService Audio => (IAudioService)audioService;
 
         private void Awake() {
-            if (!hitService)
+            if (!impactService)
                 throw new InvalidOperationException($"{name} 'hit service must be assigned");
-            if (hitService is not IHitService) throw new InvalidOperationException($"{name}: 'impactService' must implement IImpactService.");
+            if (impactService is not IImpactService) throw new InvalidOperationException($"{name}: 'impactService' must implement IImpactService.");
+            if (!audioService)
+                throw new InvalidOperationException($"{name} 'audio service must be assigned");
+            if (audioService is not IAudioService) throw new InvalidOperationException($"{name}: 'audioService' must implement IAudioService.");
             SceneServiceLocator.Bind(this);
         }
 

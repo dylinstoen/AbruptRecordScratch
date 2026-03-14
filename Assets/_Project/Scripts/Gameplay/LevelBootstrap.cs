@@ -1,16 +1,20 @@
 ﻿using _Project.Scripts.Input;
 using _Project.Scripts.Actors;
+using _Project.Scripts.Audio;
+using _Project.Scripts.Cam;
 using _Project.Scripts.Combat;
 using _Project.Scripts.UI;
 using _Project.Scripts.UI.DeathScreen;
 using _Project.Scripts.UI.Reticle;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Project.Scripts.Gameplay {
     public class LevelBootstrap : MonoBehaviour {
-        [Header("Camera")]
-        [SerializeField] private CameraSourceRig cameraSourceRig;
-        [SerializeField] private CameraRecoilService cameraRecoilService;
+        [Header("Camera")] 
+        [SerializeField] private Camera cameraSource;
+        [SerializeField] private CinemachineCamera cinemachineCamera;
+        [SerializeField] private DeadCamFollower deadCamFollower;
         [Header("Player")]
         [SerializeField] private PlayerIntentSource playerIntentSource;
         [SerializeField] private PlayerSpawnService playerSpawner;
@@ -27,21 +31,22 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private InputModeService inputModeService;
         [Header("Services")]
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private HitService hitService;
+        [SerializeField] private ImpactService impactService;
+        [SerializeField] private AudioService audioService;
         
         private void Start() {
             var player = playerSpawner.Spawn(playerSpawnPoint.position, playerSpawnPoint.rotation);
-            cameraSourceRig.SetFollowTarget(player.HeadAnchor);
+            cinemachineCamera.Follow = player.HeadAnchor;
+            deadCamFollower.SetTarget(player.HeadAnchor);
             player.BindServices(new PlayerDeps {
+                CameraBrain =  cameraSource,
                 PlayerConfigSo = playerConfigSo, 
-                AimRaySource = cameraSourceRig, 
-                HitService =  hitService,
-                LookCameraSource = cameraSourceRig, 
+                ImpactService =  impactService,
                 IntentSource = playerIntentSource, 
                 ReticleMount = reticleMount,
-                CameraRecoilService =  cameraRecoilService,
                 WeaponViewMount = weaponViewMount,
-                InteractionPresenter = interactionPresenter
+                InteractionPresenter = interactionPresenter,
+                AudioService = audioService
             });
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);

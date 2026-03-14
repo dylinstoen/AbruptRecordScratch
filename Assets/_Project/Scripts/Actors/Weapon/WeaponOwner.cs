@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Actors.Structs;
+using _Project.Scripts.Audio.Interfaces;
 using _Project.Scripts.Combat;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.Input;
@@ -40,23 +41,23 @@ namespace _Project.Scripts.Actors {
             return false;
         }
 
-        public void Initialize(IIntentSource intent, IHitService hitService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, IAimRaySource aimRaySource, Transform reticleMount, ICameraRecoilService cameraRecoilService) {
+        public void Initialize(IIntentSource intent, IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, IAimRaySource aimRaySource, Transform reticleMount, IAudioService audioService) {
             if (_initialized) return;
             _intent = intent;
-            BuildWeapons(hitService, weaponViewMount, weaponLoadoutSo, reticleMount, cameraRecoilService);
+            BuildWeapons(impactService, weaponViewMount, weaponLoadoutSo, reticleMount, audioService);
             _weaponRunner = new WeaponRunner(_intent, aimRaySource, _weaponInventory);
             _initialized = true;
         }
         
-        private void BuildWeapons(IHitService hitService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, Transform reticleMount, ICameraRecoilService cameraRecoilService) {
+        private void BuildWeapons(IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, Transform reticleMount, IAudioService audioService) {
             var weaponDeps = new WeaponDeps {
                 WeaponLogicMount = weaponLogicMount,
                 WeaponViewMount = weaponViewMount,
                 AmmoInventory = _ammoInventory,
                 Owner = gameObject,
                 ReticleMount = reticleMount,
-                CameraRecoilService = cameraRecoilService,
-                HitService = hitService
+                ImpactService = impactService,
+                AudioService = audioService
             };
             IWeaponFactory weaponFactory = new WeaponFactory();
             foreach (var weapon in weaponLoadoutSo.Entries) {

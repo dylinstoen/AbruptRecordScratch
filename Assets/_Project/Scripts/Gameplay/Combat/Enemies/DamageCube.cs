@@ -10,17 +10,18 @@ namespace _Project.Scripts.Combat {
     public class DamageCube : MonoBehaviour {
         [SerializeField] private int amount;
         
-        private IHitService _hitService;
+        private IImpactService _impactService;
         private void Awake() {
-            _hitService = SceneServiceLocator.Current.Hit;
+            _impactService = SceneServiceLocator.Current.Impact;
         }
 
-        private void OnCollisionEnter(Collision other) {
+        private void OnTriggerEnter(Collider other) {
             IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable == null) return;
-            var contact = other.contactCount > 0 ? other.GetContact(0) : default;
-            var ctx = new HitContext(contact.point, contact.normal, other.collider, gameObject, amount, damageable);
-            _hitService.ProcessHit(in ctx, null);
+            Vector3 hitPoint = other.ClosestPoint(transform.position);
+            Vector3 hitNormal = (other.transform.position - transform.position).normalized;
+            var ctx = new HitContext(hitPoint, hitNormal, other, gameObject, amount, damageable);
+            _impactService.ProcessHit(in ctx, null);
         }
     }
 }

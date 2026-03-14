@@ -13,7 +13,6 @@ namespace _Project.Scripts.Actors {
         private IIntentSource _intentSource;
         private IAimRaySource _aimRaySource;
         private IInteractable _focused;
-        [SerializeField] private float radius = 0.15f;
         [SerializeField] private float range = 3f;
         public void Initialize(IInteractionPresenter interactionPresenter, IIntentSource intentSource, IAimRaySource aimRaySource) {
             _interactionPresenter = interactionPresenter;
@@ -46,20 +45,11 @@ namespace _Project.Scripts.Actors {
             }
         }
         private IInteractable FindBestTarget() {
+            // TODO: Update to use sphere + locate closest + angle rating
             if (Physics.Raycast(transform.position, _aimRaySource.GetAimRay().direction, out var hit, range, mask, QueryTriggerInteraction.Ignore)) {
                 return hit.collider.GetComponentInParent<IInteractable>();
             }
             return null;
-        }
-
-        private void OnDrawGizmos() {
-
-            Vector3 start = _aimRaySource.GetAimRay().origin;
-            Vector3 end   = start + _aimRaySource.GetAimRay().direction * range;
-
-            Gizmos.DrawWireSphere(start, radius);
-            Gizmos.DrawLine(start, end);
-            Gizmos.DrawWireSphere(end, radius);
         }
     }
 }

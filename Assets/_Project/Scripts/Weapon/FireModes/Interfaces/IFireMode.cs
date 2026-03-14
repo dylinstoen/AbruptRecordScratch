@@ -4,7 +4,7 @@ using _Project.Scripts.Weapon.Stucts;
 namespace _Project.Scripts.Weapon {
     public interface IFireMode {
         event Action DryFired;
-        event Action<RecoilSO> ShotFired;
+        event Action ShotFired;
         void Equip();
         void Unequip();
         void StartFire(WeaponUseContext ctx);

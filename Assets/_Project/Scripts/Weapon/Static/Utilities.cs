@@ -1,6 +1,7 @@
 ﻿using System;
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Weapon.Stucts;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon.Static {
@@ -18,8 +19,10 @@ namespace _Project.Scripts.Weapon.Static {
             IWeaponMagazine mag = new WeaponMagazine(so.magSize);
             IReloadPolicy reload = new ReloadPolicy(deps.AmmoInventory, mag, so.ammoType, so.reloadDuration);
             var reloadBridge = new WeaponReloadBridge(reload);
-            IEmitterMode emitter = so.emitterMode.Create(deps.HitService, so.damage, deps.Owner, so.sourceImpactProfile);
-            var fireMode = so.fireMode.Create(mag, emitter, so.costPerShot, so.fireRate, so.recoil, deps.CameraRecoilService);
+            IEmitterMode emitter = so.emitterMode.Create(deps.ImpactService, so.damage, deps.Owner, so.sourceImpactProfile);
+            var fireMode = deps.ImpulseSource ? 
+                so.fireMode.Create(mag, emitter, deps.AudioService, so.gunShotSfx, so.costPerShot, so.fireRate, so.spread, deps.ImpulseSource, so.recoilProfile) : 
+                so.fireMode.Create(mag, emitter, deps.AudioService, so.gunShotSfx, so.costPerShot, so.fireRate, so.spread);
             var controller = new WeaponStateController(fireMode, reload);
             return new LogicParts(mag, reload, reloadBridge, controller, fireMode);
         }

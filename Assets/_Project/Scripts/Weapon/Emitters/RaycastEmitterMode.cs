@@ -8,22 +8,22 @@ using UnityEngine;
 namespace _Project.Scripts.Weapon {
     public class RaycastEmitterMode : IEmitterMode {
         private float _maxDistance;
-        private IHitService _hitService;
+        private IImpactService _impactService;
         private int _damage;
         private GameObject _owner;
         private SourceImpactProfileSO _sourceImpactProfile;
-        public RaycastEmitterMode(float maxDistance, int damage, GameObject owner, IHitService hitService, SourceImpactProfileSO sourceImpactProfile) {
+        public RaycastEmitterMode(float maxDistance, int damage, GameObject owner, IImpactService impactService, SourceImpactProfileSO sourceImpactProfile) {
             _maxDistance = maxDistance;
-            _hitService = hitService;
+            _impactService = impactService;
             _damage = damage;
             _owner = owner;
             _sourceImpactProfile = sourceImpactProfile;
         }
-        public void Fire(WeaponUseContext ctx) {
-            if (Physics.Raycast(ctx.AimRay.origin, ctx.AimRay.direction, out RaycastHit hit, _maxDistance)) {
+        public void Fire(Ray ray) {
+            if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _maxDistance)) {
                 // TODO: Communicate hit with other systems
                 HitContext hitctx = new HitContext(hit.point, hit.normal, hit.collider, _owner, _damage);
-                _hitService.ProcessHit(hitctx, _sourceImpactProfile);
+                _impactService.ProcessHit(hitctx, _sourceImpactProfile);
             }
         }
     }

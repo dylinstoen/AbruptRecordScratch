@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 684ba58ebd2d4c199e3a1512b8df4872, type: 3}
   m_Name: Raycast
   m_EditorClassIdentifier: Assembly-CSharp::FPS.Weapon.RaycastEmitterModeDefinition
-  maxDistance: 10
+  maxDistance: 100

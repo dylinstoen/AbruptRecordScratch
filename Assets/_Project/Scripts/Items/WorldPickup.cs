@@ -7,7 +7,12 @@ namespace _Project.Scripts.Items {
         [SerializeField] private LayerMask allowedLayers;
         [SerializeField] private bool destroyOnApply = true;
 
+        private void OnCollisionEnter(Collision other) {
+            Debug.Log(other.gameObject.name);
+        }
+
         private void OnTriggerEnter(Collider other) {
+            Debug.Log(other.gameObject.name);
             if (((1 << other.gameObject.layer) & allowedLayers) == 0) return;
             var target =  other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
             if (!item || !item.TryApply(target)) return;

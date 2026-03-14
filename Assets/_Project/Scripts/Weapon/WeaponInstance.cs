@@ -19,10 +19,8 @@ namespace _Project.Scripts.Weapon {
         private readonly GameObject _reticle;
         private readonly AmmoInventory _ammoInventory;
         private readonly IWeaponMagazine _weaponMagazine; 
-        private readonly ICameraRecoilService _cameraRecoilService;
-        private RecoilSO _recoilSO;
         private uint _baseSeed;
-        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, GameObject reticle, AmmoInventory ammoInventory, IWeaponMagazine weaponMagazine, ICameraRecoilService cameraRecoilService, RecoilSO recoilSo) {
+        public WeaponInstance(string iD, AmmoType ammoType, WeaponMotor motor, WeaponView view, GameObject reticle, AmmoInventory ammoInventory, IWeaponMagazine weaponMagazine) {
             AmmoType = ammoType;
             _weaponMagazine = weaponMagazine;
             _ammoInventory = ammoInventory;
@@ -30,8 +28,6 @@ namespace _Project.Scripts.Weapon {
             _motor = motor;
             _view = view;
             ID = iD;
-            _cameraRecoilService = cameraRecoilService;
-            _recoilSO = recoilSo;
             _baseSeed = (uint)UnityEngine.Random.Range(0, int.MaxValue);
         }
         
@@ -53,7 +49,6 @@ namespace _Project.Scripts.Weapon {
             _view.SetActive(true);
             _reticle.SetActive(true);
             _motor.Equip();
-            _cameraRecoilService.SetProfile(_recoilSO, _baseSeed);
             AmmoChanged?.Invoke();
         }
 

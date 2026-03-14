@@ -1,7 +1,9 @@
 ﻿using _Project.Scripts.Actors.Weapon;
+using _Project.Scripts.Audio.Interfaces;
 using _Project.Scripts.Combat;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.UI.Reticle;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace _Project.Scripts.Actors.Structs {
@@ -11,7 +13,8 @@ namespace _Project.Scripts.Actors.Structs {
         public Transform ReticleMount;
         public GameObject Owner;
         public AmmoInventory AmmoInventory;
-        public ICameraRecoilService CameraRecoilService;
-        public IHitService HitService;
+        public CinemachineImpulseSource ImpulseSource;
+        public IImpactService ImpactService;
+        public IAudioService AudioService;
     }
 }
