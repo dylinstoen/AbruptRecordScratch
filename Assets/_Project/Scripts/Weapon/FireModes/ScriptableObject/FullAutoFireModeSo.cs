@@ -9,11 +9,11 @@ namespace _Project.Scripts.Weapon {
     [CreateAssetMenu(fileName = "Full Auto", menuName = "Weapon/FireMode/Full Auto")]
     public class FullAutoFireModeSo : FireModeSO {
         public override IFireMode Create(IWeaponMagazine weaponMagazine, IEmitterMode emitterMode, IAudioService audioService, AudioCue audioCue, int costPerShot, float fireRate, float spread) {
-            return new FullAutoFireMode(weaponMagazine, emitterMode, audioService, audioCue, fireRate, costPerShot > 0 ? costPerShot : 1, spread);
+            return new FullAutoFireMode(weaponMagazine, emitterMode, audioService, audioCue, fireRate, costPerShot, spread);
         }
 
         public override IFireMode Create(IWeaponMagazine weaponMagazine, IEmitterMode emitterMode, IAudioService audioService, AudioCue audioCue, int costPerShot, float fireRate, float spread, CinemachineImpulseSource impulseSource, RecoilProfile recoilProfile) {
-            return new FullAutoFireMode(weaponMagazine, emitterMode, audioService, audioCue, fireRate, costPerShot > 0 ? costPerShot : 1, spread, impulseSource, recoilProfile);
+            return new FullAutoFireMode(weaponMagazine, emitterMode, audioService, audioCue, fireRate, costPerShot, spread, impulseSource, recoilProfile);
         }
     }
 }

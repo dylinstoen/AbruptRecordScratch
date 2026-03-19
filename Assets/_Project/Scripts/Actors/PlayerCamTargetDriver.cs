@@ -21,12 +21,8 @@ namespace _Project.Scripts.Actors {
             _initialized = true;   
         }
 
-        public void SetFollowTarget(Transform target) { }
-
         public void SetLookInput(Vector2 lookDelta) => AddToBaseYawPitch(lookDelta * lookSensitivity);
-
-        public void SetRecoilOffset(Vector2 recoilYawPitch) => _recoilOffset = recoilYawPitch;
-
+        
         public void AddToBaseYawPitch(Vector2 deltaYawPitch)
         {
             _baseYawPitch += deltaYawPitch;
@@ -35,7 +31,7 @@ namespace _Project.Scripts.Actors {
 
         private void LateUpdate()
         {
-            if (yawRoot == null || pitchPivot == null)
+            if (!yawRoot || !pitchPivot || !_initialized)
                 return;
             Vector2 final = _baseYawPitch + _recoilOffset;
             yawRoot.rotation = Quaternion.Euler(0f, final.x, 0f);

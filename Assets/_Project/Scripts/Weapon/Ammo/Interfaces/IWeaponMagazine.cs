@@ -6,6 +6,7 @@ namespace _Project.Scripts.Weapon {
         int MagSize { get; }
         int CurrentAmmo { get; }
         int MissingAmmo { get; }
+        bool InfiniteAmmo { get; }
         bool TryConsumeAmmo(int amount);
         int LoadUpTo(int amount);
     }

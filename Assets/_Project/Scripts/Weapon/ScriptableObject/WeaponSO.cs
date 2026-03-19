@@ -27,7 +27,7 @@ namespace _Project.Scripts.Weapon {
         public EmitterModeSO emitterMode;
         public AudioCue gunShotSfx;
         public AudioCue reloadSfx;
-        public SourceImpactProfileSO sourceImpactProfile;
+        public SourceVisualImpactProfileSO sourceVisualImpactProfile;
         [Header("Layer Masks")]
         public LayerMask hitLayerMask;
     }

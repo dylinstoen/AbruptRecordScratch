@@ -1,4 +1,7 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using _Project.Scripts.Audio.ScriptableObjects;
+using _Project.Scripts.Core;
 using UnityEngine;
 
 namespace _Project.Scripts.Items {
@@ -12,10 +15,9 @@ namespace _Project.Scripts.Items {
         }
 
         private void OnTriggerEnter(Collider other) {
-            Debug.Log(other.gameObject.name);
             if (((1 << other.gameObject.layer) & allowedLayers) == 0) return;
             var target =  other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject;
-            if (!item || !item.TryApply(target)) return;
+            if (!item || !item.TryApply(target, SceneServiceLocator.Current.Audio)) return;
             if(destroyOnApply)
                 Destroy(gameObject);
         }

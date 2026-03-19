@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07a5a215373c4ecda49396fd1fafc39c, type: 3}
   m_Name: WeaponLoadout
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Structs.WeaponLoadout
-  entries:
-  - {fileID: 11400000, guid: 312fe23fd0eb03e4c9856d29768aa799, type: 2}
+  defaultWeapon: {fileID: 11400000, guid: 9cd658dc3d1547f44a5cf6a2d2caf50c, type: 2}
+  entries: []

@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Input;
+using _Project.Scripts.Weapon;
 using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -9,8 +10,8 @@ namespace _Project.Scripts.Actors {
         private readonly WeaponInventory _weaponInventory;
         private readonly IIntentSource _intent;
         private readonly IAimRaySource _aimRaySource;
-        private bool _fireWasHeld = false;
-        
+        private bool _primaryFireWasHeld = false;
+        private bool _secondaryFireWasHeld = false;
         public WeaponRunner(IIntentSource intent, IAimRaySource aimRaySource, WeaponInventory weaponInventory) {
             _intent = intent;
             _weaponInventory = weaponInventory;
@@ -19,17 +20,25 @@ namespace _Project.Scripts.Actors {
 
         public void Tick(float deltaTime) {
             HandleWeaponSwitch();
-            var weapon = _weaponInventory.CurrentWeapon.Logic;
-            weapon?.Tick(CreateContext(deltaTime));
-            var fireHeld = _intent.Current.FireHeld;
-            if (fireHeld && !_fireWasHeld) weapon?.StartFire(CreateContext(deltaTime));
-            if (!fireHeld && _fireWasHeld) weapon?.StopFire(CreateContext(deltaTime));
-            _fireWasHeld = fireHeld;
+            var primaryWeapon = _weaponInventory.Weapons.Count == 0 ? _weaponInventory.DefaultWeapon.Logic : _weaponInventory.CurrentWeapon.Logic;
+            var secondaryWeapon = _weaponInventory.DefaultWeapon.Logic;
+            primaryWeapon?.Tick(CreateContext(deltaTime));
+            secondaryWeapon?.Tick(CreateContext(deltaTime));
+            var primaryFireHeld = _intent.Current.PrimaryFireHeld;
+            var secondaryFireHeld = _intent.Current.SecondaryFireHeld;
+            if (primaryFireHeld && !_primaryFireWasHeld) primaryWeapon?.StartFire(CreateContext(deltaTime));
+            if (!primaryFireHeld && _primaryFireWasHeld) primaryWeapon?.StopFire(CreateContext(deltaTime));
+            if(secondaryFireHeld && !_secondaryFireWasHeld) secondaryWeapon?.StartFire(CreateContext(deltaTime));
+            if(!secondaryFireHeld && _secondaryFireWasHeld) secondaryWeapon?.StopFire(CreateContext(deltaTime));
+            _primaryFireWasHeld = primaryFireHeld;
+            _secondaryFireWasHeld = secondaryFireHeld;
         }
 
         public void LateTick(float deltaTime) {
             var weapon = _weaponInventory.CurrentWeapon.Logic;
+            var secondaryWeapon = _weaponInventory.DefaultWeapon.Logic;
             weapon?.LateTick(CreateContext(deltaTime));
+            secondaryWeapon?.LateTick(CreateContext(deltaTime));
         }
 
         private void HandleWeaponSwitch() {

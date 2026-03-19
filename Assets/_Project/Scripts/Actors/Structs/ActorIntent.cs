@@ -8,8 +8,10 @@
     public struct ActorIntent {
         public Vector2 Move;
         public Vector2 Look;
-        public bool FireHeld;
-        public bool FirePressed;
+        public bool PrimaryFireHeld;
+        public bool PrimaryFirePressed;
+        public bool SecondaryFireHeld;
+        public bool SecondaryFirePressed;
         public float SwitchDelta;
         public bool Interact;
         public bool HasMoveInput => Move != Vector2.zero;

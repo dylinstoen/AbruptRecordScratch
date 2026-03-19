@@ -32,7 +32,7 @@ MonoBehaviour:
   emitterMode: {fileID: 11400000, guid: bc0f2b32e33bfae4d806b8fabd20dfe5, type: 2}
   gunShotSfx: {fileID: 11400000, guid: 3a585be59364be744869fcd347ab8d7d, type: 2}
   reloadSfx: {fileID: 11400000, guid: 2d92012c474914543be913c1e0d381ad, type: 2}
-  sourceImpactProfile: {fileID: 11400000, guid: ba5975a08e0ac1747b4854568dc81f77, type: 2}
+  sourceVisualImpactProfile: {fileID: 11400000, guid: ba5975a08e0ac1747b4854568dc81f77, type: 2}
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 55

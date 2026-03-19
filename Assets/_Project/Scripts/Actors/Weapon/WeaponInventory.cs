@@ -11,17 +11,28 @@ namespace _Project.Scripts.Actors {
     // Rep Inv: Switch weapons assigning the current selected weapon
     public sealed class WeaponInventory : MonoBehaviour, IDisposable {
         private readonly List<WeaponFacets> _weapons = new();
+
+        private WeaponFacets _defaultWeapon;
+        public WeaponFacets DefaultWeapon => _defaultWeapon;
+
+        public List<WeaponFacets> Weapons => _weapons;
         private readonly Dictionary<string, WeaponFacets> _weaponDictionary = new();
         public event Action<WeaponFacets> OnWeaponChanged;
         public WeaponFacets CurrentWeapon { get; private set; }
         private int _currentIndex = -1;
         
         public void NextWeapon() {
+            if (_weapons.Count == 0) {
+                return;
+            }
             int nextIndex = (_currentIndex + 1) % _weapons.Count;
             SwitchWeapon(nextIndex);
         }
 
         public void PreviousWeapon() {
+            if (_weapons.Count == 0) {
+                return;
+            }
             int prevIndex = (_currentIndex - 1 + _weapons.Count) % _weapons.Count;
             SwitchWeapon(prevIndex);
         }
@@ -49,6 +60,16 @@ namespace _Project.Scripts.Actors {
             weapon.Equipable?.FirstEquipped();
             SwitchWeapon(_weapons.Count - 1);
             _weaponDictionary.Add(weapon.Identity.ID, weapon);
+            return true;
+        }
+
+        public bool TryEquipDefault(WeaponFacets weapon) {
+            _defaultWeapon = weapon;
+            weapon.Equipable?.FirstEquipped();
+            weapon.Equipable?.Equip();
+            if (_weapons.Count == 0) {
+                OnWeaponChanged?.Invoke(_defaultWeapon);
+            }
             return true;
         }
 

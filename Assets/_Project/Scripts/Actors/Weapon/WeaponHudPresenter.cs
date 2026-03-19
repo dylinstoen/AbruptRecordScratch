@@ -11,7 +11,7 @@ namespace _Project.Scripts.Actors {
     public class WeaponHudPresenter : MonoBehaviour, IAmmoEvents, IDisposable {
         private WeaponInventory _weaponInventory;
         private IWeaponAmmoView _ammoView;
-        public event Action<int, int> OnAmmoChanged;
+        public event Action<int, int, bool> OnAmmoChanged;
 
         private void Awake() {
             _weaponInventory = GetComponent<WeaponInventory>();
@@ -30,10 +30,10 @@ namespace _Project.Scripts.Actors {
 
         public void Refresh() {
             if (_ammoView == null) {
-                OnAmmoChanged?.Invoke(0,0);
+                OnAmmoChanged?.Invoke(0,0, false);
                 return;
             }
-            OnAmmoChanged?.Invoke(_ammoView.Mag, _ammoView.Reserve);
+            OnAmmoChanged?.Invoke(_ammoView.Mag, _ammoView.Reserve, _ammoView.infiniteAmmo);
         }
 
         private void OnDestroy() {

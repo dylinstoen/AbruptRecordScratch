@@ -19,3 +19,6 @@ MonoBehaviour:
   - ammoType: 1
     startingInventory: 100
     maxInventory: 100
+  - ammoType: 3
+    startingInventory: 0
+    maxInventory: 0

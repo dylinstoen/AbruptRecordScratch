@@ -1,5 +1,6 @@
 ﻿using System;
 using _Project.Scripts.Gameplay.Enums;
+using _Project.Scripts.Utilities;
 using UnityEngine;
 
 namespace _Project.Scripts.Gameplay {

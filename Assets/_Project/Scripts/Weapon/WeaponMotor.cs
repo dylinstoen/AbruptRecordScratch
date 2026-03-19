@@ -1,14 +1,19 @@
+using System;
 using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
     public sealed class WeaponMotor : MonoBehaviour {
         private IWeaponStateController _weaponStateController;
+        // [SerializeField] private float distance = 1f;
+        // [SerializeField] private float radius = 0.5f;
         public void Initialize(IWeaponStateController weaponStateController) {
             _weaponStateController = weaponStateController;
         }
 
+        private WeaponUseContext _ctx;
         public void Tick(in WeaponUseContext ctx) {
+            _ctx = ctx;
             _weaponStateController.Tick(ctx);
         }
 
@@ -22,7 +27,12 @@ namespace _Project.Scripts.Weapon {
         public void Dispose() => _weaponStateController.Dispose();
 
         public void SetActive(bool active) => gameObject.SetActive(active);
-        
+
+        // private void OnDrawGizmos() {
+        //     Gizmos.color = Color.red;
+        //     Vector3 origin = _ctx.AimRay.origin + (_ctx.AimRay.direction * distance);
+        //     Gizmos.DrawSphere(origin, radius);
+        // }
     }
 }
 

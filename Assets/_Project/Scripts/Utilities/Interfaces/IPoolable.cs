@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace _Project.Scripts.Gameplay {
+namespace _Project.Scripts.Utilities {
     public interface IPoolable {
         bool InUse { get; }
         void Bind(Action<Component> returnToPool);

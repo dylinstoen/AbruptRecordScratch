@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
     public sealed class WeaponMagazine : IWeaponMagazine {
@@ -8,11 +9,17 @@ namespace _Project.Scripts.Weapon {
         public int MissingAmmo => _magSize - _currentAmmo;
         private readonly int _magSize;
         private int _currentAmmo;
-        public WeaponMagazine(int magSize) => _magSize = magSize;
+        private int _costPerShot = 0;
+        public bool InfiniteAmmo => _costPerShot == 0;
+
+        public WeaponMagazine(int magSize, int costPerShot) {
+            _magSize = magSize;
+            _costPerShot = costPerShot;
+        }
         public bool TryConsumeAmmo(int costPerShot) {
+            _costPerShot = costPerShot;
             if(costPerShot > _currentAmmo) return false;
             _currentAmmo -= costPerShot;
-            // TODO: Update UI
             OnMagazineChange?.Invoke();
             return true;
         }

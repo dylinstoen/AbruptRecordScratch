@@ -11,19 +11,19 @@ namespace _Project.Scripts.Weapon {
         private IImpactService _impactService;
         private int _damage;
         private GameObject _owner;
-        private SourceImpactProfileSO _sourceImpactProfile;
-        public RaycastEmitterMode(float maxDistance, int damage, GameObject owner, IImpactService impactService, SourceImpactProfileSO sourceImpactProfile) {
+        private SourceVisualImpactProfileSO _sourceVisualImpactProfile;
+        public RaycastEmitterMode(float maxDistance, int damage, GameObject owner, IImpactService impactService, SourceVisualImpactProfileSO sourceVisualImpactProfile) {
             _maxDistance = maxDistance;
             _impactService = impactService;
             _damage = damage;
             _owner = owner;
-            _sourceImpactProfile = sourceImpactProfile;
+            _sourceVisualImpactProfile = sourceVisualImpactProfile;
         }
         public void Fire(Ray ray) {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, _maxDistance)) {
-                // TODO: Communicate hit with other systems
                 HitContext hitctx = new HitContext(hit.point, hit.normal, hit.collider, _owner, _damage);
-                _impactService.ProcessHit(hitctx, _sourceImpactProfile);
+                _impactService.ProcessHitVisual(hitctx, _sourceVisualImpactProfile);
+                _impactService.ProcessHitLogic(hitctx);
             }
         }
     }

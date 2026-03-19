@@ -81,5 +81,7 @@ namespace _Project.Scripts.Weapon {
             if(_state == State.Reloading) return;
             RequestReload();
         }
+        
+        
     }
 }

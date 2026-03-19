@@ -6,6 +6,7 @@ namespace _Project.Scripts.Weapon {
         AmmoType AmmoType { get; }
         int Mag { get; }
         int Reserve { get; }
+        bool infiniteAmmo { get; }
         event Action AmmoChanged;
     }
 }

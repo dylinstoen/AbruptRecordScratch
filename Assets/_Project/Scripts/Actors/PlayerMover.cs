@@ -8,12 +8,15 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace _Project.Scripts.Actors {
     public class PlayerMover : MonoBehaviour, ICharacterController {
+        // TODO: Put ground status here
         [SerializeField] private float walkSpeed = 15f;
         [SerializeField] private float gravity = -90f;
         [SerializeField] private float movementResponsiveness = 25f;
+        [SerializeField] private PlayerMoverPresenter playerMoverPresenter;
         private IAimRaySource _aimRaySource;
         private IIntentSource _intent;
         [SerializeField] private KinematicCharacterMotor motor;
+        [SerializeField] private float moveThreshold = 0.1f;
 
         public void Initialize(IIntentSource intent, IAimRaySource  aimRaySource) {
             _aimRaySource = aimRaySource;
@@ -23,7 +26,7 @@ namespace _Project.Scripts.Actors {
         private void Awake() {
             motor.CharacterController = this;
         }
-
+        
         public void UpdateRotation(ref Quaternion currentRotation, float deltaTime) {
             var requestedRotation = _aimRaySource.GetAimRay().direction;
             var forward = Vector3.ProjectOnPlane(requestedRotation, motor.CharacterUp);
@@ -46,14 +49,18 @@ namespace _Project.Scripts.Actors {
             else {
                 currentVelocity += motor.CharacterUp * (gravity * deltaTime);
             }
-
         }
 
         public void BeforeCharacterUpdate(float deltaTime) { }
 
         public void PostGroundingUpdate(float deltaTime) { }
 
-        public void AfterCharacterUpdate(float deltaTime) { }
+        public void AfterCharacterUpdate(float deltaTime) {
+            bool moving = motor.BaseVelocity.magnitude > moveThreshold &&
+                          _intent.Current.Move.magnitude > moveThreshold && 
+                          motor.GroundingStatus.IsStableOnGround;
+            playerMoverPresenter.Tick(moving, deltaTime, motor.GroundingStatus.GroundCollider);
+        }
 
         public bool IsColliderValidForCollisions(Collider coll) { return true; }
 
@@ -66,5 +73,7 @@ namespace _Project.Scripts.Actors {
             Quaternion atCharacterRotation, ref HitStabilityReport hitStabilityReport) { }
 
         public void OnDiscreteCollisionDetected(Collider hitCollider) { }
+
+        public LayerMask GetGroundLayer() => motor.StableGroundLayers;
     }
 }

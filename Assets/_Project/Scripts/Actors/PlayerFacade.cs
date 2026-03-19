@@ -18,7 +18,7 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private WeaponOwner weaponOwner;
         [SerializeField] private PlayerInteraction playerInteraction;
         [SerializeField] private PlayerCamTargetDriver playerCamTargetDriver;
-        [SerializeField] private PlayerWalker playerWalker;
+        [SerializeField] private PlayerMoverPresenter playerMoverPresenter;
         
         public void BindServices(PlayerDeps deps) {
             playerCamTargetDriver.Initialize(deps.CameraBrain);
@@ -28,7 +28,7 @@ namespace _Project.Scripts.Actors {
             ammoInventory.Initialize(deps.PlayerConfigSo.ammoProfileSo);
             weaponOwner.Initialize(deps.IntentSource, deps.ImpactService, deps.WeaponViewMount, deps.PlayerConfigSo.weaponLoadoutSo, playerCamTargetDriver, deps.ReticleMount, deps.AudioService);
             playerInteraction.Initialize(deps.InteractionPresenter, deps.IntentSource, playerCamTargetDriver);
-            playerWalker.Initialize(deps.ImpactService);
+            playerMoverPresenter.Initialize(deps.ImpactService);
         }
     }
 }

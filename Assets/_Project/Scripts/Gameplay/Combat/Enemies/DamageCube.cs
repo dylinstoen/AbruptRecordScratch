@@ -21,7 +21,8 @@ namespace _Project.Scripts.Combat {
             Vector3 hitPoint = other.ClosestPoint(transform.position);
             Vector3 hitNormal = (other.transform.position - transform.position).normalized;
             var ctx = new HitContext(hitPoint, hitNormal, other, gameObject, amount, damageable);
-            _impactService.ProcessHit(in ctx, null);
+            _impactService.ProcessHitVisual(in ctx, null);
+            _impactService.ProcessHitLogic(in ctx);
         }
     }
 }

@@ -16,8 +16,14 @@ namespace _Project.Scripts.UI {
             ammoEvents.Refresh();
         }
         
-        public void SetAmmo(int mag, int reserve) {
-            currentAmmoText.text = mag.ToString() + " / " + reserve.ToString();
+        public void SetAmmo(int mag, int reserve, bool isInfinite) {
+            if (isInfinite) {
+                currentAmmoText.text = "∞";
+            }
+            else {
+                currentAmmoText.text = mag.ToString() + " / " + reserve.ToString();
+            }
+            
         }
 
         private void OnDestroy() {

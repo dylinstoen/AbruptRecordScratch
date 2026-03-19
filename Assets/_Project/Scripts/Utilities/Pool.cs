@@ -2,7 +2,7 @@
 using _Project.Scripts.Gameplay.Enums;
 using UnityEngine;
 
-namespace _Project.Scripts.Gameplay {
+namespace _Project.Scripts.Utilities {
     public class Pool<TInstance> : MonoBehaviour where TInstance : Component, IPoolable {
         [SerializeField] private TInstance prefab;
         [SerializeField] private int poolSize = 16;

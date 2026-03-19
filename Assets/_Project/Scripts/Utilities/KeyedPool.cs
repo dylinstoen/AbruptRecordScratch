@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using _Project.Scripts.Gameplay.Enums;
 using UnityEngine;
 
-namespace _Project.Scripts.Gameplay {
+namespace _Project.Scripts.Utilities {
     public class KeyedPool<TKey, TInstance> : MonoBehaviour where TInstance : Component, IPoolKeyed<TKey> {
         [Serializable]
         public class Config {

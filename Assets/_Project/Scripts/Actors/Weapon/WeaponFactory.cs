@@ -14,10 +14,10 @@ namespace _Project.Scripts.Actors {
         // Spawn the weapon logic under the logic mount
         public WeaponFacets Create(WeaponSO so, WeaponDeps deps) {
             if (!so) throw new ArgumentNullException(nameof(so));
-            var scene = Utilities.SpawnScene(so, deps);
+            var scene = WeaponUtilities.SpawnScene(so, deps);
             var recoil = scene.Motor.GetComponent<CinemachineImpulseSource>();
             if(recoil) deps.ImpulseSource = recoil;
-            var logic = Utilities.BuildLogic(so, deps);
+            var logic = WeaponUtilities.BuildLogic(so, deps);
             scene.Motor.Initialize(logic.Controller);
             scene.View.Initialize(logic.ReloadBridge, logic.FireMode, so.fireRate);
             var instance = new WeaponInstance(

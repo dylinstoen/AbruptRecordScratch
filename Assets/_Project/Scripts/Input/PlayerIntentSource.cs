@@ -8,7 +8,8 @@ namespace _Project.Scripts.Input {
         [SerializeField] private PlayerInput playerInput;
         private InputAction _lookAction;
         private InputAction _moveAction;
-        private InputAction _fireAction;
+        private InputAction _primaryFireAction;
+        private InputAction _secondaryFireAction;
         private InputAction _interactAction;
         private InputAction _switchDelta;
         private InputAction _pauseAction;
@@ -22,32 +23,38 @@ namespace _Project.Scripts.Input {
             var actions = playerInput.actions;
             _lookAction = actions.FindAction("Look");
             _moveAction = actions.FindAction("Move");
-            _fireAction = actions.FindAction("Fire");
+            _primaryFireAction = actions.FindAction("PrimaryFire");
+            _secondaryFireAction = actions.FindAction("SecondaryFire");
             _switchDelta = actions.FindAction("Switch Delta");
             _pauseAction = actions.FindAction("Pause");
             _interactAction = actions.FindAction("Interact");
         }
         private void Update() {
             if (playerInput.currentActionMap is not { name: "Gameplay" }) return;
-            bool fireHeld = false;
-            bool firePressed = false;
-
+            bool primaryFireHeld = false;
+            bool primaryFirePressed = false;
+            bool secondaryFireHeld = false;
+            bool secondaryFirePressed = false;
             
             if (applicationFocused) {
-                if (_fireAction.WasReleasedThisFrame()) {
+                if (_primaryFireAction.WasReleasedThisFrame()) {
                     applicationFocused = false;
                 }
             }
             else {
-                fireHeld = _fireAction.IsPressed();
-                firePressed = _fireAction.WasPressedThisFrame();
+                primaryFireHeld = _primaryFireAction.IsPressed();
+                primaryFirePressed = _primaryFireAction.WasPressedThisFrame();
+                secondaryFireHeld = _secondaryFireAction.IsPressed();
+                secondaryFirePressed = _secondaryFireAction.WasPressedThisFrame();
             }
             
             ActorIntent intent = new ActorIntent {
                 Move = _moveAction.ReadValue<Vector2>(),
                 Look = _lookAction.ReadValue<Vector2>(),
-                FireHeld = fireHeld,
-                FirePressed = firePressed,
+                PrimaryFireHeld = primaryFireHeld,
+                PrimaryFirePressed = primaryFirePressed,
+                SecondaryFireHeld = secondaryFireHeld,
+                SecondaryFirePressed = secondaryFirePressed,
                 SwitchDelta = _switchDelta.ReadValue<float>(),
                 Interact = _interactAction.WasReleasedThisFrame()
             };

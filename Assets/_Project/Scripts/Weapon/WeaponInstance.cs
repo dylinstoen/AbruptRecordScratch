@@ -12,6 +12,7 @@ namespace _Project.Scripts.Weapon {
         public AmmoType AmmoType { get; }
         public int Mag => _weaponMagazine.CurrentAmmo;
         public int Reserve => _ammoInventory.GetCurrent(AmmoType);
+        public bool infiniteAmmo => _weaponMagazine.InfiniteAmmo;
         public event Action AmmoChanged;
         
         private readonly WeaponMotor  _motor;

@@ -1,66 +1,125 @@
 ﻿using System;
+using _Project.Scripts.Audio.ScriptableObjects;
+using _Project.Scripts.Core;
 using _Project.Scripts.Gameplay.Structs;
 using UnityEngine;
 
 namespace _Project.Scripts.Gameplay {
     public class DoorInteractable : MonoBehaviour, IInteractable {
-        [SerializeField] private Animator animator;
-        [Header("Door")]
-        [SerializeField] private Transform doorAnchor;
-        [SerializeField] private Vector3 openAngle = new Vector3(0,90f,0);
-        [SerializeField] private float doorOpenDelay = 0.10f;
-        [SerializeField] private float speed = 10f;
-        [Header("Knob")] 
-        [SerializeField] private Transform knobAnchor;
-        [SerializeField] private string unlockAnimationTrigger = "Unlock";
-        [Header("Interaction Cue")]
-        [SerializeField] private string promptText;
-        [SerializeField] private Transform promptAnchor;
-        [SerializeField] private OutlineHighlightable highlightObj;
+    private const float CloseThreshold = 5f;
 
-        public bool CanInteract() => true;
+    [Header("References")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Transform doorAnchor;
+    [SerializeField] private Transform knobAnchor;
 
-        private float _closeThreshold = 5f;
+    [Header("Audio")]
+    [SerializeField] private AudioCue doorOpenStartedSound;
+    [SerializeField] private AudioCue doorClosedSound;
+    [SerializeField] private AudioCue doorMovingOpenSound;
+    [SerializeField] private AudioCue doorMovingCloseSound;
 
+    [Header("Door")]
+    [SerializeField] private Vector3 openAngle = new Vector3(0f, 90f, 0f);
+    [SerializeField] private float doorOpenDelay = 0.10f;
+    [SerializeField] private float speed = 10f;
 
-        private bool _isOpening;
-        private bool _wasOpeningLastFrame;
-        private Quaternion _openRotation;
-        private Quaternion _closeRotation;
-        private float _currentTime = 0f;
+    [Header("Knob")]
+    [SerializeField] private string unlockAnimationTrigger = "Unlock";
 
-        private void Start() {
-            _closeRotation = doorAnchor.rotation;
-            _openRotation = Quaternion.Euler(openAngle);
-            _wasOpeningLastFrame = false;
+    [Header("Interaction Cue")]
+    [SerializeField] private string promptText;
+    [SerializeField] private Transform promptAnchor;
+    [SerializeField] private OutlineHighlightable highlightObj;
+
+    private Quaternion _closedRotation;
+    private Quaternion _openRotation;
+
+    private bool _isOpening;
+    private bool _isFullyClosed = true;
+    private float _openDelayRemaining;
+
+    public bool CanInteract() => true;
+
+    private void Start() {
+        _closedRotation = doorAnchor.rotation;
+        _openRotation = _closedRotation * Quaternion.Euler(openAngle);
+    }
+
+    private void Update() {
+        TickDelay();
+        if (_openDelayRemaining > 0f)
+            return;
+
+        RotateDoor();
+        HandleFullyClosedReached();
+    }
+
+    public InteractionCue GetCue() {
+        return new InteractionCue(promptText, promptAnchor, highlightObj);
+    }
+
+    public void Interact() {
+        _isOpening = !_isOpening;
+
+        if (_isOpening)
+            BeginOpening();
+        else
+            BeginClosing();
+    }
+
+    private void BeginOpening() {
+        if (IsClosed()) {
+            PlayAudio(doorOpenStartedSound);
+            animator.SetTrigger(unlockAnimationTrigger);
+            _openDelayRemaining = doorOpenDelay;
         }
 
-        private void Update() {
-            if (_currentTime > 0) {
-                _currentTime -= Time.deltaTime;
-                return;
-            }
-            if (IsClosed() && _isOpening && !_wasOpeningLastFrame) {
-                animator.SetTrigger(unlockAnimationTrigger);
-                _currentTime = doorOpenDelay;
-            }
-            else {
-                Quaternion target = _isOpening ? _openRotation : _closeRotation;
-                doorAnchor.rotation = Quaternion.Slerp(doorAnchor.rotation, target, Time.deltaTime * speed); 
-            }
-            _wasOpeningLastFrame = _isOpening;
-        }
+        PlayAudio(doorMovingOpenSound);
+        _isFullyClosed = false;
+    }
 
-        private bool IsClosed() {
-            return Quaternion.Angle(doorAnchor.rotation, _closeRotation) <= _closeThreshold;
-        }
+    private void BeginClosing() {
+        PlayAudio(doorMovingCloseSound);
+    }
 
-        public InteractionCue GetCue() {
-            return new InteractionCue(promptText, promptAnchor, highlightObj);    
-        }
+    private void TickDelay() {
+        if (_openDelayRemaining <= 0f)
+            return;
 
-        public void Interact() {
-            _isOpening = !_isOpening;
+        _openDelayRemaining -= Time.deltaTime;
+        if (_openDelayRemaining < 0f)
+            _openDelayRemaining = 0f;
+    }
+
+    private void RotateDoor() {
+        Quaternion targetRotation = _isOpening ? _openRotation : _closedRotation;
+        doorAnchor.rotation = Quaternion.Slerp(
+            doorAnchor.rotation,
+            targetRotation,
+            Time.deltaTime * speed
+        );
+    }
+
+    private void HandleFullyClosedReached() {
+        if (_isOpening)
+            return;
+
+        if (!_isFullyClosed && IsClosed()) {
+            PlayAudio(doorClosedSound);
+            _isFullyClosed = true;
         }
+    }
+
+    private bool IsClosed() {
+        return Quaternion.Angle(doorAnchor.rotation, _closedRotation) <= CloseThreshold;
+    }
+
+    private void PlayAudio(AudioCue cue) {
+        if (!cue)
+            return;
+
+        SceneServiceLocator.Current.Audio.Play3D(transform.position, transform.rotation, cue);
+    }
     }
 }

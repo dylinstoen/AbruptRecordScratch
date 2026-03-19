@@ -60,12 +60,18 @@ namespace _Project.Scripts.Actors {
                 AudioService = audioService
             };
             IWeaponFactory weaponFactory = new WeaponFactory();
-            foreach (var weapon in weaponLoadoutSo.Entries) {
-                var currentWeapon = weaponFactory.Create(weapon, weaponDeps);
-                if (!_weaponInventory.TryEquip(currentWeapon)) {
-                    Debug.LogWarning("Duplicate weapon ID " + currentWeapon.Identity.ID + " in weapon loadout SO. Disposing it...");
-                    currentWeapon.Disposable.Dispose();
-                }
+            if (weaponLoadoutSo.Entries.Count > 0) {
+                foreach (var weapon in weaponLoadoutSo.Entries) {
+                    var currentWeapon = weaponFactory.Create(weapon, weaponDeps);
+                    if (!_weaponInventory.TryEquip(currentWeapon)) {
+                        Debug.LogWarning("Duplicate weapon ID " + currentWeapon.Identity.ID + " in weapon loadout SO. Disposing it...");
+                        currentWeapon.Disposable.Dispose();
+                    }
+                } 
+            }
+            var secondaryWeapon = weaponFactory.Create(weaponLoadoutSo.DefaultWeapon, weaponDeps);
+            if (!_weaponInventory.TryEquipDefault(secondaryWeapon)) {
+                secondaryWeapon.Disposable.Dispose();
             }
             _weaponFactory = weaponFactory;
             _weaponDeps = weaponDeps;

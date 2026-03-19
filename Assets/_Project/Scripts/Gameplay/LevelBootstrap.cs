@@ -6,6 +6,7 @@ using _Project.Scripts.Combat;
 using _Project.Scripts.UI;
 using _Project.Scripts.UI.DeathScreen;
 using _Project.Scripts.UI.Reticle;
+using KBCore.Refs;
 using Unity.Cinemachine;
 using UnityEngine;
 
