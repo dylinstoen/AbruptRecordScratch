@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Actors;
+using _Project.Scripts.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,9 +7,13 @@ namespace _Project.Scripts.Combat.BaseEnemy {
     public class EnemyAttackState : EnemyBaseState {
         private NavMeshAgent _agent;
         private Transform _player;
-        public EnemyAttackState(Enemy enemy, Animator animator, NavMeshAgent agent, Transform player) : base(enemy, animator) {
+        public EnemyAttackState(Enemy enemy, Animator animator, NavMeshAgent agent) : base(enemy, animator) {
             _agent = agent;
-            _player = player;
+        }
+
+        public override void OnEnter() {
+            base.OnEnter();
+            _player = SceneServiceLocator.Current.Player.PlayerFacade.Root;
         }
 
         public override void Update() {

@@ -13,7 +13,6 @@ namespace _Project.Scripts.Utilities.StateMachine {
             if (transition != null) {
                 ChangeState(transition.To);
             }
-
             _current.State?.Update();
         }
 

@@ -28,11 +28,12 @@ namespace _Project.Scripts.Combat.BaseEnemy {
             _stateMachine = new StateMachine();
             
             EnemyWanderState wanderState = new EnemyWanderState(this, animator, wanderRadius, agent);
-            EnemyAttackState attackState = new EnemyAttackState(this, animator, agent, playerDetector.Player);
+            EnemyAttackState attackState = new EnemyAttackState(this, animator, agent);
             EnemyRepositionState repositionState = new EnemyRepositionState(this, animator);
-            At(wanderState, attackState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
-            At(attackState, repositionState, new FuncPredicate(() => !playerDetector.CanAttackPlayer() || attackState.FinishedAttacking()));
-            At(repositionState, attackState, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
+            //At(wanderState, attackState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
+            //At(attackState, repositionState, new FuncPredicate(() => !playerDetector.CanAttackPlayer() || attackState.FinishedAttacking()));
+            //At(repositionState, attackState, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
+            
             Any(wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
             _stateMachine.SetState(wanderState);
         }
@@ -48,7 +49,6 @@ namespace _Project.Scripts.Combat.BaseEnemy {
         }
 
         public void Attack() {
-            Debug.Log("Attack");
             // TODO: Look at player
             // TODO: Fire weapon x times
             

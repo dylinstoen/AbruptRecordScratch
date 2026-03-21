@@ -19,11 +19,13 @@ namespace _Project.Scripts.Combat.BaseEnemy {
             
             var directionToPlayer = player.position - detector.position;
             var angleToPlayer = Vector3.Angle(directionToPlayer, detector.forward);
-            if ((!(angleToPlayer < _detectionAngle / 2f) || !(directionToPlayer.magnitude < _detectionRadius))
-                && !(directionToPlayer.magnitude < _innerDetectionRadius)) 
+            if ((!(angleToPlayer < _detectionAngle / 2f) || !(directionToPlayer.magnitude < _detectionRadius)) &&
+                !(directionToPlayer.magnitude < _innerDetectionRadius)) {
                 return false;
+            }
             timer.Start();
             return true;
         }
+        
     }
 }

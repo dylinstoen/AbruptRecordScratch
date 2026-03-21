@@ -134,9 +134,6 @@ GameObject:
   - component: {fileID: 1067116305162144799}
   - component: {fileID: 918047783265941343}
   - component: {fileID: 2407438494193384238}
-  - component: {fileID: 2763601784382739425}
-  - component: {fileID: 3871258606707756269}
-  - component: {fileID: 5952177840360650844}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -175,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.Enemy
   agent: {fileID: 918047783265941343}
   animator: {fileID: 408715508666368642}
-  playerDetector: {fileID: 0}
+  playerDetector: {fileID: 1067116305162144799}
   wanderRadius: 5
   timeBetweenAttacks: 1
 --- !u!114 &1067116305162144799
@@ -238,43 +235,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.12, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2763601784382739425
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521673804985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3d6a67fcd19024fa93fd86ad60ec66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponInventory
---- !u!114 &3871258606707756269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521673804985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59cc0fde6a44c33adbc09e248031bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.AmmoInventory
---- !u!114 &5952177840360650844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521673804985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponOwner
-  weaponLogicMount: {fileID: 2491275879798161342}
 --- !u!1 &5214870290080688893
 GameObject:
   m_ObjectHideFlags: 0

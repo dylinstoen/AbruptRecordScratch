@@ -12,7 +12,7 @@ namespace _Project.Scripts.Utilities {
 
         protected Timer(float value) {
             InitalTime = value;
-            IsRunning = true;
+            IsRunning = false;
         }
 
         public void Start() {

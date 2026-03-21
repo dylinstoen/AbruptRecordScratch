@@ -646,7 +646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8077276466396268134, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.96
+      value: 10.626
       objectReference: {fileID: 0}
     - target: {fileID: 8077276466396268134, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -687,7 +687,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 621485587}
   m_SourcePrefab: {fileID: 100100000, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
 --- !u!4 &111323450 stripped
 Transform:
@@ -1550,6 +1553,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.TargetAudioEffect
   targetAudioProfile: {fileID: 11400000, guid: e127c77e3b6d40a4082fcbc3dc1c058f, type: 2}
+--- !u!1 &621485583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
+  m_PrefabInstance: {fileID: 111323449}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &621485587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621485583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a398121e8caf4af19936ca5cc885353b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.PlayerDetector
+  detectionCooldown: 1
+  detectionAngle: 60
+  detectionRadius: 10
+  innerDetectionRadius: 5
+  attackRange: 2
 --- !u!1 &623417458
 GameObject:
   m_ObjectHideFlags: 0
