@@ -16,7 +16,6 @@ namespace _Project.Scripts.Actors {
         }
 
         private void OnInternalDied() {
-            Debug.Log("Player is dead");
             Died?.Invoke();
             Destroy(gameObject);
         }

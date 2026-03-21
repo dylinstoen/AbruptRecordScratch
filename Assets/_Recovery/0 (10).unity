@@ -557,50 +557,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   destroyOnApply: 1
---- !u!1 &55549730
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 55549731}
-  - component: {fileID: 55549732}
-  m_Layer: 0
-  m_Name: PlayerService
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &55549731
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55549730}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1066591731}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &55549732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55549730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d6b2ab22af04b3e8e1ced7e86cf1a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerService
 --- !u!1 &56954916
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,19 +643,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 621485587}
-    - targetCorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 621485590}
-    - targetCorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 621485589}
-    - targetCorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 621485588}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
 --- !u!4 &111323450 stripped
 Transform:
@@ -769,8 +713,6 @@ MonoBehaviour:
   gameManager: {fileID: 1753076808}
   impactService: {fileID: 669509685}
   audioService: {fileID: 720322319}
-  playerService:
-    _implementer: {fileID: 55549732}
 --- !u!1 &258002301
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,65 +1504,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.TargetAudioEffect
   targetAudioProfile: {fileID: 11400000, guid: e127c77e3b6d40a4082fcbc3dc1c058f, type: 2}
---- !u!1 &621485583 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
-  m_PrefabInstance: {fileID: 111323449}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &621485587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621485583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a398121e8caf4af19936ca5cc885353b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.PlayerDetector
-  detectionCooldown: 1
-  detectionAngle: 60
-  detectionRadius: 10
-  innerDetectionRadius: 5
-  attackRange: 2
---- !u!114 &621485588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621485583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecda625e2a9f4dae8511b1598623c9b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponOwner
-  weaponLogicMount: {fileID: 0}
---- !u!114 &621485589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621485583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59cc0fde6a44c33adbc09e248031bda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.AmmoInventory
---- !u!114 &621485590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 621485583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3d6a67fcd19024fa93fd86ad60ec66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.WeaponInventory
 --- !u!1 &623417458
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,7 +2979,6 @@ Transform:
   m_Children:
   - {fileID: 669509684}
   - {fileID: 720322318}
-  - {fileID: 55549731}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1066591732
@@ -3113,7 +2995,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Core.SceneServices
   impactService: {fileID: 669509685}
   audioService: {fileID: 720322319}
-  playerService: {fileID: 55549732}
 --- !u!1 &1086459277
 GameObject:
   m_ObjectHideFlags: 0

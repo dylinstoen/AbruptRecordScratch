@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Input;
+﻿using System;
+using _Project.Scripts.Input;
 using _Project.Scripts.Actors;
 using _Project.Scripts.Audio;
 using _Project.Scripts.Cam;
@@ -34,11 +35,12 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private GameManager gameManager;
         [SerializeField] private ImpactService impactService;
         [SerializeField] private AudioService audioService;
+        [SerializeField, Anywhere] private InterfaceRef<IPlayerService> playerService;
         
         private void Start() {
             var player = playerSpawner.Spawn(playerSpawnPoint.position, playerSpawnPoint.rotation);
-            cinemachineCamera.Follow = player.HeadAnchor;
-            deadCamFollower.SetTarget(player.HeadAnchor);
+            cinemachineCamera.Follow = player.AimPoint;
+            deadCamFollower.SetTarget(player.AimPoint);
             player.BindServices(new PlayerDeps {
                 CameraBrain =  cameraSource,
                 PlayerConfigSo = playerConfigSo, 
@@ -52,6 +54,9 @@ namespace _Project.Scripts.Gameplay {
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);
             gameManager.Initialize(player.DeathEvents, deathScreen, inputModeService, inputModeService.DeathUIIInputEvent);
+            playerService.Value.Initialize(player);
         }
+
+        private void OnValidate() => this.ValidateRefs();
     }
 }

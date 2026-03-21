@@ -4,9 +4,9 @@ using _Project.Scripts.Utilities.StateMachine.Interfaces;
 
 namespace _Project.Scripts.Utilities.StateMachine {
     public class StateMachine {
-        private StateNode current;
-        private Dictionary<Type, StateNode> nodes = new();
-        HashSet<ITransition> anyTransitions = new();
+        private StateNode _current;
+        private Dictionary<Type, StateNode> _nodes = new();
+        HashSet<ITransition> _anyTransitions = new();
 
         public void Update() {
             var transition = GetTransition();
@@ -14,35 +14,35 @@ namespace _Project.Scripts.Utilities.StateMachine {
                 ChangeState(transition.To);
             }
 
-            current.State?.Update();
+            _current.State?.Update();
         }
 
         public void FixedUpdate() {
-            current.State?.FixedUpdate();
+            _current.State?.FixedUpdate();
         }
         
         public void SetState(IState state) {
-            current = nodes[state.GetType()];
-            current.State?.OnEnter();
+            _current = _nodes[state.GetType()];
+            _current.State?.OnEnter();
         }
         
         private void ChangeState(IState state) {
-            if (state == current.State) return;
-            var previousState = current.State;
-            var nextState = nodes[state.GetType()].State;
+            if (state == _current.State) return;
+            var previousState = _current.State;
+            var nextState = _nodes[state.GetType()].State;
             previousState?.OnExit();
             nextState?.OnEnter();
-            current = nodes[state.GetType()];
+            _current = _nodes[state.GetType()];
         }
         
         private ITransition GetTransition() {
-            foreach (var transition in anyTransitions) {
+            foreach (var transition in _anyTransitions) {
                 if (transition.Condition.Evaluate()) {
                     return transition;
                 }
             }
 
-            foreach (var transition in current.Transitions) {
+            foreach (var transition in _current.Transitions) {
                 if (transition.Condition.Evaluate()) {
                     return transition;
                 }
@@ -55,14 +55,14 @@ namespace _Project.Scripts.Utilities.StateMachine {
         }
 
         public void AddAnyTransition(IState to, IPredicate condition) {
-            anyTransitions.Add(new Transition(GetOrAddNode(to).State, condition));
+            _anyTransitions.Add(new Transition(GetOrAddNode(to).State, condition));
         }
 
         private StateNode GetOrAddNode(IState state) {
-            var node = nodes.GetValueOrDefault(state.GetType());
+            var node = _nodes.GetValueOrDefault(state.GetType());
             if (node == null) {
                 node = new StateNode(state);
-                nodes.Add(state.GetType(), node);
+                _nodes.Add(state.GetType(), node);
             }
             return node;
         }

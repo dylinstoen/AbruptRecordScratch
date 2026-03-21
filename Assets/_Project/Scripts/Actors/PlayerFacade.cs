@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public sealed class PlayerFacade : MonoBehaviour, IPlayerFacade {
-        public Transform HeadAnchor => headAnchor;
+        public Transform AimPoint => headAnchor;
+        public Transform Root => transform;
         public IHealthEvents HealthEvents => health;
         public IDeathEvents DeathEvents => playerDeathHandler;
         public IAmmoEvents AmmoEvents => weaponHudPresenter;
