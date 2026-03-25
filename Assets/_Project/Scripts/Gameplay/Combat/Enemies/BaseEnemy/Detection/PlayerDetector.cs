@@ -11,8 +11,10 @@ namespace _Project.Scripts.Combat.BaseEnemy {
         [SerializeField] private float detectionRadius = 10f;
         [SerializeField] private float innerDetectionRadius = 5f;
         [SerializeField] private float attackRange = 2f;
+        [SerializeField] private LayerMask attackLayerMask;
         private CountdownTimer _detectionTimer;
         private IDetectionStrategy _detectionStrategy;
+        
 
         private void Start() {
             _detectionTimer = new CountdownTimer(detectionCooldown);
@@ -20,15 +22,18 @@ namespace _Project.Scripts.Combat.BaseEnemy {
         }
         
         public bool CanDetectPlayer() {
-            bool isDead = SceneServiceLocator.Current.Player.IsDead;
-            bool isRunning = _detectionTimer.IsRunning;
-            bool detectPlayer = _detectionStrategy.Execute(SceneServiceLocator.Current.Player.PlayerFacade.Root,
-                transform, _detectionTimer);
-            return !isDead && (isRunning || detectPlayer);
+            Transform target = SceneServiceLocator.Current.Player.PlayerFacade.Root;
+            if (!target)
+                return false;
+            bool detectPlayer = _detectionStrategy.Execute(target, transform, _detectionTimer);
+            return _detectionTimer.IsRunning || detectPlayer;
         }
         public bool CanAttackPlayer() {
-            var directionToPlayer = SceneServiceLocator.Current.Player.PlayerFacade.Root.position - transform.position;
-            return directionToPlayer.magnitude <= attackRange;
+            Transform target = SceneServiceLocator.Current.Player.PlayerFacade.Root;
+            if (!target)
+                return false;
+            var directionToPlayer = target.position - transform.position;
+            return Physics.Raycast(transform.position, directionToPlayer, attackRange, attackLayerMask, QueryTriggerInteraction.Ignore);
         }
         public void SetDetectionStrategy(IDetectionStrategy detectionStrategy) => _detectionStrategy = detectionStrategy;
 
@@ -38,7 +43,8 @@ namespace _Project.Scripts.Combat.BaseEnemy {
             Gizmos.DrawWireSphere(transform.position, detectionRadius);
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, innerDetectionRadius);
-            
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + transform.forward * attackRange);
         }
     }
 }

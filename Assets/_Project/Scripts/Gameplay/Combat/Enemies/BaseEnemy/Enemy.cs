@@ -1,4 +1,6 @@
 ﻿using System;
+using _Project.Scripts.Combat.BaseEnemy.Attack;
+using _Project.Scripts.Combat.BaseEnemy.Reposition;
 using _Project.Scripts.Core;
 using _Project.Scripts.Utilities;
 using _Project.Scripts.Utilities.StateMachine;
@@ -12,28 +14,27 @@ namespace _Project.Scripts.Combat.BaseEnemy {
         [SerializeField, Self] NavMeshAgent agent;
         [SerializeField, Child] Animator animator;
         [SerializeField] private PlayerDetector playerDetector;
+        [SerializeField] private EnemyAttackController enemyAttackController;
+        [SerializeField] private EnemyRepositionController  enemyRepositionController;
+        [SerializeField] private Transform startPosition;
         
         [SerializeField] private float wanderRadius = 5f;
-        [SerializeField] private float timeBetweenAttacks = 1f;
+        [SerializeField] private Collider wanderZone;
         
         private StateMachine _stateMachine;
-        private CountdownTimer _attackTimer;
         
 
         private void OnValidate() => this.ValidateRefs();
 
         private void Start() {
-            _attackTimer = new  CountdownTimer(timeBetweenAttacks);
-            
             _stateMachine = new StateMachine();
             
-            EnemyWanderState wanderState = new EnemyWanderState(this, animator, wanderRadius, agent);
-            EnemyAttackState attackState = new EnemyAttackState(this, animator, agent);
-            EnemyRepositionState repositionState = new EnemyRepositionState(this, animator);
-            //At(wanderState, attackState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
-            //At(attackState, repositionState, new FuncPredicate(() => !playerDetector.CanAttackPlayer() || attackState.FinishedAttacking()));
-            //At(repositionState, attackState, new FuncPredicate(() => playerDetector.CanAttackPlayer()));
-            
+            EnemyWanderState wanderState = new EnemyWanderState(this, animator, wanderRadius, agent, wanderZone, startPosition);
+            EnemyAttackState attackState = new EnemyAttackState(this, animator, agent, enemyAttackController);
+            EnemyRepositionState repositionState = new EnemyRepositionState(this, animator, agent, enemyRepositionController);
+            At(wanderState, attackState, new FuncPredicate(() => playerDetector.CanDetectPlayer()));
+            At(attackState, repositionState, new FuncPredicate(() => !playerDetector.CanAttackPlayer() || attackState.IsFinished()));
+            At(repositionState, attackState, new FuncPredicate(() => playerDetector.CanAttackPlayer() && repositionState.IsFinished()));
             Any(wanderState, new FuncPredicate(() => !playerDetector.CanDetectPlayer()));
             _stateMachine.SetState(wanderState);
         }
@@ -46,12 +47,6 @@ namespace _Project.Scripts.Combat.BaseEnemy {
 
         private void FixedUpdate() {
             _stateMachine.FixedUpdate();
-        }
-
-        public void Attack() {
-            // TODO: Look at player
-            // TODO: Fire weapon x times
-            
         }
     }
 }
