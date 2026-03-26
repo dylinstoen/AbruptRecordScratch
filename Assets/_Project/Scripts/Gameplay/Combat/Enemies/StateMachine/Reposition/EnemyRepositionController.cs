@@ -19,10 +19,7 @@ namespace _Project.Scripts.Combat.BaseEnemy.Reposition {
     private float _currentFlexibility;
     private Transform _target;
     private bool _hasDestination;
-
-    // TODO: if i cant attack then chase until i can attack
-    // TODO: if i can attack then just reposition normally
-    // TODO: If ive been chasing for longer than chase time then switch to wander state (wander state handles returning back to wander zone)
+    
     private void Update()
     {
         if (!CanUpdate())

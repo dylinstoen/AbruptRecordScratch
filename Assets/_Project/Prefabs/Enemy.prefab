@@ -130,12 +130,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8077276466396268134}
-  - component: {fileID: 696942437198127372}
+  - component: {fileID: 1026693785754192737}
   - component: {fileID: 1067116305162144799}
   - component: {fileID: 918047783265941343}
   - component: {fileID: 2407438494193384238}
-  - component: {fileID: 9041573300955379142}
-  - component: {fileID: 8484088799277538144}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -160,7 +158,7 @@ Transform:
   - {fileID: 2491275879798161342}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &696942437198127372
+--- !u!114 &1026693785754192737
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -169,15 +167,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5214251521673804985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0bd19c04396422b932d8c4ee97912f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b67e72cf12d426a8add18b0bdca54d8, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.Enemy
-  agent: {fileID: 918047783265941343}
-  animator: {fileID: 408715508666368642}
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.HSM.EnemyStateDriver
+  attackDeps:
+    shotCount: 1
+    attackCoolDown: 1
+    rotationSpeed: 1
+    maxAttackAngle: 5
+  repositionDeps:
+    flexibility: 0.5
+    repositionRange: {x: 5, y: 8}
+  navMeshAgent: {fileID: 918047783265941343}
   playerDetector: {fileID: 1067116305162144799}
-  enemyAttackController: {fileID: 9041573300955379142}
-  enemyRepositionController: {fileID: 8484088799277538144}
-  wanderRadius: 5
 --- !u!114 &1067116305162144799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,39 +243,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2.12, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9041573300955379142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521673804985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7e58627670d4c4484da18edd69836a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.Attack.EnemyAttackController
-  shotCount: 1
-  attackCoolDown: 1
-  rotationSpeed: 1
-  maxAttackAngle: 5
---- !u!114 &8484088799277538144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521673804985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6203a0f1386544e6ae2c2c98d63da64a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.BaseEnemy.Reposition.RepositionController
-  agent: {fileID: 918047783265941343}
-  defaultFlexibility: 0.5
-  distanceRange: {x: 5, y: 8}
-  chaseTime: 5
-  playerDetector: {fileID: 1067116305162144799}
 --- !u!1 &5214870290080688893
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,8 @@ namespace _Project.Scripts.Combat.BaseEnemy {
             _detectionStrategy = new ConeDetectionStrategy(detectionAngle, detectionRadius, innerDetectionRadius);
         }
         
+        public bool PlayerExist() => SceneServiceLocator.Current.Player.PlayerFacade != null;
+        
         public bool CanDetectPlayer() {
             Transform target = SceneServiceLocator.Current.Player.PlayerFacade.Root;
             if (!target)
