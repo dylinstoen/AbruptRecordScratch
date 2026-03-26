@@ -21,6 +21,8 @@ namespace _Project.Scripts.Combat.HSM {
         protected override void OnEnter() {
             _playerFacade = SceneServiceLocator.Current.Player.PlayerFacade;
             _startedReposition = false;
+            
+            _agent.isStopped = false;
             _agent.ResetPath(); 
         }
 
@@ -33,6 +35,7 @@ namespace _Project.Scripts.Combat.HSM {
                 _repositionMotor.BeginReposition(_playerFacade.Root);
                 _startedReposition = true;
             }
+            _repositionMotor.Update(deltaTime);
         }
 
         protected override void OnExit() {
@@ -43,7 +46,7 @@ namespace _Project.Scripts.Combat.HSM {
         protected override State GetTransition() {
             var parent = (Combat)Parent;
             if (_startedReposition && _repositionMotor.IsFinished) {
-                return parent.Reposition;
+                return parent.Attack;
             }
             return null;
         }

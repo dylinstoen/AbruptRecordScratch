@@ -23,7 +23,7 @@ namespace _Project.Scripts.Combat.HSM {
             _cooldownTimer = new CountdownTimer(attackDeps.attackCoolDown);
         }
 
-        private void Update() {
+        public void Update(float deltaTime) {
             if (!IsRunning || !_target)
                 return;
             RotateTowardsTarget();

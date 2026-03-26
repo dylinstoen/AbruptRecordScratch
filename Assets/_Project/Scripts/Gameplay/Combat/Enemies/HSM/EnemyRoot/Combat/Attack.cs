@@ -36,9 +36,11 @@ namespace _Project.Scripts.Combat.HSM {
                 _attackMotor.BeginAttck(_playerFacade.Root);
                 _startedAttack = true;
             }
+            _attackMotor.Update(deltaTime);
         }
 
         protected override void OnExit() {
+            
             _agent.isStopped = false;
             _attackMotor.StopAttack();
         }

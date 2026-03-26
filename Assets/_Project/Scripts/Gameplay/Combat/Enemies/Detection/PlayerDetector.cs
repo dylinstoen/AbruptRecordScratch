@@ -30,6 +30,9 @@ namespace _Project.Scripts.Combat.BaseEnemy {
             bool detectPlayer = _detectionStrategy.Execute(target, transform, _detectionTimer);
             return _detectionTimer.IsRunning || detectPlayer;
         }
+        
+        void Update() => _detectionTimer.Tick(Time.deltaTime);
+        
         public bool CanAttackPlayer() {
             Transform target = SceneServiceLocator.Current.Player.PlayerFacade.Root;
             if (!target)

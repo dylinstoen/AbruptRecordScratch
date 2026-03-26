@@ -2,6 +2,7 @@
 using _Project.Scripts.Combat.HSM.Motors;
 using _Project.Scripts.Combat.HSM.Structs;
 using _Project.Scripts.Utilities.HSM;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace _Project.Scripts.Combat.HSM {
@@ -24,11 +25,14 @@ namespace _Project.Scripts.Combat.HSM {
             _wanderMotor.Update(deltaTime);
         }
 
+        protected override void OnExit() {
+            _wanderMotor.Exit();
+        }
+
         protected override State GetTransition() {
             var root = (EnemyRoot)Parent;
             var canDetect = _playerDetector.CanDetectPlayer();
             var canAttack = _playerDetector.CanAttackPlayer();
-
             return canDetect switch {
                 true when canAttack => root.Combat,
                 true => root.Chase,

@@ -178,6 +178,13 @@ MonoBehaviour:
   repositionDeps:
     flexibility: 0.5
     repositionRange: {x: 5, y: 8}
+  wanderDeps:
+    wanderRadius: 10
+    startPosition: {x: 24, y: 0, z: 0}
+    wanderZone: {fileID: 0}
+  chaseDeps:
+    maxTime: 5
+    maxDistance: 100
   navMeshAgent: {fileID: 918047783265941343}
   playerDetector: {fileID: 1067116305162144799}
 --- !u!114 &1067116305162144799
@@ -196,7 +203,7 @@ MonoBehaviour:
   detectionAngle: 60
   detectionRadius: 10
   innerDetectionRadius: 5
-  attackRange: 10
+  attackRange: 50
   attackLayerMask:
     serializedVersion: 2
     m_Bits: 321

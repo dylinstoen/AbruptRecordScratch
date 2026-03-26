@@ -21,7 +21,7 @@ namespace _Project.Scripts.Combat.HSM {
         private readonly Transform _source;
         private bool _hasDestination;
 
-        private void Update() {
+        public void Update(float deltaTime) {
             if (!CanUpdate())
                 return;
 

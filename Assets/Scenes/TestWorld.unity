@@ -640,6 +640,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1843017827}
     m_Modifications:
+    - target: {fileID: 1026693785754192737, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
+      propertyPath: wanderDeps.wanderZone
+      value: 
+      objectReference: {fileID: 440231895}
     - target: {fileID: 5214251521673804985, guid: a7c491aee1e212c48a323821772b4e1a, type: 3}
       propertyPath: m_Name
       value: Enemy

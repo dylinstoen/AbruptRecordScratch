@@ -20,14 +20,17 @@ namespace _Project.Scripts.Combat.HSM {
         State root;
 
         private void Awake() {
-            
+            // StateMachine stateMachine, Transform source, AttackDeps attackDeps, RepositionDeps repositionDeps, WanderDeps wanderDeps, ChaseDeps chaseDeps, NavMeshAgent agent, PlayerDetector playerDetector
+            root = new EnemyRoot(null, transform, attackDeps, repositionDeps, wanderDeps, chaseDeps, navMeshAgent, playerDetector); 
+            machine = new StateMachine(root);
+            var builder = new StateMachineBuilder(root);
+            machine = builder.Build();
         }
 
         private void Update() {
             machine.Tick(Time.deltaTime);
             var path = StatePath(machine.Root.Leaf());
-            if (path != lastPath) {
-                Debug.Log("State: " + path);
+            if (lastPath != null && path != lastPath) {
                 lastPath = path;
             }
         }

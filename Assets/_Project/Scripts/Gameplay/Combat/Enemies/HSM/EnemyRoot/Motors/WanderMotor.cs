@@ -61,6 +61,7 @@ namespace _Project.Scripts.Combat.HSM.Motors {
 
             _agent.SetDestination(hit.position);
         }
+        public void Exit() => _walkingBackToZone = false;
         private bool HasReachedDestination()
         {
             return !_agent.pathPending &&

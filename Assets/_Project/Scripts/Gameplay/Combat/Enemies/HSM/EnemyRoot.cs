@@ -11,7 +11,7 @@ namespace _Project.Scripts.Combat.HSM {
         public readonly Wander Wander;
         private PlayerDetector _playerDetector;
 
-        public EnemyRoot(StateMachine stateMachine, float chaseTime, Transform source, AttackDeps attackDeps, 
+        public EnemyRoot(StateMachine stateMachine, Transform source, AttackDeps attackDeps, 
             RepositionDeps repositionDeps, WanderDeps wanderDeps, ChaseDeps chaseDeps, NavMeshAgent agent, PlayerDetector playerDetector) : base(stateMachine, null) {
             Combat = new Combat(stateMachine, this, source, attackDeps, repositionDeps, agent, playerDetector);
             Chase = new Chase(stateMachine, this, agent, chaseDeps, playerDetector);
