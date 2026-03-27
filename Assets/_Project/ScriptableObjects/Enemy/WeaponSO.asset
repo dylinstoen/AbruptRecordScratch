@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab131feb4e84aeb92cfda0b497c0d01, type: 3}
+  m_Name: WeaponSO
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.Weapon.EnemyWeaponSO
+  sourceVisualImpactProfile: {fileID: 11400000, guid: fcb6ee864ba90454181c319abda51849, type: 2}
+  sourceAudioImpactProfile: {fileID: 11400000, guid: caf019077c8f303469a456c9752f83d6, type: 2}
+  projectileInstance: {fileID: 630936210068128690, guid: 8fa00632f28d2b741b7e2cca2891978f, type: 3}
+  damage: 10
+  range: 10
+  coolDown: 1
+  sphereSize: 2
+  enemyFireMode: 0
+  enemyEmitterMode: 1
