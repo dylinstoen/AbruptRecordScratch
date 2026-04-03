@@ -2,6 +2,7 @@
 using System.Linq;
 using _Project.Scripts.Combat.BaseEnemy;
 using _Project.Scripts.Combat.HSM.Structs;
+using _Project.Scripts.Combat.Weapon;
 using UnityEngine;
 using _Project.Scripts.Utilities.HSM;
 using UnityEngine.AI;
@@ -14,6 +15,8 @@ namespace _Project.Scripts.Combat.HSM {
         [SerializeField] private ChaseDeps chaseDeps;
         [SerializeField] private NavMeshAgent navMeshAgent;
         [SerializeField] private PlayerDetector playerDetector;
+        [SerializeField] private EnemyWeaponController enemyWeaponController;
+        [SerializeField] private Animator animator;
         
         private string lastPath;
         private StateMachine machine;
@@ -21,7 +24,7 @@ namespace _Project.Scripts.Combat.HSM {
 
         private void Awake() {
             // StateMachine stateMachine, Transform source, AttackDeps attackDeps, RepositionDeps repositionDeps, WanderDeps wanderDeps, ChaseDeps chaseDeps, NavMeshAgent agent, PlayerDetector playerDetector
-            root = new EnemyRoot(null, transform, attackDeps, repositionDeps, wanderDeps, chaseDeps, navMeshAgent, playerDetector); 
+            root = new EnemyRoot(null, transform, attackDeps, repositionDeps, wanderDeps, chaseDeps, navMeshAgent, playerDetector, animator); 
             machine = new StateMachine(root);
             var builder = new StateMachineBuilder(root);
             machine = builder.Build();

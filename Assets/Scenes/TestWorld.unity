@@ -265,7 +265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 18888722}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DoorPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 346436267}
   - component: {fileID: 346436266}
   - component: {fileID: 346436265}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1202,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 375269008}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KnobPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,7 +1459,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 519138120}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DoorPromptAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4507,7 +4507,7 @@ GameObject:
   - component: {fileID: 1633193889}
   - component: {fileID: 1633193890}
   - component: {fileID: 1633193891}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4682,7 +4682,7 @@ GameObject:
   - component: {fileID: 1719996279}
   - component: {fileID: 1719996282}
   - component: {fileID: 1719996281}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Knob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4771,7 +4771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1728987696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5698,7 +5698,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1960654559}
   - component: {fileID: 1960654560}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DoorCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5751,7 +5751,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2021642292}
   - component: {fileID: 2021642293}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: KnobCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6182,7 +6182,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1280
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0

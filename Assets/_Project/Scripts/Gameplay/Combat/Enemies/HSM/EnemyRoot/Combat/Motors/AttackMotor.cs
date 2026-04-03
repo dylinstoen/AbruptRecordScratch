@@ -1,26 +1,28 @@
-﻿using _Project.Scripts.Utilities;
+﻿using System.Collections;
+using _Project.Scripts.Combat.Weapon;
+using _Project.Scripts.Utilities;
 using UnityEngine;
 
 namespace _Project.Scripts.Combat.HSM {
     public class AttackMotor {
-               public bool IsRunning { get; private set; }
+        public bool IsRunning { get; private set; }
         public bool IsFinished => !IsRunning;
         
         private readonly int _shotCount;
         private readonly float _rotationSpeed;
         private readonly float _maxAttackAngle;
         
-        private readonly CountdownTimer _cooldownTimer;
         private Transform _target;
         private readonly Transform _source;
         private int _shotsRemaining;
+        private EnemyWeaponController  _controller;
         
-        public AttackMotor(AttackDeps attackDeps, Transform source) {
+        public AttackMotor(AttackDeps attackDeps, Transform source, Animator animator) {
             _shotCount = attackDeps.shotCount;
             _rotationSpeed = attackDeps.rotationSpeed;
             _maxAttackAngle = attackDeps.maxAttackAngle;
             _source = source;
-            _cooldownTimer = new CountdownTimer(attackDeps.attackCoolDown);
+            _controller = attackDeps.enemyWeaponController;
         }
 
         public void Update(float deltaTime) {
@@ -29,28 +31,27 @@ namespace _Project.Scripts.Combat.HSM {
             RotateTowardsTarget();
             if (!IsFacingTarget())
                 return;
-            if (_cooldownTimer.IsRunning) {
-                _cooldownTimer.Tick(Time.deltaTime);
+            if (!_controller.CanAttack()) {
                 return;
             }
-            FireShot();
-            _shotsRemaining--;
             if (_shotsRemaining <= 0) {
                 StopAttack();
                 return;
             }
-            _cooldownTimer.Start();
+            FireShot();
+            _shotsRemaining--;
         }
+
+        void FireShot() {
+            Debug.Log("Shot Fired");
+            _controller.StartFire();
+        } 
 
         public void StopAttack() {
             IsRunning = false;
             _target = null;
+            _controller.StopFire();
             _shotsRemaining = 0;
-            _cooldownTimer.Stop();
-        }
-
-        private void FireShot() {
-            Debug.Log("Shot Fired");
         }
 
         private void RotateTowardsTarget() {
@@ -74,10 +75,10 @@ namespace _Project.Scripts.Combat.HSM {
         public void BeginAttck(Transform target) {
             if (!target || _shotCount <= 0)
                 return;
+            
             _target = target;
             _shotsRemaining = _shotCount;
             IsRunning = true;
-            _cooldownTimer.Stop();
         }
     }
 }

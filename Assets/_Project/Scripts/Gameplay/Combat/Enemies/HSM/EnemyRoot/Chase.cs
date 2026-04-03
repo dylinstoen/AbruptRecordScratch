@@ -14,17 +14,20 @@ namespace _Project.Scripts.Combat.HSM {
         private readonly NavMeshAgent _agent;
         private readonly ChaseDeps _chaseDeps;
         private bool _forceStop;
-        public Chase(StateMachine stateMachine, State parent, NavMeshAgent agent, ChaseDeps chaseDeps, PlayerDetector playerDetector) : base(stateMachine, parent) {
+        private Animator _animator;
+        public Chase(StateMachine stateMachine, State parent, NavMeshAgent agent, ChaseDeps chaseDeps, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
             _playerDetector = playerDetector;
             _chaseDeps = chaseDeps;
             _timer = new CountdownTimer(chaseDeps.maxTime);
             _agent = agent;
+            _animator = animator;
         }
 
         protected override void OnEnter() {
             _timer.Start();
             _agent.isStopped = false;
             _forceStop = false;
+            _animator.SetTrigger(EnemyRoot.WalkHash);
             _agent.ResetPath(); 
         }
 
@@ -33,13 +36,14 @@ namespace _Project.Scripts.Combat.HSM {
                 _timer.Tick(deltaTime);
             }
 
-            IPlayerFacade target = SceneServiceLocator.Current.Player.PlayerFacade;
+            var target = SceneServiceLocator.Current.Player.PlayerFacade;
             if (target == null) {
                 _forceStop = true;
                 return;
             }
             if (NavMesh.SamplePosition(target.Root.position, out NavMeshHit hit, _chaseDeps.maxDistance, NavMesh.AllAreas)) {
                 _agent.SetDestination(hit.position);
+                _animator.SetFloat(EnemyRoot.VelocityHash, _agent.velocity.normalized.magnitude);
             }
             else {
                 _forceStop = true;

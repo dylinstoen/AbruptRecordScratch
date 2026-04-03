@@ -12,9 +12,9 @@ namespace _Project.Scripts.Combat.HSM {
         private IPlayerFacade _playerFacade;
         private bool _startedAttack;
         private NavMeshAgent _agent;
-        public Attack(StateMachine stateMachine, State parent, Transform source, NavMeshAgent agent, AttackDeps attackDeps, PlayerDetector playerDetector) : base(stateMachine, parent) {
+        public Attack(StateMachine stateMachine, State parent, Transform source, NavMeshAgent agent, AttackDeps attackDeps, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
             _playerDetector = playerDetector;
-            _attackMotor = new AttackMotor(attackDeps, source);
+            _attackMotor = new AttackMotor(attackDeps, source, animator);
             _agent = agent;
         }
 

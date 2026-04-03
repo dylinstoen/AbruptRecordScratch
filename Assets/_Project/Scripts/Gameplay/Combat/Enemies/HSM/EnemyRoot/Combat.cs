@@ -10,9 +10,9 @@ namespace _Project.Scripts.Combat.HSM {
         private PlayerDetector _playerDetector;
 
         public Combat(StateMachine stateMachine, State parent, Transform source, AttackDeps attackDeps, 
-            RepositionDeps repositionDeps, NavMeshAgent agent, PlayerDetector playerDetector) : base(stateMachine, parent) {
-            Attack = new Attack(stateMachine, this, source, agent, attackDeps, playerDetector);
-            Reposition =  new Reposition(stateMachine, this, source, repositionDeps, agent, playerDetector);
+            RepositionDeps repositionDeps, NavMeshAgent agent, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
+            Attack = new Attack(stateMachine, this, source, agent, attackDeps, playerDetector, animator);
+            Reposition =  new Reposition(stateMachine, this, source, repositionDeps, agent, playerDetector, animator);
             _playerDetector = playerDetector;
         }
 

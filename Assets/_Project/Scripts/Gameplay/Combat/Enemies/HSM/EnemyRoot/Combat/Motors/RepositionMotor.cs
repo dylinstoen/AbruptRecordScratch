@@ -4,11 +4,12 @@ using _Project.Scripts.Combat.BaseEnemy;
 
 namespace _Project.Scripts.Combat.HSM {
     public class RepositionMotor {
-        public RepositionMotor(RepositionDeps repositionDeps, Transform source, NavMeshAgent agent) {
+        public RepositionMotor(RepositionDeps repositionDeps, Transform source, NavMeshAgent agent, Animator animator) {
             _source = source;
             _agent = agent;
             _flexibility = repositionDeps.flexibility;
             _repositionRange =  repositionDeps.repositionRange;
+            _animator = animator;
         }
 
         public bool IsRunning { get; private set; }
@@ -20,6 +21,11 @@ namespace _Project.Scripts.Combat.HSM {
         private Transform _target;
         private readonly Transform _source;
         private bool _hasDestination;
+        private Animator _animator;
+
+        public void OnEnter() {
+            _animator.SetTrigger(EnemyRoot.WalkHash);
+        }
 
         public void Update(float deltaTime) {
             if (!CanUpdate())
@@ -55,6 +61,7 @@ namespace _Project.Scripts.Combat.HSM {
                 return;
 
             _agent.SetDestination(hit.position);
+            _animator.SetFloat(EnemyRoot.WalkHash, _agent.velocity.normalized.magnitude);
             _hasDestination = true;
         }
 

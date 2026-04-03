@@ -12,16 +12,16 @@ namespace _Project.Scripts.Combat.HSM {
         private readonly RepositionMotor _repositionMotor;
         private readonly NavMeshAgent _agent;
         private bool _startedReposition;
-        public Reposition(StateMachine stateMachine, State parent, Transform source, RepositionDeps repositionDeps, NavMeshAgent agent, PlayerDetector playerDetector) : base(stateMachine, parent) {
+        public Reposition(StateMachine stateMachine, State parent, Transform source, RepositionDeps repositionDeps, NavMeshAgent agent, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
             _playerDetector = playerDetector;
-            _repositionMotor = new RepositionMotor(repositionDeps, source, agent);
+            _repositionMotor = new RepositionMotor(repositionDeps, source, agent, animator);
             _agent = agent;
         }
 
         protected override void OnEnter() {
             _playerFacade = SceneServiceLocator.Current.Player.PlayerFacade;
             _startedReposition = false;
-            
+            _repositionMotor.OnEnter();
             _agent.isStopped = false;
             _agent.ResetPath(); 
         }

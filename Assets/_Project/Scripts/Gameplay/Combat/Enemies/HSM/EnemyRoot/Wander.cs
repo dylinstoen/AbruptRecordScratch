@@ -10,13 +10,14 @@ namespace _Project.Scripts.Combat.HSM {
         private readonly PlayerDetector _playerDetector;
         private readonly WanderMotor _wanderMotor;
         private readonly NavMeshAgent _agent;
-        public Wander(StateMachine stateMachine, State parent, WanderDeps wanderDeps, NavMeshAgent agent, PlayerDetector playerDetector) : base(stateMachine, parent) {
+        public Wander(StateMachine stateMachine, State parent, WanderDeps wanderDeps, NavMeshAgent agent, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
             _playerDetector = playerDetector;
             _agent = agent;
-            _wanderMotor = new WanderMotor(wanderDeps, agent);
+            _wanderMotor = new WanderMotor(wanderDeps, agent, animator);
         }
 
         protected override void OnEnter() {
+            _wanderMotor.OnEnter();
             _agent.isStopped = false;
             _agent.ResetPath();
         }

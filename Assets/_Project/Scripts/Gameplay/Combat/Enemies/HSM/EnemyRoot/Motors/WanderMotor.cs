@@ -8,18 +8,23 @@ namespace _Project.Scripts.Combat.HSM.Motors {
         private readonly NavMeshAgent _agent;
         private readonly Vector3 _startPosition;
         private readonly Collider _wanderZone;
-        
+        private Animator _animator;
         private bool _walkingBackToZone;
 
-        public WanderMotor(WanderDeps wanderDeps, NavMeshAgent agent) {
+        public WanderMotor(WanderDeps wanderDeps, NavMeshAgent agent, Animator animator) {
             _wanderRadius = wanderDeps.wanderRadius;
             _agent = agent;
             _startPosition = wanderDeps.startPosition;
             _wanderZone = wanderDeps.wanderZone;
+            _animator = animator;
+        }
+
+        public void OnEnter() {
+            _animator.SetTrigger(EnemyRoot.WalkHash);
         }
 
         public void Update(float deltaTime) {
-            
+            UpdateAnimation();
             if (IsOutsideWanderZone()) {
                 HandleReturnToZone();
                 return;
@@ -28,6 +33,7 @@ namespace _Project.Scripts.Combat.HSM.Motors {
             if (HasReachedDestination()) {
                 TrySetRandomDestination();
             }
+            
         }
         
         private bool IsOutsideWanderZone() {
@@ -39,13 +45,16 @@ namespace _Project.Scripts.Combat.HSM.Motors {
             if (_walkingBackToZone)
                 return;
 
-            if (NavMesh.SamplePosition(_startPosition, out NavMeshHit hit, _wanderRadius, NavMesh.AllAreas))
-            {
+            if (NavMesh.SamplePosition(_startPosition, out NavMeshHit hit, _wanderRadius, NavMesh.AllAreas)) {
                 _agent.SetDestination(hit.position);
                 _walkingBackToZone = true;
             }
         }
-        
+
+        private void UpdateAnimation() {
+            _animator.SetFloat(EnemyRoot.VelocityHash, _agent.velocity.normalized.magnitude);
+        }
+
         private void TrySetRandomDestination()
         {
             Vector3 randomOffset = Random.insideUnitSphere * _wanderRadius;
@@ -58,7 +67,6 @@ namespace _Project.Scripts.Combat.HSM.Motors {
 
             if (!_wanderZone.bounds.Contains(hit.position))
                 return;
-
             _agent.SetDestination(hit.position);
         }
         public void Exit() => _walkingBackToZone = false;
