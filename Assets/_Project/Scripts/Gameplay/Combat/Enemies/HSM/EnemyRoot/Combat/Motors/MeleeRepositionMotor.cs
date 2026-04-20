@@ -1,5 +1,5 @@
 ﻿namespace _Project.Scripts.Combat.HSM {
-    public class RepositionMotor {
+    public class MeleeRepositionMotor {
         
     }
 }
