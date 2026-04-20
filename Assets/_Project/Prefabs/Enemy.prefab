@@ -380,8 +380,12 @@ MonoBehaviour:
     maxAttackAngle: 5
     enemyWeaponController: {fileID: 1198865640003178544}
   repositionDeps:
-    flexibility: 0.5
+    repositionType: 0
     repositionRange: {x: 5, y: 8}
+    timeToLive: 5
+    flexibility: 180
+    repositionDirection: 0
+    repositionRadiusAroundTarget: 1
   wanderDeps:
     wanderRadius: 10
     startPosition: {x: 24, y: 0, z: 0}
@@ -409,7 +413,7 @@ MonoBehaviour:
   detectionAngle: 60
   detectionRadius: 10
   innerDetectionRadius: 5
-  attackRange: 10
+  attackRange: 1.5
   attackLayerMask:
     serializedVersion: 2
     m_Bits: 321

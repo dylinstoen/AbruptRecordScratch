@@ -3,6 +3,9 @@ using _Project.Scripts.Weapon.Stucts;
 using UnityEngine;
 
 namespace _Project.Scripts.Weapon {
+    /// <summary>
+    /// Handles weapon logic like firing and ticking weapon events
+    /// </summary>
     public interface IWeaponLogic {
         void Tick(in WeaponUseContext ctx);
         void StartFire(in WeaponUseContext ctx);

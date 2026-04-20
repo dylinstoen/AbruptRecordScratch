@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.Actors;
 using _Project.Scripts.Combat.BaseEnemy;
 using _Project.Scripts.Core;
+using _Project.Scripts.Utilities;
 using _Project.Scripts.Utilities.HSM;
 using UnityEngine;
 using UnityEngine.AI;
@@ -12,10 +13,15 @@ namespace _Project.Scripts.Combat.HSM {
         private readonly RepositionMotor _repositionMotor;
         private readonly NavMeshAgent _agent;
         private bool _startedReposition;
+        private CountdownTimer _timeToLiveTimer;
         public Reposition(StateMachine stateMachine, State parent, Transform source, RepositionDeps repositionDeps, NavMeshAgent agent, PlayerDetector playerDetector, Animator animator) : base(stateMachine, parent) {
             _playerDetector = playerDetector;
-            _repositionMotor = new RepositionMotor(repositionDeps, source, agent, animator);
+            var type = repositionDeps.repositionType;
+            _repositionMotor = type == RepositionDeps.RepositionType.Melee
+                ? new MeleeRepositionMotor(repositionDeps, source, agent, animator)
+                : new RangedRepositionMotor(repositionDeps, source, agent, animator);
             _agent = agent;
+            _timeToLiveTimer = new CountdownTimer(repositionDeps.timeToLive);
         }
 
         protected override void OnEnter() {
@@ -24,6 +30,7 @@ namespace _Project.Scripts.Combat.HSM {
             _repositionMotor.OnEnter();
             _agent.isStopped = false;
             _agent.ResetPath(); 
+            _timeToLiveTimer.Start();
         }
 
         protected override void OnUpdate(float deltaTime) {
@@ -35,6 +42,7 @@ namespace _Project.Scripts.Combat.HSM {
                 _repositionMotor.BeginReposition(_playerFacade.Root);
                 _startedReposition = true;
             }
+            _timeToLiveTimer.Tick(deltaTime);
             _repositionMotor.Update(deltaTime);
         }
 
@@ -45,7 +53,7 @@ namespace _Project.Scripts.Combat.HSM {
 
         protected override State GetTransition() {
             var parent = (Combat)Parent;
-            if (_startedReposition && _repositionMotor.IsFinished) {
+            if (_startedReposition && (_repositionMotor.IsFinished() || _timeToLiveTimer.IsFinished)) {
                 return parent.Attack;
             }
             return null;
