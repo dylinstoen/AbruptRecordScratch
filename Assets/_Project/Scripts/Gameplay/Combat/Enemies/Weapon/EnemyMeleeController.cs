@@ -70,7 +70,6 @@ namespace _Project.Scripts.Combat.Weapon {
         private void BeginActive() {
             _state = AttackState.Active;
             meleeCollider.enabled = true;
-            Debug.Log("firing");
             _stateTimer.Reset(attackTime);
             _stateTimer.Start();
         }

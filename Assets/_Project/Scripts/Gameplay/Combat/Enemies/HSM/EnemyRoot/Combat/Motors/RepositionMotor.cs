@@ -32,24 +32,16 @@ namespace _Project.Scripts.Combat.HSM {
         private bool CanUpdate() {
             return IsRunning && _target;
         }
-        private void TryFinishReposition() {
-            if (!HasReachedDestination())
-                return;
-
-            _hasDestination = false;
-            StopReposition();
-        }
+        protected abstract void TryFinishReposition();
 
         protected abstract void TryPickDestination();
 
         protected bool HasReachedDestination() {
-            return !_agent.pathPending &&
-                   _agent.remainingDistance <= _agent.stoppingDistance &&
-                   (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f);
+            return !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance && (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f);
         }
 
 
-        public void BeginReposition(Transform target) {
+        public virtual void BeginReposition(Transform target) {
             _target = target;
             _hasDestination = false;
             IsRunning = true;

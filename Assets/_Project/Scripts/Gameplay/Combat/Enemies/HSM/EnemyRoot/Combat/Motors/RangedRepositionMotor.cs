@@ -14,6 +14,14 @@ namespace _Project.Scripts.Combat.HSM {
             _repositionRange =  repositionDeps.repositionRange;
         }
 
+        protected override void TryFinishReposition() {
+            if (!HasReachedDestination())
+                return;
+
+            _hasDestination = false;
+            StopReposition();
+        }
+
         protected override void TryPickDestination() {
             if (!HasReachedDestination())
                 return;

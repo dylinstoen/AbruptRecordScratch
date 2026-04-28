@@ -19,7 +19,7 @@ namespace _Project.Scripts.Weapon.Static {
             IWeaponMagazine mag = new WeaponMagazine(so.magSize, so.costPerShot);
             IReloadPolicy reload = new ReloadPolicy(deps.AmmoInventory, mag, so.ammoType, so.reloadDuration, deps.AudioService, so.reloadSfx);
             var reloadBridge = new WeaponReloadBridge(reload);
-            IEmitterMode emitter = so.emitterMode.Create(deps.ImpactService, so.damage, deps.Owner, so.sourceVisualImpactProfile);
+            IEmitterMode emitter = so.emitterMode.Create(deps.ImpactService, so.damage, deps.Owner, so.sourceVisualImpactProfile, so.hitLayerMask);
             var fireMode = deps.ImpulseSource ? 
                 so.fireMode.Create(mag, emitter, deps.AudioService, so.gunShotSfx, so.costPerShot, so.fireRate, so.spread, deps.ImpulseSource, so.recoilProfile) : 
                 so.fireMode.Create(mag, emitter, deps.AudioService, so.gunShotSfx, so.costPerShot, so.fireRate, so.spread);

@@ -6,8 +6,8 @@ namespace _Project.Scripts.Weapon {
     public class SphereCastEmitterModeSO : EmitterModeSO {
         [SerializeField] private float radius;
         [SerializeField] private float maxDistance;
-        public override IEmitterMode Create(IImpactService impactService, int damage, GameObject owner, SourceVisualImpactProfileSO sourceVisualImpactProfile) {
-            return new SphereCastEmitterMode(radius, maxDistance, damage, owner, impactService, sourceVisualImpactProfile);
+        public override IEmitterMode Create(IImpactService impactService, int damage, GameObject owner, SourceVisualImpactProfileSO sourceVisualImpactProfile, LayerMask hitLayerMask) {
+            return new SphereCastEmitterMode(radius, maxDistance, damage, owner, impactService, sourceVisualImpactProfile, hitLayerMask);
         }
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace _Project.Scripts.Actors {
     public class Health : MonoBehaviour, IHealthEvents, IHealthAcquirer, IDamageable {
-        private int _maxHealth = 100;
+        [SerializeField] private int _maxHealth = 100;
         private int _currentHealth;
         public event Action<int, int> HealthChanged;
         public event Action InternalDied;

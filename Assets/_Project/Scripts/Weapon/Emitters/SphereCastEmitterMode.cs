@@ -1,4 +1,5 @@
-﻿using _Project.Scripts.Gameplay;
+﻿using _Project.Scripts.Actors;
+using _Project.Scripts.Gameplay;
 using _Project.Scripts.Gameplay.Structs;
 using UnityEngine;
 
@@ -10,19 +11,27 @@ namespace _Project.Scripts.Weapon {
         private int _damage;
         private GameObject _owner;
         private SourceVisualImpactProfileSO _sourceVisualImpactProfile;
-        public SphereCastEmitterMode(float radius, float maxDistance, int damage, GameObject owner, IImpactService impactService, SourceVisualImpactProfileSO sourceVisualImpactProfile) {
+        private LayerMask _hitMask;
+        public SphereCastEmitterMode(float radius, float maxDistance, int damage, GameObject owner, IImpactService impactService, SourceVisualImpactProfileSO sourceVisualImpactProfile, LayerMask hitMask) {
             _radius = radius;
             _impactService = impactService;
             _damage = damage;
             _owner = owner;
             _maxDistance = maxDistance;
             _sourceVisualImpactProfile = sourceVisualImpactProfile;
+            _hitMask = hitMask;
         }
 
   
         public void Fire(Ray ray) {
-            if (Physics.SphereCast(ray.origin, _radius, ray.direction, out RaycastHit hit, _maxDistance)) {
-                HitContext hitctx = new HitContext(hit.point, hit.normal, hit.collider, _owner, _damage);
+            if (Physics.SphereCast(ray.origin, _radius, ray.direction, out RaycastHit hit, _maxDistance, _hitMask)) {
+                IDamageable damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+                HitContext hitctx;
+                if (damageable != null) {
+                    hitctx = new HitContext(hit.point, hit.normal, hit.collider, _owner, _damage, damageable);
+                } else {
+                    hitctx = new HitContext(hit.point, hit.normal, hit.collider, _owner, _damage);
+                }
                 _impactService.ProcessHitVisual(hitctx, _sourceVisualImpactProfile);
                 _impactService.ProcessHitLogic(hitctx);
             }
