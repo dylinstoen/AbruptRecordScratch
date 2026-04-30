@@ -1866,6 +1866,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyColliderDamager
   amount: 10
+  _sourceVisualImpactProfileSO: {fileID: 0}
+  _sourceAudioImpactProfileSO: {fileID: 0}
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &696584608
 GameObject:
   m_ObjectHideFlags: 0
@@ -5872,7 +5877,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 855
+    m_Bits: 5975
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -6153,6 +6158,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1843017827}
     m_Modifications:
+    - target: {fileID: 1538973323764225089, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.659
+      objectReference: {fileID: 0}
     - target: {fileID: 1866210948779065987, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.9
@@ -6193,14 +6202,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2023572663117620906, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
-      propertyPath: m_Size.x
-      value: 1.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 2023572663117620906, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
-      propertyPath: m_Size.z
-      value: 1.09
-      objectReference: {fileID: 0}
     - target: {fileID: 5183433036209654456, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
       propertyPath: m_Name
       value: EnemyRanged
@@ -6212,16 +6213,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5183433036209654456, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8077276465996461524}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
---- !u!1 &5214251521265585934 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5183433036209654456, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
-  m_PrefabInstance: {fileID: 1573033631005734123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5349110892794320991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6278,6 +6271,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyMelee
       objectReference: {fileID: 0}
+    - target: {fileID: 5913952435536971587, guid: 4993f4dbc36206843a0bdb4614d462a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6288,18 +6285,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1866210948779065987, guid: dbb320106755ef74aa5b46ff38733464, type: 3}
   m_PrefabInstance: {fileID: 1573033631005734123}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8077276465996461524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5214251521265585934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc6d68b461484a4386a9cf6cc1cc69b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!4 &8077276466369179487 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1077455341967736077, guid: 4993f4dbc36206843a0bdb4614d462a1, type: 3}

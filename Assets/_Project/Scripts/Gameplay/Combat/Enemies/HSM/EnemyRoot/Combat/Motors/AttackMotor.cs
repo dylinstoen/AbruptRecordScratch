@@ -43,7 +43,6 @@ namespace _Project.Scripts.Combat.HSM {
         }
 
         void FireShot() {
-            Debug.Log("Shot Fired");
             _controller.StartFire();
         } 
 

@@ -158,6 +158,37 @@ Transform:
   - {fileID: 8009742558917748797}
   m_Father: {fileID: 1866210948779065987}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4687492797157670084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1538973323764225089}
+  m_Layer: 9
+  m_Name: Firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1538973323764225089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4687492797157670084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.538, y: 0.051, z: 0.815}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1866210948779065987}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4817011175027993907
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,10 +346,11 @@ GameObject:
   - component: {fileID: 2390091344147101009}
   - component: {fileID: 5628670408339931474}
   - component: {fileID: 2023572663117620906}
-  - component: {fileID: 7886239436943759678}
+  - component: {fileID: 5112663109494894212}
   - component: {fileID: 4242871472918442816}
   - component: {fileID: 1983367854514917545}
   - component: {fileID: 20239734573784101}
+  - component: {fileID: 7673361505843931001}
   m_Layer: 9
   m_Name: EnemyRanged
   m_TagString: Untagged
@@ -340,6 +372,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5095562577707129933}
+  - {fileID: 1538973323764225089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6394678867145441257
@@ -358,7 +391,7 @@ MonoBehaviour:
     shotCount: 1
     rotationSpeed: 1
     maxAttackAngle: 5
-    enemyWeaponController: {fileID: 7886239436943759678}
+    enemyWeaponController: {fileID: 5112663109494894212}
   repositionDeps:
     repositionType: 1
     repositionRange: {x: 3, y: 5}
@@ -375,7 +408,7 @@ MonoBehaviour:
     maxDistance: 100
   navMeshAgent: {fileID: 2390091344147101009}
   playerDetector: {fileID: 3588931097838895793}
-  enemyWeaponController: {fileID: 7886239436943759678}
+  enemyWeaponController: {fileID: 5112663109494894212}
   animator: {fileID: 4242871472918442816}
 --- !u!114 &3588931097838895793
 MonoBehaviour:
@@ -459,9 +492,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2.12, z: 1}
+  m_Size: {x: 1.06, y: 2.12, z: 1.09}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7886239436943759678
+--- !u!114 &5112663109494894212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,18 +503,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 5183433036209654456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c78a3cab8c34c91a7b836889eafefe3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bc6d68b461484a4386a9cf6cc1cc69b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.Weapon.EnemyMeleeController
+  m_EditorClassIdentifier: '::'
   sourceVisual: {fileID: 11400000, guid: fcb6ee864ba90454181c319abda51849, type: 2}
   audioVisual: {fileID: 11400000, guid: caf019077c8f303469a456c9752f83d6, type: 2}
   animator: {fileID: 4242871472918442816}
   damage: 10
   attackTime: 0.667
   coolDown: 0
-  meleeCollider: {fileID: 3167700872659260798}
+  enemyProjectile: {fileID: 7673361505843931001}
   enemyAnimator: {fileID: 4242871472918442816}
-  colliderDelay: 0.2
+  projectileDelay: 0.6
 --- !u!95 &4242871472918442816
 Animator:
   serializedVersion: 7
@@ -530,6 +563,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthHandler
   health: {fileID: 1983367854514917545}
+--- !u!114 &7673361505843931001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5183433036209654456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded0441529f09d04183331557eb3f4c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets._Project.Scripts.Gameplay.Combat.Enemies.EnemyProjectile
+  projectiles:
+  - projectilePrefab: {fileID: 4064479355938748467, guid: 8fa00632f28d2b741b7e2cca2891978f, type: 3}
+    firePoint: {fileID: 1538973323764225089}
 --- !u!1 &6785625898438336872
 GameObject:
   m_ObjectHideFlags: 0

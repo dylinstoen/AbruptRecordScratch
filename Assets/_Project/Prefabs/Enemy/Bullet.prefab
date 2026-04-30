@@ -12,8 +12,11 @@ GameObject:
   - component: {fileID: 1478671306348141499}
   - component: {fileID: 424277415134055908}
   - component: {fileID: 1814680438792120035}
+  - component: {fileID: 2194779276651730935}
   - component: {fileID: 630936210068128690}
-  m_Layer: 0
+  - component: {fileID: -7498523043160894710}
+  - component: {fileID: -6197400972555025474}
+  m_Layer: 12
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +116,27 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &2194779276651730935
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064479355938748467}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.55
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &630936210068128690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,3 +149,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f33f49c1d444a4da6f5f8ea90cb8b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Combat.Weapon.ProjectileInstance
+  speed: 8
+  _sourceVisualImpactProfile: {fileID: 0}
+  _sourceAudioImpactProfile: {fileID: 0}
+--- !u!114 &-7498523043160894710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064479355938748467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c45b8cc2ec7c8244b45aa1bb23e50f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyColliderDamager
+  amount: 10
+  _sourceVisualImpactProfileSO: {fileID: 0}
+  _sourceAudioImpactProfileSO: {fileID: 0}
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!54 &-6197400972555025474
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4064479355938748467}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

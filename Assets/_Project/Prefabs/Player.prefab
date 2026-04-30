@@ -83,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070fe56c8552478db0d54dd12189df3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.Health.HealthOwner
+  _maxHealth: 100
 --- !u!114 &4844002079849957283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerInteraction
   mask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 1079
   range: 3
 --- !u!114 &5472589343824308656
 MonoBehaviour:
@@ -204,10 +205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerWalker
   sourceAudioImpactProfile: {fileID: 11400000, guid: 87247ab5f7ac3824db866490258005d4, type: 2}
   moveInterval: 0.336
-  characterRadius: 0.5
-  probeForwardFraction: 1
-  probeStartHeight: 0.25
-  probeDistance: 1.35
 --- !u!114 &4131430174995647401
 MonoBehaviour:
   m_ObjectHideFlags: 0
