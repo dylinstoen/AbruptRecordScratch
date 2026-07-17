@@ -35,4 +35,4 @@ MonoBehaviour:
   sourceVisualImpactProfile: {fileID: 11400000, guid: d90369eda357d854abc503b5c669ca42, type: 2}
   hitLayerMask:
     serializedVersion: 2
-    m_Bits: 823
+    m_Bits: 1847

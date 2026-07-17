@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1734394991737735141}
   - component: {fileID: 8205430879811824407}
+  - component: {fileID: -4701331224199349168}
   - component: {fileID: -2528807739321883957}
   - component: {fileID: 4844002079849957283}
   - component: {fileID: -4394609101264696944}
@@ -71,6 +72,18 @@ MonoBehaviour:
   playerInteraction: {fileID: -4728137856743582134}
   playerCamTargetDriver: {fileID: 5705126728993406110}
   playerMoverPresenter: {fileID: -4305188119588064072}
+--- !u!114 &-4701331224199349168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c68c5ecf689be478596d8f419daaa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerBrain
 --- !u!114 &-2528807739321883957
 MonoBehaviour:
   m_ObjectHideFlags: 0

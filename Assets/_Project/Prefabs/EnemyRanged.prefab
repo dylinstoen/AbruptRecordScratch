@@ -183,7 +183,7 @@ Transform:
   m_GameObject: {fileID: 4687492797157670084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.538, y: 0.051, z: 0.815}
+  m_LocalPosition: {x: -0.538, y: 0.051, z: 1.659}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -341,6 +341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1866210948779065987}
+  - component: {fileID: 8715969461558249249}
   - component: {fileID: 6394678867145441257}
   - component: {fileID: 3588931097838895793}
   - component: {fileID: 2390091344147101009}
@@ -353,11 +354,11 @@ GameObject:
   - component: {fileID: 7673361505843931001}
   m_Layer: 9
   m_Name: EnemyRanged
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1866210948779065987
 Transform:
   m_ObjectHideFlags: 0
@@ -375,6 +376,20 @@ Transform:
   - {fileID: 1538973323764225089}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8715969461558249249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5183433036209654456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c4eb4f1fa7a8f458d1c681a02adcee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.Combat.Enemies.EnemyBrain
+  weaponController: {fileID: 5112663109494894212}
+  stateDriver: {fileID: 6394678867145441257}
 --- !u!114 &6394678867145441257
 MonoBehaviour:
   m_ObjectHideFlags: 0

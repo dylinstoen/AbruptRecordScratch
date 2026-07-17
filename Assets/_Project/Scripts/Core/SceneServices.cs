@@ -14,10 +14,12 @@ namespace _Project.Scripts.Core {
         [SerializeField] private MonoBehaviour impactService;
         [SerializeField] private MonoBehaviour audioService;
         [SerializeField] private MonoBehaviour playerService;
-        
+        [SerializeField] private MonoBehaviour coinService;
+
         public IImpactService Impact => (IImpactService)impactService;
         public IAudioService Audio => (IAudioService)audioService;
         public IPlayerService Player => (IPlayerService)playerService;
+        public ICoinService Coin => (ICoinService)coinService;
 
         private void Awake() {
             if (!impactService)
@@ -29,6 +31,9 @@ namespace _Project.Scripts.Core {
             if (!playerService)
                 throw new InvalidOperationException($"{name} 'player service must be assigned");
             if(playerService is not IPlayerService) throw new InvalidOperationException($"{name}: 'playerService' must implement IPlayerFacade.");
+            if (!coinService)
+                throw new InvalidOperationException($"{name} 'coin service must be assigned");
+            if (coinService is not ICoinService) throw new InvalidOperationException($"{name}: 'coinService' must implement ICoinService.");
             SceneServiceLocator.Bind(this);
         }
 

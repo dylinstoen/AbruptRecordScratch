@@ -167,6 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1077455341967736077}
+  - component: {fileID: 92926458428625775}
   - component: {fileID: 81628138338540003}
   - component: {fileID: 7828708776889064619}
   - component: {fileID: 1244528581530202284}
@@ -178,11 +179,11 @@ GameObject:
   - component: {fileID: 1458197057005649067}
   m_Layer: 9
   m_Name: EnemyMelee
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1077455341967736077
 Transform:
   m_ObjectHideFlags: 0
@@ -199,6 +200,20 @@ Transform:
   - {fileID: 4843846051897727677}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &92926458428625775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913952435536971587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3c4eb4f1fa7a8f458d1c681a02adcee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  weaponController: {fileID: 8444154589615492869}
+  stateDriver: {fileID: 81628138338540003}
 --- !u!114 &81628138338540003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -847,3 +862,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   amount: 10
+  _sourceVisualImpactProfileSO: {fileID: 0}
+  _sourceAudioImpactProfileSO: {fileID: 0}
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 0

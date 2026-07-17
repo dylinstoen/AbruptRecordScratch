@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea97c7826bd48643aab6dd02755a21e, type: 3}
+  m_Name: CoinPickup
+  m_EditorClassIdentifier: Assembly-CSharp::CoinPickupDefinition
+  value: 10
+  pickupSound: {fileID: 11400000, guid: e45a86b3a0d1b6a4a8825c359beaec24, type: 2}

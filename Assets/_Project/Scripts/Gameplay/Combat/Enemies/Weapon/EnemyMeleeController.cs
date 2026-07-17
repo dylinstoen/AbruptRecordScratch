@@ -33,7 +33,7 @@ namespace _Project.Scripts.Combat.Weapon {
             _state = AttackState.Idle;
         }
 
-        public void Update() {
+        public override void Tick() {
             switch (_state) {
                 case AttackState.Idle:
                     if (_wantsToFire)

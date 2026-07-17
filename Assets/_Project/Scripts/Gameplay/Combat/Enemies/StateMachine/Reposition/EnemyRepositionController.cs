@@ -13,7 +13,6 @@ namespace _Project.Scripts.Combat.BaseEnemy.Reposition {
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private float defaultFlexibility = 0.5f;
     [SerializeField] private Vector2 repositionRange = new Vector2(5f, 8f);
-    [SerializeField] private float chaseTime = 5f;
     [SerializeField] private PlayerDetector playerDetector;
 
     private float _currentFlexibility;

@@ -13,6 +13,8 @@ namespace _Project.Scripts.Combat.Weapon {
         public float attackTime = 2f;
         public float coolDown = 1f;
 
+        public abstract void Tick();
+
         public abstract void StartFire();
         public abstract void StopFire();
         

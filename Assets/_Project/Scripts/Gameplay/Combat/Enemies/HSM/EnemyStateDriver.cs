@@ -6,6 +6,7 @@ using _Project.Scripts.Combat.Weapon;
 using UnityEngine;
 using _Project.Scripts.Utilities.HSM;
 using UnityEngine.AI;
+using _Project.Scripts.Core.Level.Interface;
 
 namespace _Project.Scripts.Combat.HSM {
     public class EnemyStateDriver : MonoBehaviour {
@@ -21,7 +22,13 @@ namespace _Project.Scripts.Combat.HSM {
         private string lastPath;
         private StateMachine machine;
         State root;
-
+        public bool IsPaused => isPaused;
+        private bool isPaused = false;
+        public void SetPaused(bool paused) {
+            isPaused = paused;
+            navMeshAgent.isStopped = paused;
+            animator.speed = paused ? 0f : 1f;
+        }
         private void Awake() {
             // StateMachine stateMachine, Transform source, AttackDeps attackDeps, RepositionDeps repositionDeps, WanderDeps wanderDeps, ChaseDeps chaseDeps, NavMeshAgent agent, PlayerDetector playerDetector
             root = new EnemyRoot(null, transform, attackDeps, repositionDeps, wanderDeps, chaseDeps, navMeshAgent, playerDetector, animator); 
@@ -30,7 +37,10 @@ namespace _Project.Scripts.Combat.HSM {
             machine = builder.Build();
         }
 
-        private void Update() {
+        public void Tick() {
+            if(isPaused) {
+                return;
+            }
             machine.Tick(Time.deltaTime);
             var path = StatePath(machine.Root.Leaf());
             if (lastPath != null && path != lastPath) {

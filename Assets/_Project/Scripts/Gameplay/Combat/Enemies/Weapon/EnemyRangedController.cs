@@ -34,7 +34,8 @@ public class EnemyRangedController : EnemyWeaponController {
         _state = AttackState.Idle;
     }
 
-    public void Update() {
+    public override void Tick() {
+        
         switch (_state) {
             case AttackState.Idle:
                 if (_wantsToFire)

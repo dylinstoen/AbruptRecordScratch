@@ -1,4 +1,5 @@
 ﻿using _Project.Scripts.Combat.HSM.Structs;
+using _Project.Scripts.Utilities;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,6 +11,8 @@ namespace _Project.Scripts.Combat.HSM.Motors {
         private readonly Collider _wanderZone;
         private Animator _animator;
         private bool _walkingBackToZone;
+        private float maxDestinationTime = 10f;
+        private CountdownTimer _destinationTimer;
 
         public WanderMotor(WanderDeps wanderDeps, NavMeshAgent agent, Animator animator) {
             _wanderRadius = wanderDeps.wanderRadius;
@@ -17,6 +20,7 @@ namespace _Project.Scripts.Combat.HSM.Motors {
             _startPosition = wanderDeps.startPosition;
             _wanderZone = wanderDeps.wanderZone;
             _animator = animator;
+            _destinationTimer = new CountdownTimer(maxDestinationTime);
         }
 
         public void OnEnter() {
@@ -30,8 +34,11 @@ namespace _Project.Scripts.Combat.HSM.Motors {
                 return;
             }
             _walkingBackToZone = false;
-            if (HasReachedDestination()) {
+            if (HasReachedDestination() || _destinationTimer.IsFinished) {
                 TrySetRandomDestination();
+            }
+            if(_destinationTimer.IsRunning) {
+                _destinationTimer.Tick(Time.deltaTime);
             }
             
         }
@@ -67,6 +74,7 @@ namespace _Project.Scripts.Combat.HSM.Motors {
 
             if (!_wanderZone.bounds.Contains(hit.position))
                 return;
+            _destinationTimer.Reset();
             _agent.SetDestination(hit.position);
         }
         public void Exit() => _walkingBackToZone = false;
