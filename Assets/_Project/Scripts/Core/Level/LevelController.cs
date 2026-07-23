@@ -6,9 +6,11 @@ using _Project.Scripts.Core.Level.Interface;
 
 namespace _Project.Scripts.Gameplay {
     public class LevelController : MonoBehaviour, ILevelStateSource, ILevelController {
-        public LevelState State { get; private set; }
+        private LevelState state;
 
-        public bool IsGameplayActive => State == LevelState.Playing;
+        public LevelState CurrentState => state;
+
+        public bool IsGameplayActive => state == LevelState.Playing;
 
         public event Action<LevelState> StateChanged;
         public event Action LevelCompleted; // Event to notify when the level is completed, passing the score as an integer
@@ -19,16 +21,25 @@ namespace _Project.Scripts.Gameplay {
         public void CompleteLevel() {
             SetState(LevelState.Completed);
         }
+        public void TogglePauseLevel (bool pausing) {
+            if (pausing) {
+                SetState(LevelState.Paused);
+            }
+            else {
+                SetState(LevelState.Playing);
+            }
+
+        }
 
         private void SetState(LevelState newState) {
-            if (State == newState) return;
+            if (state == newState) return;
             switch(newState) {
                 case LevelState.Completed:
                     LevelCompleted?.Invoke();
                     break;
             }
-            State = newState;
-            StateChanged?.Invoke(State);
+            state = newState;
+            StateChanged?.Invoke(state);
         }
     }
 }

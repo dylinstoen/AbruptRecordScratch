@@ -21,14 +21,18 @@ namespace _Project.Scripts.Gameplay {
             _return = returnToPool;
             _type = key;
         }
-        
+
+        private bool _isFollowing;
+
         public void Activate(Vector3 worldPos, Quaternion worldRot, float ttlSeconds, Transform follow = null) {
             ForceRecycle();
 
             transform.SetPositionAndRotation(worldPos, worldRot);
 
             _follow = follow;
-            if (_follow) {
+            _isFollowing = follow != null;
+
+            if (_isFollowing) {
                 _localPos = _follow.InverseTransformPoint(worldPos);
                 _localRot = Quaternion.Inverse(_follow.rotation) * worldRot;
             }
@@ -41,28 +45,38 @@ namespace _Project.Scripts.Gameplay {
         }
 
         private void LateUpdate() {
-            if (!InUse) return;
+            if (!InUse)
+                return;
 
-            if (_follow) {
-                if (!_follow) {
+            if (_isFollowing) {
+                if (_follow == null || !_follow.gameObject.activeInHierarchy) {
                     Release();
                     return;
                 }
-                transform.SetPositionAndRotation(_follow.TransformPoint(_localPos), _follow.rotation * _localRot);
+
+                transform.SetPositionAndRotation(
+                    _follow.TransformPoint(_localPos),
+                    _follow.rotation * _localRot
+                );
             }
+
             if (_hasTtl && Time.time >= _dieAt)
                 Release();
         }
-        
+
         public void ForceRecycle() {
             _follow = null;
+            _isFollowing = false;
             _hasTtl = false;
             _dieAt = 0f;
         }
 
         private void Release() {
-            if (!InUse) return;
+            if (!InUse)
+                return;
+
             InUse = false;
+            ForceRecycle();
             _return?.Invoke(this, _type);
         }
     }

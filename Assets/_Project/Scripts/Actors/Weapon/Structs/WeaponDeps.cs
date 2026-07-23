@@ -1,6 +1,7 @@
 ﻿using _Project.Scripts.Actors.Weapon;
 using _Project.Scripts.Audio.Interfaces;
 using _Project.Scripts.Combat;
+using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.UI.Reticle;
 using Unity.Cinemachine;
@@ -16,5 +17,6 @@ namespace _Project.Scripts.Actors.Structs {
         public CinemachineImpulseSource ImpulseSource;
         public IImpactService ImpactService;
         public IAudioService AudioService;
+        public ILevelStateSource LevelStateSource;
     }
 }

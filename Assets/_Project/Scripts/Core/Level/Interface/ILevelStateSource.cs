@@ -6,10 +6,8 @@ namespace _Project.Scripts.Core.Level.Interface
 {
     public interface ILevelStateSource
     {
-        LevelState State { get; }
-        
+        public LevelState CurrentState { get; }
         public event Action LevelCompleted;
-        bool IsGameplayActive { get; }
         event Action<LevelState> StateChanged;
     }
 }

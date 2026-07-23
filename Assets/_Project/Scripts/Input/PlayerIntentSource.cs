@@ -56,7 +56,8 @@ namespace _Project.Scripts.Input {
                 SecondaryFireHeld = secondaryFireHeld,
                 SecondaryFirePressed = secondaryFirePressed,
                 SwitchDelta = _switchDelta.ReadValue<float>(),
-                Interact = _interactAction.WasReleasedThisFrame()
+                Interact = _interactAction.WasReleasedThisFrame(),
+                Pause = _pauseAction.WasReleasedThisFrame(),
             };
             Current = intent;
         }

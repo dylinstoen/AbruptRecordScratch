@@ -13,6 +13,7 @@ using UnityEngine;
 using _Project.Scripts.Core.Level;
 using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay.Combat.Enemies;
+using _Project.Scripts.UI.Pause;
 
 namespace _Project.Scripts.Gameplay {
     public class LevelBootstrap : MonoBehaviour {
@@ -38,6 +39,7 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private InteractionPresenter interactionPresenter;
         [SerializeField] private CoinHud coinHud;
         [SerializeField] private LevelCompletedScreen levelCompletedScreen;
+        [SerializeField] private PauseHud pauseHud;
         [Header("Input")]
         [SerializeField] private InputModeService inputModeService;
         [Header("Services")]
@@ -60,7 +62,9 @@ namespace _Project.Scripts.Gameplay {
                 ReticleMount = reticleMount,
                 WeaponViewMount = weaponViewMount,
                 InteractionPresenter = interactionPresenter,
-                AudioService = audioService
+                AudioService = audioService,
+                LevelStateSource = levelStateSourceRef.Value,
+                levelController = levelControllerRef.Value,
             });
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);
@@ -69,6 +73,7 @@ namespace _Project.Scripts.Gameplay {
             coinHud.Initalize(coinService.Value);
 
             enemySpawnService.SpawnEnemies(levelStateSourceRef.Value);
+            pauseHud.Initialize(levelStateSourceRef.Value);
 
             endLevelTrigger.Initialize(levelControllerRef.Value);
             levelCompletedScreen.Initialize(levelStateSourceRef.Value, coinService.Value);

@@ -18,6 +18,27 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private KinematicCharacterMotor motor;
         [SerializeField] private float moveThreshold = 0.1f;
 
+        private bool isSimulationEnabled = true;
+        private Vector3 savedVelocity;
+        public void SetSimulationEnabled(bool enabled) {
+            if (isSimulationEnabled == enabled)
+                return;
+
+            isSimulationEnabled = enabled;
+
+            if (!enabled) {
+                savedVelocity = motor.BaseVelocity;
+                motor.BaseVelocity = Vector3.zero;
+                motor.enabled = false;
+
+                playerMoverPresenter.Tick(false, 0f, motor.GroundingStatus.GroundCollider);
+            }
+            else {
+                motor.enabled = true;
+                motor.BaseVelocity = savedVelocity;
+            }
+        }
+
         public void Initialize(IIntentSource intent, IAimRaySource  aimRaySource) {
             _aimRaySource = aimRaySource;
             _intent = intent;

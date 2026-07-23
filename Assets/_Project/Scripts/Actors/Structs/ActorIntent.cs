@@ -14,6 +14,7 @@
         public bool SecondaryFirePressed;
         public float SwitchDelta;
         public bool Interact;
+        public bool Pause;
         public bool HasMoveInput => Move != Vector2.zero;
         public bool HasLookInput => Look != Vector2.zero;
         public static ActorIntent None => default;

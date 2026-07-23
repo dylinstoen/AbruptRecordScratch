@@ -19,7 +19,7 @@ namespace _Project.Scripts.Actors {
             if(recoil) deps.ImpulseSource = recoil;
             var logic = WeaponUtilities.BuildLogic(so, deps);
             scene.Motor.Initialize(logic.Controller);
-            scene.View.Initialize(logic.ReloadBridge, logic.FireMode, so.fireRate);
+            scene.View.Initialize(logic.ReloadBridge, logic.FireMode, so.fireRate, deps.LevelStateSource);
             var instance = new WeaponInstance(
                 so.iD,
                 so.ammoType,

@@ -90,6 +90,16 @@ namespace _Project.Scripts.Utilities {
                 _available[type].Enqueue(inst); 
             }
         }
+        protected IEnumerable<TInstance> ActiveInstances {
+            get {
+                foreach (var queue in _activeOldest.Values) {
+                    foreach (var instance in queue) {
+                        if (instance && instance.InUse)
+                            yield return instance;
+                    }
+                }
+            }
+        }
 
         private void ReturnToPool(Component component, TKey type) {
             var inst = component as TInstance;

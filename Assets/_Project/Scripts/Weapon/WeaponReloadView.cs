@@ -8,5 +8,8 @@ namespace _Project.Scripts.Weapon {
         public void PlayAnimation(float duration) {
             animator.SetTrigger("IsReloading");
         }
+        public void SetPause(bool isPaused) {
+            animator.speed = isPaused ? 0 : 1;
+        }
     }
 }

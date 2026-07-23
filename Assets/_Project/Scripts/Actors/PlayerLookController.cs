@@ -15,7 +15,7 @@ namespace _Project.Scripts.Actors {
             _initialized = true;
         }
 
-        private void Update() {
+        public void Tick() {
             if(!_initialized) return;
             _lookCameraSource.SetLookInput(_intent.Current.Look);
         }

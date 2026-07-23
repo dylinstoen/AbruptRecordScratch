@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1734394991737735141}
   - component: {fileID: 8205430879811824407}
   - component: {fileID: -4701331224199349168}
+  - component: {fileID: 689321319946412987}
   - component: {fileID: -2528807739321883957}
   - component: {fileID: 4844002079849957283}
   - component: {fileID: -4394609101264696944}
@@ -63,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   headAnchor: {fileID: 2265403736058133117}
   playerMover: {fileID: 5472589343824308656}
+  playerBrain: {fileID: -4701331224199349168}
   playerLookController: {fileID: 3201018648563673954}
   health: {fileID: -2528807739321883957}
   playerDeathHandler: {fileID: -9042345197067019723}
@@ -72,6 +74,7 @@ MonoBehaviour:
   playerInteraction: {fileID: -4728137856743582134}
   playerCamTargetDriver: {fileID: 5705126728993406110}
   playerMoverPresenter: {fileID: -4305188119588064072}
+  playerPause: {fileID: 689321319946412987}
 --- !u!114 &-4701331224199349168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +87,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06c68c5ecf689be478596d8f419daaa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Actors.PlayerBrain
+  playerMover: {fileID: 5472589343824308656}
+  playerLookController: {fileID: 3201018648563673954}
+  playerInteraction: {fileID: -4728137856743582134}
+  weaponOwner: {fileID: 5980384112135939184}
+--- !u!114 &689321319946412987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2525985033772882391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d6268ef46232d43ab2dfd8906119b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!114 &-2528807739321883957
 MonoBehaviour:
   m_ObjectHideFlags: 0

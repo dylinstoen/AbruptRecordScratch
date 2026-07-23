@@ -2,6 +2,7 @@
 using _Project.Scripts.Actors.Structs;
 using _Project.Scripts.Audio.Interfaces;
 using _Project.Scripts.Combat;
+using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.Input;
 using _Project.Scripts.Weapon;
@@ -41,15 +42,15 @@ namespace _Project.Scripts.Actors {
             return false;
         }
 
-        public void Initialize(IIntentSource intent, IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, IAimRaySource aimRaySource, Transform reticleMount, IAudioService audioService) {
+        public void Initialize(IIntentSource intent, IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, IAimRaySource aimRaySource, Transform reticleMount, IAudioService audioService, ILevelStateSource levelStateSource) {
             if (_initialized) return;
             _intent = intent;
-            BuildWeapons(impactService, weaponViewMount, weaponLoadoutSo, reticleMount, audioService);
+            BuildWeapons(impactService, weaponViewMount, weaponLoadoutSo, reticleMount, audioService, levelStateSource);
             _weaponRunner = new WeaponRunner(_intent, aimRaySource, _weaponInventory);
             _initialized = true;
         }
         
-        private void BuildWeapons(IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, Transform reticleMount, IAudioService audioService) {
+        private void BuildWeapons(IImpactService impactService, Transform weaponViewMount, WeaponLoadoutSO weaponLoadoutSo, Transform reticleMount, IAudioService audioService, ILevelStateSource levelStateSource) {
             var weaponDeps = new WeaponDeps {
                 WeaponLogicMount = weaponLogicMount,
                 WeaponViewMount = weaponViewMount,
@@ -57,7 +58,8 @@ namespace _Project.Scripts.Actors {
                 Owner = gameObject,
                 ReticleMount = reticleMount,
                 ImpactService = impactService,
-                AudioService = audioService
+                AudioService = audioService,
+                LevelStateSource = levelStateSource
             };
             IWeaponFactory weaponFactory = new WeaponFactory();
             if (weaponLoadoutSo.Entries.Count > 0) {
@@ -77,9 +79,9 @@ namespace _Project.Scripts.Actors {
             _weaponDeps = weaponDeps;
         }
 
-        private void Update() {
+        public void Tick(float deltaTime) {
             if (!_initialized) return;
-            _weaponRunner.Tick(Time.deltaTime);
+            _weaponRunner.Tick(deltaTime);
         }
 
         private void LateUpdate() {

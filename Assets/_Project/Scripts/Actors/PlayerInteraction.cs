@@ -21,7 +21,7 @@ namespace _Project.Scripts.Actors {
             
         }
 
-        private void Update() {
+        public void Tick() {
             
             // 1. Show interactable
             IInteractable newTarget = FindBestTarget();
