@@ -709,6 +709,8 @@ MonoBehaviour:
     _implementer: {fileID: 55549732}
   coinService:
     _implementer: {fileID: 1663196958}
+  stainPool: {fileID: 1645943415}
+  splatterPool: {fileID: 1645943416}
 --- !u!1 &153060842
 GameObject:
   m_ObjectHideFlags: 0

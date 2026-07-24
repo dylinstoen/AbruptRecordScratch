@@ -12,8 +12,14 @@ namespace _Project.Scripts.Gameplay {
         private Action<Component, SplatterType> _return;
         private SplatterType _type;
 
-        public void Bind(Action<Component, SplatterType> returnToPool, SplatterType key)
-        {
+        private float _remainingLifetime;
+        private bool _isPaused;
+        private bool _returnScheduled;
+
+        public void Bind(
+            Action<Component, SplatterType> returnToPool,
+            SplatterType key
+        ) {
             _return = returnToPool;
             _type = key;
 
@@ -21,8 +27,15 @@ namespace _Project.Scripts.Gameplay {
                 systems = GetComponentsInChildren<ParticleSystem>(true);
         }
 
-        public void MarkInUse() => InUse = true;
-        public void MarkFree() => InUse = false;
+        private void Update() {
+            if (!_returnScheduled || _isPaused)
+                return;
+
+            _remainingLifetime -= Time.deltaTime;
+
+            if (_remainingLifetime <= 0f)
+                Return();
+        }
 
         public void Play(Vector3 pos, Quaternion rot) {
             transform.SetPositionAndRotation(pos, rot);
@@ -32,41 +45,91 @@ namespace _Project.Scripts.Gameplay {
             ForceRecycle();
             MarkInUse();
 
-            for (int i = 0; i < systems.Length; i++)
-                systems[i].Play(true);
+            for (int i = 0; i < systems.Length; i++) {
+                if (!systems[i])
+                    continue;
 
-            CancelInvoke(nameof(Return));
-            Invoke(nameof(Return), ComputeMaxLifetimeSeconds());
+                systems[i].Play(true);
+            }
+
+            _remainingLifetime = ComputeMaxLifetimeSeconds();
+            _returnScheduled = true;
         }
 
-        public void ForceRecycle()
-        {
-            CancelInvoke(nameof(Return));
+        public void SetPaused(bool paused) {
+            if (_isPaused == paused)
+                return;
 
-            for (int i = 0; i < systems.Length; i++)
-            {
-                if (!systems[i]) continue;
-                systems[i].Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            _isPaused = paused;
+
+            for (int i = 0; i < systems.Length; i++) {
+                ParticleSystem system = systems[i];
+
+                if (!system)
+                    continue;
+
+                if (paused) {
+                    system.Pause(true);
+                }
+                else if (InUse) {
+                    system.Play(true);
+                }
             }
         }
+
+        public void ForceRecycle() {
+            _returnScheduled = false;
+            _remainingLifetime = 0f;
+            _isPaused = false;
+
+            for (int i = 0; i < systems.Length; i++) {
+                if (!systems[i])
+                    continue;
+
+                systems[i].Stop(
+                    true,
+                    ParticleSystemStopBehavior.StopEmittingAndClear
+                );
+            }
+        }
+
+        public void MarkInUse() => InUse = true;
+
+        public void MarkFree() => InUse = false;
 
         private float ComputeMaxLifetimeSeconds() {
             float max = 0.05f;
-            for (int i = 0; i < systems.Length; i++)
-            {
-                var ps = systems[i];
-                if (!ps) continue;
-                var main = ps.main;
 
-                float lifeMax = main.startLifetime.mode == ParticleSystemCurveMode.TwoConstants ? main.startLifetime.constantMax : main.startLifetime.constant;
+            for (int i = 0; i < systems.Length; i++) {
+                ParticleSystem ps = systems[i];
+
+                if (!ps)
+                    continue;
+
+                ParticleSystem.MainModule main = ps.main;
+
+                float lifeMax =
+                    main.startLifetime.mode ==
+                    ParticleSystemCurveMode.TwoConstants
+                        ? main.startLifetime.constantMax
+                        : main.startLifetime.constant;
 
                 float estimate = main.duration + lifeMax;
-                if (estimate > max) max = estimate;
+
+                if (estimate > max)
+                    max = estimate;
             }
+
             return max;
         }
 
         private void Return() {
+            if (!_returnScheduled)
+                return;
+
+            _returnScheduled = false;
+            _remainingLifetime = 0f;
+
             _return?.Invoke(this, _type);
         }
     }

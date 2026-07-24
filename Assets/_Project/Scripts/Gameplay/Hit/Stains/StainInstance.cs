@@ -4,79 +4,135 @@ using _Project.Scripts.Utilities;
 using UnityEngine;
 
 namespace _Project.Scripts.Gameplay {
-    public class StainInstance : MonoBehaviour, IPoolKeyed<StainType> {
+    public sealed class StainInstance : MonoBehaviour, IPoolKeyed<StainType> {
         private Action<Component, StainType> _return;
         private StainType _type;
+
         private Transform _follow;
-        private Vector3 _localPos;
-        private Quaternion _localRot;
+        private bool _wasFollowing;
+
+        private Vector3 _localPosition;
+        private Quaternion _localRotation;
+
         private bool _hasTtl;
-        private float _dieAt;
+        private float _remainingLifetime;
+
+        private bool _isPaused;
 
         public bool InUse { get; private set; }
-        public void MarkInUse() => InUse = true;
-        public void MarkFree() => InUse = false;
-        
-        public void Bind(Action<Component, StainType> returnToPool, StainType key) {
+
+        public void MarkInUse() {
+            InUse = true;
+        }
+
+        public void MarkFree() {
+            InUse = false;
+        }
+
+        public void Bind(
+            Action<Component, StainType> returnToPool,
+            StainType key
+        ) {
             _return = returnToPool;
             _type = key;
         }
 
-        private bool _isFollowing;
-
-        public void Activate(Vector3 worldPos, Quaternion worldRot, float ttlSeconds, Transform follow = null) {
+        public void Activate(
+            Vector3 worldPosition,
+            Quaternion worldRotation,
+            float ttlSeconds,
+            Transform follow = null
+        ) {
+            // Clears state from the previous use of this pooled instance.
+            // It intentionally does not clear _isPaused.
             ForceRecycle();
 
-            transform.SetPositionAndRotation(worldPos, worldRot);
+            transform.SetPositionAndRotation(
+                worldPosition,
+                worldRotation
+            );
 
             _follow = follow;
-            _isFollowing = follow != null;
+            _wasFollowing = follow != null;
 
-            if (_isFollowing) {
-                _localPos = _follow.InverseTransformPoint(worldPos);
-                _localRot = Quaternion.Inverse(_follow.rotation) * worldRot;
+            if (_wasFollowing) {
+                _localPosition = _follow.InverseTransformPoint(worldPosition);
+
+                _localRotation =
+                    Quaternion.Inverse(_follow.rotation) *
+                    worldRotation;
             }
 
             _hasTtl = ttlSeconds > 0f;
-            _dieAt = _hasTtl ? Time.time + ttlSeconds : 0f;
+            _remainingLifetime = Mathf.Max(0f, ttlSeconds);
 
             InUse = true;
             gameObject.SetActive(true);
         }
 
         private void LateUpdate() {
-            if (!InUse)
+            if (!InUse || _isPaused)
                 return;
 
-            if (_isFollowing) {
-                if (_follow == null || !_follow.gameObject.activeInHierarchy) {
-                    Release();
-                    return;
-                }
+            UpdateFollowTarget();
+            UpdateLifetime();
+        }
 
-                transform.SetPositionAndRotation(
-                    _follow.TransformPoint(_localPos),
-                    _follow.rotation * _localRot
-                );
+        private void UpdateFollowTarget() {
+            if (!_wasFollowing)
+                return;
+
+            // _follow == null also catches Unity objects that have been
+            // destroyed because Unity overloads its null comparison.
+            if (_follow == null ||
+                !_follow.gameObject.activeInHierarchy) {
+                Release();
+                return;
             }
 
-            if (_hasTtl && Time.time >= _dieAt)
+            transform.SetPositionAndRotation(
+                _follow.TransformPoint(_localPosition),
+                _follow.rotation * _localRotation
+            );
+        }
+
+        private void UpdateLifetime() {
+            // UpdateFollowTarget may have released this instance.
+            if (!InUse || !_hasTtl)
+                return;
+
+            _remainingLifetime -= Time.deltaTime;
+
+            if (_remainingLifetime <= 0f)
                 Release();
+        }
+
+        public void SetPaused(bool paused) {
+            _isPaused = paused;
         }
 
         public void ForceRecycle() {
             _follow = null;
-            _isFollowing = false;
+            _wasFollowing = false;
+
+            _localPosition = Vector3.zero;
+            _localRotation = Quaternion.identity;
+
             _hasTtl = false;
-            _dieAt = 0f;
+            _remainingLifetime = 0f;
+
+            // Do not reset _isPaused here. The pause state belongs to the
+            // stain pool and should survive ring recycling.
         }
 
         private void Release() {
             if (!InUse)
                 return;
 
-            InUse = false;
             ForceRecycle();
+
+            // ReturnToPool checks InUse before returning, so don't mark this
+            // free here. The pool owns that transition.
             _return?.Invoke(this, _type);
         }
     }

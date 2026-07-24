@@ -14,6 +14,7 @@ using _Project.Scripts.Core.Level;
 using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay.Combat.Enemies;
 using _Project.Scripts.UI.Pause;
+using _Project.Scripts.Gameplay.Interract;
 
 namespace _Project.Scripts.Gameplay {
     public class LevelBootstrap : MonoBehaviour {
@@ -49,6 +50,8 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private EnemySpawnService enemySpawnService;
         [SerializeField, Anywhere] private InterfaceRef<IPlayerService> playerService;
         [SerializeField, Anywhere] private InterfaceRef<ICoinService> coinService;
+        [SerializeField] private StainPool stainPool;
+        [SerializeField] private SplatterPool splatterPool;
         
         private void Start() {
             var player = playerSpawner.Spawn(playerSpawnPoint.position, playerSpawnPoint.rotation);
@@ -71,6 +74,8 @@ namespace _Project.Scripts.Gameplay {
             gameManager.Initialize(player.DeathEvents, deathScreen, inputModeService, inputModeService.DeathUIIInputEvent);
             playerService.Value.Initialize(player);
             coinHud.Initalize(coinService.Value);
+            stainPool.Initialize(levelStateSourceRef.Value);
+            splatterPool.Initialize(levelStateSourceRef.Value);
 
             enemySpawnService.SpawnEnemies(levelStateSourceRef.Value);
             pauseHud.Initialize(levelStateSourceRef.Value);
