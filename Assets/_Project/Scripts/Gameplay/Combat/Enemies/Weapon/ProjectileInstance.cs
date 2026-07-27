@@ -1,6 +1,9 @@
 ﻿using System;
+using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay;
 using _Project.Scripts.Utilities;
+using _Project.Scripts.Gameplay.Enums;
+
 using UnityEngine;
 
 namespace _Project.Scripts.Combat.Weapon {
@@ -13,20 +16,23 @@ namespace _Project.Scripts.Combat.Weapon {
         private bool _initialized = false;
         private Vector3 _startingPosition = Vector3.zero;
         private float _range = 0f;
+        private ILevelStateSource _levelStateSource;
 
         private CountdownTimer _countdownTimer;
         
-        public void Initialize(IImpactService impactService, float range) {
+        public void Initialize(ILevelStateSource levelStateSource, IImpactService impactService, float range) {
             _impactService = impactService;
             _initialized = true;
             _startingPosition = transform.position;
+            _levelStateSource = levelStateSource;
             _range = range;
             _countdownTimer = new CountdownTimer(_timeToLive);
             _countdownTimer.Start();
         }
 
         private void Update() {
-            if (!_initialized) return;
+            Debug.Log(_levelStateSource.CurrentState.ToString());
+            if (!_initialized || _levelStateSource == null || _levelStateSource.CurrentState != LevelState.Playing) return;
             if(Vector3.Distance(_startingPosition, transform.position) >= _range || _countdownTimer.IsFinished) {
                 Destroy(gameObject);
                 return;

@@ -1,10 +1,12 @@
 ﻿using _Project.Scripts.Combat.Weapon;
 using _Project.Scripts.Core;
+using _Project.Scripts.Core.Level.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using _Project.Scripts.Gameplay.Enums;
 
 namespace Assets._Project.Scripts.Gameplay.Combat.Enemies
 {
@@ -13,9 +15,18 @@ namespace Assets._Project.Scripts.Gameplay.Combat.Enemies
         public GameObject projectilePrefab;
         public Transform firePoint;
     }
+
     public class EnemyProjectile : MonoBehaviour {
         [SerializeField] private Projectile[] projectiles;
+
+        private ILevelStateSource levelStateSource;
+        public void Inititalize(ILevelStateSource levelStateSource) {
+            this.levelStateSource = levelStateSource;
+        }
         public void Fire() {
+            if (levelStateSource == null || levelStateSource.CurrentState != LevelState.Playing) {
+                return;
+            }
             foreach (Projectile projectile in projectiles) {
                 if (projectile.projectilePrefab == null || projectile.firePoint == null)
                     continue;
@@ -25,7 +36,7 @@ namespace Assets._Project.Scripts.Gameplay.Combat.Enemies
                 var inst = Instantiate(projectile.projectilePrefab, projectile.firePoint.position, Quaternion.LookRotation(dir, Vector3.up));
                 ProjectileInstance projInstance = inst.GetComponent<ProjectileInstance>();
                 if (projInstance != null) {
-                    projInstance.Initialize(SceneServiceLocator.Current.Impact, 100f);
+                    projInstance.Initialize(this.levelStateSource, SceneServiceLocator.Current.Impact, 100f);
                 }
             }
             

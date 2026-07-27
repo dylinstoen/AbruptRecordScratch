@@ -2,6 +2,7 @@ using _Project.Scripts.Combat.HSM;
 using _Project.Scripts.Combat.Weapon;
 using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay.Enums;
+using Assets._Project.Scripts.Gameplay.Combat.Enemies;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,11 +10,14 @@ namespace _Project.Scripts.Gameplay.Combat.Enemies {
     public class EnemyBrain : MonoBehaviour {
         [SerializeField] private EnemyWeaponController weaponController;
         [SerializeField] private EnemyStateDriver stateDriver;
+        [SerializeField] private EnemyProjectile enemyProjectile;
         private bool isPaused = false;
         private ILevelStateSource levelStateSource;
         public void Initalize(ILevelStateSource levelStateSource) {
             this.levelStateSource = levelStateSource;
             this.levelStateSource.StateChanged += OnStateChanged;
+            enemyProjectile.Inititalize(levelStateSource);
+
         }
         private void OnStateChanged(LevelState levelState) {
             if(levelState == LevelState.Completed) {

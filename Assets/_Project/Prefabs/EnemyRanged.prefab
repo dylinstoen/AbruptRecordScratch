@@ -358,7 +358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1866210948779065987
 Transform:
   m_ObjectHideFlags: 0
@@ -390,6 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.Gameplay.Combat.Enemies.EnemyBrain
   weaponController: {fileID: 5112663109494894212}
   stateDriver: {fileID: 6394678867145441257}
+  enemyProjectile: {fileID: 7673361505843931001}
 --- !u!114 &6394678867145441257
 MonoBehaviour:
   m_ObjectHideFlags: 0

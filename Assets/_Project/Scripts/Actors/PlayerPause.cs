@@ -13,6 +13,7 @@ namespace _Project.Scripts.Actors {
             this.levelStateSource = levelStateSource;
             this._intent = intent;
         }
+        
         private void Update() {
             if (levelController == null || levelStateSource == null || _intent == null) {
                 Debug.LogError("Level Controller or Intent Source is not initialized in PlayerPause.");
