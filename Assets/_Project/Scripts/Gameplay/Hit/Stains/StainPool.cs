@@ -9,6 +9,7 @@ namespace _Project.Scripts.Gameplay.Interract {
         public void Initialize(ILevelStateSource levelStateSource) {
             _levelStateSource = levelStateSource;
             levelStateSource.StateChanged += OnStateChanged;
+            SetPaused(_levelStateSource.CurrentState == LevelState.Paused);
         }
 
         private void OnStateChanged(LevelState state) {
