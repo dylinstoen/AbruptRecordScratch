@@ -22,5 +22,6 @@ namespace _Project.Scripts.MainMenu {
                 levelSelectPage,
                 levelSelectOption);
         }
+
     }
 }

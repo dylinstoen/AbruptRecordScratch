@@ -61,6 +61,12 @@ namespace _Project.Scripts.MainMenu {
             _currentPage.Show();
         }
 
+        public void RequestBack() {
+            if (_currentPage != null && _currentPage.TryHandleBack()) {
+                return;
+            }
+            GoBack();
+        }
         public bool GoBack() {
             if (_history.Count == 0)
                 return false;

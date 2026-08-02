@@ -8,10 +8,12 @@ namespace _Project.Scripts.MainMenu {
 
         private MenuInputModeTracker _inputModeTracker;
         private MenuOption _lastSelectedOption;
+        private IMenuBackHandler _backHandler;
 
 
         public void Initialize(MenuInputModeTracker inputModeTracker) {
             _inputModeTracker = inputModeTracker;
+            _backHandler = GetComponent<IMenuBackHandler>();
 
             foreach (MenuOption option in options) {
                 option.Initialize(this, inputModeTracker);
@@ -34,10 +36,10 @@ namespace _Project.Scripts.MainMenu {
                 EventSystem.current.SetSelectedGameObject(null);
             }
         }
-        private void RefreshVisuals() {
-            foreach (MenuOption option in options)
-                option.RefreshVisual();
+        public bool TryHandleBack() {
+            return _backHandler != null && _backHandler.TryHandleBack();
         }
+
         public void Hide() {
             foreach (MenuOption option in options)
                 option.ResetVisualState();

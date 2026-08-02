@@ -4,7 +4,7 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField]
         private MenuNavigationController navigation;
         public void OnReturnPressed() {
-        navigation.GoBack();
+        navigation.RequestBack();
     }
 }
 }
