@@ -63,6 +63,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void OnSelect(BaseEventData eventData) {
+            
             _isSelected = true;
             _owner.RememberSelection(this);
             RefreshVisual();

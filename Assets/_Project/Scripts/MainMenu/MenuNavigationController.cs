@@ -3,6 +3,7 @@ using UnityEngine;
 namespace _Project.Scripts.MainMenu {
     public class MenuNavigationController : MonoBehaviour {
         private readonly Stack<MenuHistoryEntry> _history = new();
+        public event System.Action<MenuPage> PagePopped;
 
         private MenuPage _currentPage;
         [SerializeField] private MenuInputModeTracker inputModeTracker;
@@ -67,16 +68,16 @@ namespace _Project.Scripts.MainMenu {
             }
             GoBack();
         }
-        public bool GoBack() {
+        private bool GoBack() {
             if (_history.Count == 0)
                 return false;
+            MenuPage pageBeingPopped = _currentPage;
+            pageBeingPopped.Hide();
 
-            _currentPage.Hide();
-
-            MenuHistoryEntry previous = _history.Pop();
-
-            _currentPage = previous.Page;
-            _currentPage.Show(previous.ReturnOption);
+            MenuHistoryEntry pageToBeEntered = _history.Pop();
+            PagePopped?.Invoke(pageBeingPopped);
+            _currentPage = pageToBeEntered.Page;
+            _currentPage.Show(pageToBeEntered.ReturnOption);
 
             return true;
         }

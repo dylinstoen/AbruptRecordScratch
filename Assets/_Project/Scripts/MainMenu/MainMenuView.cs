@@ -8,19 +8,16 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField] private MenuPage levelSelectPage;
 
         [Header("Options")]
-        [SerializeField] private MenuOption settingsOption;
         [SerializeField] private MenuOption levelSelectOption;
-
-        public void OnSettingsPressed() {
-            navigation.OpenSubmenu(
-                settingsPage,
-                settingsOption);
-        }
 
         public void OnLevelSelectPressed() {
             navigation.OpenSubmenu(
                 levelSelectPage,
                 levelSelectOption);
+        }
+
+        public void OnQuit() {
+            Application.Quit();
         }
 
     }

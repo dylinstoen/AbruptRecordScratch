@@ -9,12 +9,7 @@ namespace _Project.Scripts.MainMenu {
             if (!context.performed)
                 return;
 
-            bool wentBack = navigation.GoBack();
-
-            if (!wentBack) {
-                // Already at root.
-                // You could open a quit confirmation or do nothing.
-            }
+            navigation.RequestBack();
         }
     }
 

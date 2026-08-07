@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace _Project.Scripts.MainMenu {
@@ -5,11 +6,14 @@ namespace _Project.Scripts.MainMenu {
         [Header("Navigation")]
         [SerializeField] private MenuOption defaultOption;
         [SerializeField] private MenuOption[] options;
+        public event Action Shown;
+        public event Action Hidden;
 
         private MenuInputModeTracker _inputModeTracker;
         private MenuOption _lastSelectedOption;
         private IMenuBackHandler _backHandler;
 
+        public MenuOption GetLastSelectedOption { get { return _lastSelectedOption; }  }
 
         public void Initialize(MenuInputModeTracker inputModeTracker) {
             _inputModeTracker = inputModeTracker;
@@ -23,6 +27,8 @@ namespace _Project.Scripts.MainMenu {
 
         public void Show(MenuOption preferredOption = null) {
             gameObject.SetActive(true);
+
+            Shown?.Invoke();
 
             if (_inputModeTracker.CurrentMode == MenuInputMode.Controller) {
                 MenuOption optionToSelect =
@@ -44,6 +50,7 @@ namespace _Project.Scripts.MainMenu {
             foreach (MenuOption option in options)
                 option.ResetVisualState();
 
+            Hidden?.Invoke();
             gameObject.SetActive(false);
         }
 
@@ -65,6 +72,5 @@ namespace _Project.Scripts.MainMenu {
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(option.GameObject);
         }
-
     }
 }
