@@ -9,6 +9,16 @@ namespace _Project.Scripts.MainMenu {
 
         [Header("Options")]
         [SerializeField] private MenuOption levelSelectOption;
+        [SerializeField] private MenuOption settingsOption;
+
+        private SettingsFlowHandler _settingsFlowHandler;
+        public void Initalize(SettingsFlowHandler settingsFlowHandler) {
+            _settingsFlowHandler = settingsFlowHandler;
+        }
+
+        public void OpenSettings() {
+            _settingsFlowHandler.Open(settingsOption);
+        }
 
         public void OnLevelSelectPressed() {
             navigation.OpenSubmenu(

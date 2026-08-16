@@ -1,5 +1,6 @@
 using System;
-
+using UnityEngine;
+using UnityEngine.InputSystem;
 namespace _Project.Scripts.MainMenu {
     public sealed class KeybindSession {
         private readonly InputBindingController _controller;
@@ -24,8 +25,19 @@ namespace _Project.Scripts.MainMenu {
             // Represents the bindings that were active when
             // the keybind page was opened.
             _baselineJson = controller.CaptureCurrentOverrides();
+           
         }
+        public InputActionRebindingExtensions.RebindingOperation BeginRebind(InputAction action, int bindingIndex, Action onComplete, Action onCancel) {
 
+            EnsureOpen();
+
+            return _controller.BeginRebind(
+                action,
+                bindingIndex,
+                onComplete,
+                onCancel
+            );
+        }
         public void Apply() {
             EnsureOpen();
 
@@ -48,6 +60,7 @@ namespace _Project.Scripts.MainMenu {
             // This changes the working/live bindings, but does not
             // save them until Apply is pressed.
             _controller.RestoreDefaults();
+
         }
 
         public void CloseAndDiscard() {

@@ -42,7 +42,7 @@ namespace _Project.Scripts.MainMenu {
             }
 
             Session = new SettingsSession(_settingsController);
-
+            
             BindPages(Session);
             
             _navigation.OpenSubmenu(
@@ -62,7 +62,7 @@ namespace _Project.Scripts.MainMenu {
         private void BindPage(
             ISettingsPage page,
             SettingsSession session) {
-
+            
             if (page == null) {
                 Debug.LogError(
                     $"{nameof(SettingsFlowHandler)} contains a missing settings page.",
@@ -77,7 +77,6 @@ namespace _Project.Scripts.MainMenu {
 
         private void HandlePagePopped(MenuPage poppedPage) {
             ISettingsPage rootPage = _rootPage.Value;
-            Debug.Log(poppedPage.name);
             if (rootPage == null)
                 return;
 
@@ -88,6 +87,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         private void CloseSession() {
+            Debug.Log("Close settings session");
             BindPages(null);
             Session = null;
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Project.Scripts.MainMenu {
     public sealed class KeybindMenuView :
@@ -12,11 +13,39 @@ namespace _Project.Scripts.MainMenu {
 
         public MenuPage ThisMenuPage => _menuPage;
 
+        private MenuNavigationController _navigation;
+
+        public void Initialize(MenuNavigationController navigation) {
+            _navigation = navigation;
+        }
+
         public void BindSession(KeybindSession session) {
+            if (session == null) {
+                return;
+            }
             _session = session;
 
-            RefreshBindings();
+            RefreshInteractable();
             RefreshButtons();
+        }
+
+        public void Rebind(InputAction action, int bindingIndex) {
+
+            if (_session == null)
+                return;
+
+            _session.BeginRebind(
+                action,
+                bindingIndex,
+                onComplete: () => {
+                    RefreshInteractable();
+                    RefreshButtons();
+                },
+                onCancel: () => {
+                    RefreshInteractable();
+                    RefreshButtons();
+                }
+            );
         }
 
         public void Apply() {
@@ -25,7 +54,7 @@ namespace _Project.Scripts.MainMenu {
 
             _session.Apply();
 
-            RefreshBindings();
+            RefreshInteractable();
             RefreshButtons();
         }
 
@@ -35,17 +64,20 @@ namespace _Project.Scripts.MainMenu {
 
             _session.RestoreDefaults();
 
-            RefreshBindings();
+            RefreshInteractable();
             RefreshButtons();
         }
 
-        private void RefreshBindings() {
-            // Update the displayed binding strings.
+        public void Back() {
+            _navigation.RequestBack();
+        }
+
+        private void RefreshInteractable() {
+            
         }
 
         private void RefreshButtons() {
-            // _applyButton.interactable =
-            //     _session != null && _session.HasChanges;
+
         }
     }
 }

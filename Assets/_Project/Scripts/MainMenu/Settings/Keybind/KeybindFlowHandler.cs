@@ -1,4 +1,5 @@
 using KBCore.Refs;
+using UnityEditor;
 using UnityEngine;
 
 namespace _Project.Scripts.MainMenu {
@@ -55,9 +56,9 @@ namespace _Project.Scripts.MainMenu {
                 return;
             }
 
-            Session = new KeybindSession(
-                _inputBindingController
-            );
+            Debug.Log("Starting a new session");
+
+            Session = new KeybindSession(_inputBindingController);
 
             page.BindSession(Session);
 
@@ -75,7 +76,7 @@ namespace _Project.Scripts.MainMenu {
 
             if (poppedPage != page.ThisMenuPage)
                 return;
-
+            Debug.Log("closing keybind session");
             CloseSession();
         }
 

@@ -2,9 +2,12 @@ using System;
 using UnityEngine;
 namespace _Project.Scripts.MainMenu {
     public class MenuBootstrap : MonoBehaviour {
+        
         [SerializeField] private MenuInputModeTracker inputModeTracker;
         [SerializeField] private MenuNavigationController navigation;
 
+        [Header("Menu Page")]
+        [SerializeField] private MainMenuView mainMenuView;
         [SerializeField] private MenuPage mainMenu;
         [SerializeField] private MenuPage settingsMenu;
         [SerializeField] private MenuPage levelSelectMenu;
@@ -21,13 +24,18 @@ namespace _Project.Scripts.MainMenu {
         //[SerializeField] private MenuPage videoMenu;
 
         private void Start() {
+            keybindFlowHandler.Initialize(inputBindingController, navigation);
+            settingsFlowHandler.Initialize(settingsController, navigation);
+            mainMenuView.Initalize(settingsFlowHandler);
             mainMenu.Initialize(inputModeTracker);
             settingsMenu.Initialize(inputModeTracker);
             levelSelectMenu.Initialize(inputModeTracker);
             keyBindMenuPage.Initialize(inputModeTracker);
-            settingsMenuView.Initialize(settingsController, settingsMenu, navigation);
-            settingsFlowHandler.Initialize(settingsController, navigation);
-            keybindFlowHandler.Initialize(inputBindingController, navigation);
+            settingsMenuView.Initialize(keybindFlowHandler, settingsMenu, navigation);
+            keybindMenuView.Initialize(navigation);
+            
+            
+            
 
             levelSelectMenu.gameObject.SetActive(false);
             settingsMenu.gameObject.SetActive(false);

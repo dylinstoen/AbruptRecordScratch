@@ -18,9 +18,6 @@ namespace _Project.Scripts.MainMenu {
             Load();
         }
 
-        public SettingsSession CreateSession() {
-            return new SettingsSession(this);
-        }
 
         public SettingsData CreateEditingCopy() {
             return new SettingsData(Saved);

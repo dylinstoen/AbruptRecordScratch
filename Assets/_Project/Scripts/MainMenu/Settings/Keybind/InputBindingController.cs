@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,9 +19,6 @@ namespace _Project.Scripts.MainMenu {
             Load();
         }
 
-        public KeybindSession CreateSession() {
-            return new KeybindSession(this);
-        }
 
         public string CaptureCurrentOverrides() {
             return _actions.SaveBindingOverridesAsJson();
@@ -32,6 +30,22 @@ namespace _Project.Scripts.MainMenu {
             if (!string.IsNullOrWhiteSpace(json)) {
                 _actions.LoadBindingOverridesFromJson(json);
             }
+        }
+
+        public InputActionRebindingExtensions.RebindingOperation BeginRebind(InputAction action, int bindingIndex, Action onComplete, Action onCancel) {
+            action.Disable();
+            return action.PerformInteractiveRebinding(bindingIndex)
+                .OnComplete(operation => {
+                    operation.Dispose();
+                    action.Enable();
+                    onComplete?.Invoke();
+                })
+                .OnCancel(operation => {
+                    operation.Dispose();
+                    action.Enable();
+                    onCancel?.Invoke();
+                })
+                .Start();
         }
 
         public void SaveCurrentOverrides() {

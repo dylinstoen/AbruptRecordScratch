@@ -7,22 +7,27 @@ namespace _Project.Scripts.MainMenu {
         MonoBehaviour, ISettingsPage {
 
         [SerializeField, Anywhere] private InterfaceRef<ISettingsControl>[] _controls;
-        [SerializeField] private MenuOption _keybindButton;
-        [SerializeField] private MenuPage _keybindMenuPage;
+
         [SerializeField] private MenuPage _menuPage;
+        [SerializeField] MenuOption openKeyBindButton;
         private MenuNavigationController _navigation;
-        private SettingsController _controller;
         private SettingsSession _session;
+
+        private KeybindFlowHandler _KeybindFlowHandler;
 
         public MenuPage ThisMenuPage => _menuPage;
 
-        public void Initialize(SettingsController controller, MenuPage settingsMenuPage, MenuNavigationController menuNavigationController) {
-            _controller = controller;
+        public void Initialize(KeybindFlowHandler keyBindFlowHandler, MenuPage settingsMenuPage, MenuNavigationController menuNavigationController) {
             _menuPage = settingsMenuPage;
             _navigation = menuNavigationController;
+            _KeybindFlowHandler = keyBindFlowHandler;
 
             _menuPage.Shown += OnShown;
             _menuPage.Hidden += OnHidden;
+        }
+
+        public void OpenKeybindMenu() {
+            _KeybindFlowHandler.Open(openKeyBindButton);
         }
 
         public void BindSession(SettingsSession settingsSession) {
@@ -32,9 +37,6 @@ namespace _Project.Scripts.MainMenu {
                 InitializeControls();
         }
 
-        public void OnKeybindPressed() {
-            _navigation.OpenSubmenu(_keybindMenuPage, _keybindButton);
-        }
 
         private void OnShown() {
             if (_session == null) {
