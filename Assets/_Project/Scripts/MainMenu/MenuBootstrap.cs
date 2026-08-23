@@ -1,17 +1,18 @@
+using NUnit.Framework;
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 namespace _Project.Scripts.MainMenu {
     public class MenuBootstrap : MonoBehaviour {
+
         
         [SerializeField] private MenuInputModeTracker inputModeTracker;
         [SerializeField] private MenuNavigationController navigation;
 
         [Header("Menu Page")]
         [SerializeField] private MainMenuView mainMenuView;
-        [SerializeField] private MenuPage mainMenu;
-        [SerializeField] private MenuPage settingsMenu;
-        [SerializeField] private MenuPage levelSelectMenu;
-        [SerializeField] private MenuPage keyBindMenuPage;
+        [SerializeField] private MenuPage[] menuPages;
+
 
         [Header("Settings")]
         [SerializeField] private SettingsController settingsController;
@@ -20,6 +21,11 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField] private KeybindMenuView keybindMenuView;
         [SerializeField] private InputBindingController inputBindingController;
         [SerializeField] private KeybindFlowHandler keybindFlowHandler;
+        [SubHeader("Keybind")]
+        [SerializeField] private InputActionAsset actions;
+        [SerializeField] private ActionContainer actionContainer;
+
+       
         //[SerializeField] private MenuPage audioMenu;
         //[SerializeField] private MenuPage videoMenu;
 
@@ -27,23 +33,18 @@ namespace _Project.Scripts.MainMenu {
             keybindFlowHandler.Initialize(inputBindingController, navigation);
             settingsFlowHandler.Initialize(settingsController, navigation);
             mainMenuView.Initalize(settingsFlowHandler);
-            mainMenu.Initialize(inputModeTracker);
-            settingsMenu.Initialize(inputModeTracker);
-            levelSelectMenu.Initialize(inputModeTracker);
-            keyBindMenuPage.Initialize(inputModeTracker);
-            settingsMenuView.Initialize(keybindFlowHandler, settingsMenu, navigation);
-            keybindMenuView.Initialize(navigation);
-            
-            
-            
+            settingsMenuView.Initialize(keybindFlowHandler, navigation);
 
-            levelSelectMenu.gameObject.SetActive(false);
-            settingsMenu.gameObject.SetActive(false);
-            keybindMenuView.gameObject.SetActive(false);
+            actionContainer.Initialize(actions.FindActionMap("Gameplay"));
+            keybindMenuView.Initialize(navigation);
+
+            foreach(MenuPage page in menuPages) {
+                page.Initialize(inputModeTracker);
+                page.gameObject.SetActive(false);
+            }
+            
             //audioMenu.Initialize(inputModeTracker);
             //videoMenu.Initialize(inputModeTracker);
-
-            navigation.OpenRoot(mainMenu);
         }
     }
 }

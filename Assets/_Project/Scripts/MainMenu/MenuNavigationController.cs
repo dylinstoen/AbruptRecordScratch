@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace _Project.Scripts.MainMenu {
     public class MenuNavigationController : MonoBehaviour {
+        [SerializeField] private MenuPage defaultPage;
         private readonly Stack<MenuHistoryEntry> _history = new();
         public event System.Action<MenuPage> PagePopped;
 
@@ -22,6 +23,10 @@ namespace _Project.Scripts.MainMenu {
             else {
                 _currentPage.RestoreSelection();
             }
+        }
+
+        private void Start() {
+            OpenRoot(defaultPage);
         }
 
         private void OnDestroy() {

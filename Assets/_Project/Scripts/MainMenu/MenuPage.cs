@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 namespace _Project.Scripts.MainMenu {
     public class MenuPage : MonoBehaviour {
         [Header("Navigation")]
         [SerializeField] private MenuOption defaultOption;
-        [SerializeField] private MenuOption[] options;
+        private MenuOption[] _options;
         public event Action Shown;
         public event Action Hidden;
 
@@ -19,7 +20,9 @@ namespace _Project.Scripts.MainMenu {
             _inputModeTracker = inputModeTracker;
             _backHandler = GetComponent<IMenuBackHandler>();
 
-            foreach (MenuOption option in options) {
+            _options = GetComponentsInChildren<MenuOption>(true);
+
+            foreach (MenuOption option in _options) {
                 option.Initialize(this, inputModeTracker);
             }
                 
@@ -47,7 +50,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void Hide() {
-            foreach (MenuOption option in options)
+            foreach (MenuOption option in _options)
                 option.ResetVisualState();
 
             Hidden?.Invoke();

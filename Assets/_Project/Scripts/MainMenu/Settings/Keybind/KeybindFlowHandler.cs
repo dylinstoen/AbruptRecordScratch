@@ -56,7 +56,7 @@ namespace _Project.Scripts.MainMenu {
                 return;
             }
 
-            Debug.Log("Starting a new session");
+            Debug.Log("Starting a new keybind session");
 
             Session = new KeybindSession(_inputBindingController);
 

@@ -87,7 +87,6 @@ namespace _Project.Scripts.MainMenu {
         }
 
         private void CloseSession() {
-            Debug.Log("Close settings session");
             BindPages(null);
             Session = null;
         }

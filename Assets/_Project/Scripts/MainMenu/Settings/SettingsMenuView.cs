@@ -17,13 +17,14 @@ namespace _Project.Scripts.MainMenu {
 
         public MenuPage ThisMenuPage => _menuPage;
 
-        public void Initialize(KeybindFlowHandler keyBindFlowHandler, MenuPage settingsMenuPage, MenuNavigationController menuNavigationController) {
-            _menuPage = settingsMenuPage;
-            _navigation = menuNavigationController;
-            _KeybindFlowHandler = keyBindFlowHandler;
-
+        private void Awake() {
             _menuPage.Shown += OnShown;
             _menuPage.Hidden += OnHidden;
+        }
+
+        public void Initialize(KeybindFlowHandler keyBindFlowHandler, MenuNavigationController menuNavigationController) {
+            _navigation = menuNavigationController;
+            _KeybindFlowHandler = keyBindFlowHandler;
         }
 
         public void OpenKeybindMenu() {
