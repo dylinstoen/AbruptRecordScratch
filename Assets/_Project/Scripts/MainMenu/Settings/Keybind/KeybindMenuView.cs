@@ -29,6 +29,17 @@ namespace _Project.Scripts.MainMenu {
 
         public MenuPage ThisMenuPage => _menuPage;
 
+        private float _rebindTimeRemaining;
+        private bool _isRebinding;
+
+        private void Update() {
+            if (!_isRebinding)
+                return;
+
+            _rebindTimeRemaining -= Time.unscaledDeltaTime;
+            _rebindPrompt.SetTime(_rebindTimeRemaining);
+        }
+
         public void Initialize(MenuNavigationController navigation) {
             _navigation = navigation;
 
@@ -58,7 +69,12 @@ namespace _Project.Scripts.MainMenu {
             if (_session == null || _selectedAction == null)
                 return;
             _optionPrompt.Hide();
+
+            _rebindTimeRemaining = _timeoutSeconds;
+            _isRebinding = true;
+
             _rebindPrompt.Show(_timeoutSeconds);
+
             _session.BeginRebind(_selectedAction, _selectedBindingIndex, onComplete: FinishRebind, onCancel: FinishRebind, timeoutSeconds: _timeoutSeconds);
         }
 
@@ -74,6 +90,7 @@ namespace _Project.Scripts.MainMenu {
         public void CloseBindingOptions() {
             _optionPrompt.Hide();
             ClearSelection();
+            
             SetMenuInteractable(true);
         }
 
@@ -102,6 +119,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         private void FinishRebind() {
+            _isRebinding = false;
             _rebindPrompt.Hide();
 
             ClearSelection();
