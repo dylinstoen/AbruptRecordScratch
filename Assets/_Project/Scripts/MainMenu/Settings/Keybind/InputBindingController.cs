@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace _Project.Scripts.MainMenu {
     public sealed class InputBindingController : MonoBehaviour {
@@ -32,20 +33,55 @@ namespace _Project.Scripts.MainMenu {
             }
         }
 
-        public InputActionRebindingExtensions.RebindingOperation BeginRebind(InputAction action, int bindingIndex, Action onComplete, Action onCancel) {
+        public InputActionRebindingExtensions.RebindingOperation BeginRebind(
+            InputAction action,
+            int bindingIndex,
+            Action onComplete,
+            Action onCancel,
+            float timeoutSeconds
+        ) {
             action.Disable();
-            return action.PerformInteractiveRebinding(bindingIndex)
-                .OnComplete(operation => {
-                    operation.Dispose();
+
+            InputBinding binding = action.bindings[bindingIndex];
+
+            var operation = action
+                .PerformInteractiveRebinding(bindingIndex)
+                .WithTimeout(timeoutSeconds);
+
+            if (binding.effectivePath.StartsWith("<Keyboard>")) {
+                operation
+                    .WithControlsHavingToMatchPath("<Keyboard>")
+                    .WithControlsExcluding("<Mouse>")
+                    .WithControlsExcluding("<Gamepad>");
+            }
+            else if (binding.effectivePath.StartsWith("<Mouse>")) {
+                operation
+                    .WithControlsHavingToMatchPath("<Mouse>")
+                    .WithControlsExcluding("<Keyboard>")
+                    .WithControlsExcluding("<Gamepad>");
+            }
+            else if (binding.effectivePath.StartsWith("<Gamepad>")) {
+                operation
+                    .WithControlsHavingToMatchPath("<Gamepad>")
+                    .WithControlsExcluding("<Keyboard>")
+                    .WithControlsExcluding("<Mouse>");
+            }
+
+            operation
+                .OnComplete(op => {
+                    op.Dispose();
                     action.Enable();
                     onComplete?.Invoke();
                 })
-                .OnCancel(operation => {
-                    operation.Dispose();
+                .OnCancel(op => {
+                    op.Dispose();
                     action.Enable();
                     onCancel?.Invoke();
-                })
-                .Start();
+                });
+
+            operation.Start();
+
+            return operation;
         }
 
         public void SaveCurrentOverrides() {
@@ -68,6 +104,10 @@ namespace _Project.Scripts.MainMenu {
 
         public void RestoreDefaults() {
             _actions.RemoveAllBindingOverrides();
+        }
+
+        internal void RemoveBinding(InputAction action, int bindingIndex) {
+            action.ApplyBindingOverride(bindingIndex, new InputBinding { overridePath = ""});
         }
     }
 }

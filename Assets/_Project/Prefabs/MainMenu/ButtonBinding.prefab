@@ -244,6 +244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.MenuOption
   highlightVisual: {fileID: 4655959386951946636}
+  selectable: {fileID: 1990576255975798767}
 --- !u!114 &-7169264788757795177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7838467f5220a7b449837656c8f18e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.BindingButton
+  menuOption: {fileID: 432996739074008813}
   button: {fileID: 1990576255975798767}
   bindingLabel: {fileID: 5189116952489909901}
 --- !u!1 &2101077363991704500

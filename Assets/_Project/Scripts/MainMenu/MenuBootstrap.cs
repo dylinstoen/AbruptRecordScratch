@@ -35,7 +35,7 @@ namespace _Project.Scripts.MainMenu {
             mainMenuView.Initalize(settingsFlowHandler);
             settingsMenuView.Initialize(keybindFlowHandler, navigation);
 
-            actionContainer.Initialize(actions.FindActionMap("Gameplay"));
+            actionContainer.Initialize(actions.FindActionMap("Gameplay"), keybindMenuView);
             keybindMenuView.Initialize(navigation);
 
             foreach(MenuPage page in menuPages) {

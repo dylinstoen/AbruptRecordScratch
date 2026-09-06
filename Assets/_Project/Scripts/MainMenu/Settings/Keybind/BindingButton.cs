@@ -12,10 +12,17 @@ namespace _Project.Scripts.MainMenu {
 
         private InputAction _action;
         private int _bindingIndex;
-        internal void Initialize(InputAction action, int bindingIndex) {
+
+        private KeybindMenuView _keybindMenuView;
+
+        string _actionLabel;
+
+        internal void Initialize(InputAction action, int bindingIndex, KeybindMenuView keybindMenuView, string actionLabel) {
+            _keybindMenuView = keybindMenuView;
             _action = action;
             _bindingIndex = bindingIndex;
-            button.onClick.AddListener(BeginRebind);
+            _actionLabel = actionLabel;
+            button.onClick.AddListener(OpenRebindPrompt);
             Refresh();
         }
 
@@ -25,11 +32,15 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void Refresh() {
-            bindingLabel.text = _action.GetBindingDisplayString(_bindingIndex);
+            if(_action ==  null) {
+                return;
+            }
+            string display = _action.GetBindingDisplayString(_bindingIndex);
+            bindingLabel.text = string.IsNullOrEmpty(display) ? "-" : display;
         }
 
-        private void BeginRebind() {
-            // TODO: Begin Rebind operation
+        private void OpenRebindPrompt() {
+            _keybindMenuView.OpenRebindPrompt(_action, _bindingIndex, bindingLabel.text, _actionLabel, menuOption);
         }
     }
 }

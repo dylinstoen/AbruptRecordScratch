@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,46 +8,73 @@ namespace _Project.Scripts.MainMenu {
         MonoBehaviour,
         IKeybindPage {
 
-        [SerializeField]
-        private MenuPage _menuPage;
+        [Header("Page")]
+        [SerializeField] private MenuPage _menuPage;
+
+        [Header("Keybind UI")]
+        [SerializeField] private ActionContainer _actionContainer;
+        [SerializeField] private KeybindOptionPromptView _optionPrompt;
+        [SerializeField] private RebindPromptView _rebindPrompt;
+
+
+        [Header("Rebind")]
+        [SerializeField] private float _timeoutSeconds = 5f;
+        
 
         private KeybindSession _session;
+        private MenuNavigationController _navigation;
+
+        private InputAction _selectedAction;
+        private int _selectedBindingIndex = -1;
 
         public MenuPage ThisMenuPage => _menuPage;
 
-        private MenuNavigationController _navigation;
-
         public void Initialize(MenuNavigationController navigation) {
             _navigation = navigation;
+
+            _optionPrompt.Initialize(this, navigation);
+            _rebindPrompt.Hide();
         }
 
         public void BindSession(KeybindSession session) {
-            if (session == null) {
+            if (session == null)
                 return;
-            }
-            _session = session;
 
-            RefreshInteractable();
+            _session = session;
             RefreshButtons();
         }
 
-        public void Rebind(InputAction action, int bindingIndex) {
-
+        public void OpenRebindPrompt(InputAction action, int bindingIndex, string bindingLabel, string actionLabel, MenuOption optionThatOpenedIt) {
             if (_session == null)
                 return;
 
-            _session.BeginRebind(
-                action,
-                bindingIndex,
-                onComplete: () => {
-                    RefreshInteractable();
-                    RefreshButtons();
-                },
-                onCancel: () => {
-                    RefreshInteractable();
-                    RefreshButtons();
-                }
-            );
+            _selectedBindingIndex = bindingIndex;
+            _selectedAction = action;
+            SetMenuInteractable(false);
+            _optionPrompt.Show(actionLabel, bindingLabel, optionThatOpenedIt);
+        }
+
+        public void ReplaceBinding() {
+            if (_session == null || _selectedAction == null)
+                return;
+            _optionPrompt.Hide();
+            _rebindPrompt.Show(_timeoutSeconds);
+            _session.BeginRebind(_selectedAction, _selectedBindingIndex, onComplete: FinishRebind, onCancel: FinishRebind, timeoutSeconds: _timeoutSeconds);
+        }
+
+        public void RemoveBinding() {
+            if (_session == null || _selectedAction == null) {
+                return;
+            }
+            _session.RemoveBinding(_selectedAction, _selectedBindingIndex);
+            CloseBindingOptions();
+            RefreshButtons();
+        }
+
+        public void CloseBindingOptions() {
+            _optionPrompt.Hide();
+            ClearSelection();
+            SetMenuInteractable(true);
         }
 
         public void Apply() {
@@ -53,8 +82,6 @@ namespace _Project.Scripts.MainMenu {
                 return;
 
             _session.Apply();
-
-            RefreshInteractable();
             RefreshButtons();
         }
 
@@ -63,21 +90,37 @@ namespace _Project.Scripts.MainMenu {
                 return;
 
             _session.RestoreDefaults();
-
-            RefreshInteractable();
             RefreshButtons();
         }
 
         public void Back() {
+            if (_session == null)
+                return;
+
+            _session.CloseAndDiscard();
             _navigation.RequestBack();
         }
 
-        private void RefreshInteractable() {
-            
+        private void FinishRebind() {
+            _rebindPrompt.Hide();
+
+            ClearSelection();
+            SetMenuInteractable(true);
+
+            RefreshButtons();
+        }
+
+        private void ClearSelection() {
+            _selectedAction = null;
+            _selectedBindingIndex = -1;
+        }
+
+        private void SetMenuInteractable(bool interactable) {
+            _menuPage.SetInteractable(interactable);
         }
 
         private void RefreshButtons() {
-
+            _actionContainer.Refresh();
         }
     }
 }

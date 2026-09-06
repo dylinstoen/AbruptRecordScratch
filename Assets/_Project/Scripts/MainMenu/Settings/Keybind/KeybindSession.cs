@@ -27,7 +27,7 @@ namespace _Project.Scripts.MainMenu {
             _baselineJson = controller.CaptureCurrentOverrides();
            
         }
-        public InputActionRebindingExtensions.RebindingOperation BeginRebind(InputAction action, int bindingIndex, Action onComplete, Action onCancel) {
+        public InputActionRebindingExtensions.RebindingOperation BeginRebind(InputAction action, int bindingIndex, Action onComplete, Action onCancel, float timeoutSeconds) {
 
             EnsureOpen();
 
@@ -35,7 +35,8 @@ namespace _Project.Scripts.MainMenu {
                 action,
                 bindingIndex,
                 onComplete,
-                onCancel
+                onCancel,
+                timeoutSeconds
             );
         }
         public void Apply() {
@@ -84,6 +85,12 @@ namespace _Project.Scripts.MainMenu {
                     "This keybind session has already been closed."
                 );
             }
+        }
+
+        public void RemoveBinding(InputAction action, int bindingIndex) {
+            EnsureOpen();
+
+            _controller.RemoveBinding(action, bindingIndex);
         }
     }
 }
