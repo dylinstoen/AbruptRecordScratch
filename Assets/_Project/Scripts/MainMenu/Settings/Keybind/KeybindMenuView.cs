@@ -114,7 +114,7 @@ namespace _Project.Scripts.MainMenu {
             if (_session == null)
                 return;
 
-            _session.CloseAndDiscard();
+            //_session.CloseAndDiscard();
             _navigation.RequestBack();
         }
 
