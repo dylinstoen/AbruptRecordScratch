@@ -1,11 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 namespace _Project.Scripts.MainMenu {
-    public sealed class SettingsController : MonoBehaviour {
+    public sealed class SettingsController : MonoBehaviour, ISettingsService {
 
-        [SerializeField] private InputBindingController _inputBindings;
-
+        private readonly List<ISettingsReceiver> _receivers = new();
         public SettingsData Saved { get; private set; }
 
         private string FilePath =>
@@ -46,12 +46,10 @@ namespace _Project.Scripts.MainMenu {
             int refreshRate = 60; // Fallback
 
             foreach (Resolution resolution in Screen.resolutions) {
-                if (resolution.width == width &&
-                    resolution.height == height) {
-                    refreshRate = Mathf.Max(
-                        refreshRate,
-                        Mathf.RoundToInt((float)resolution.refreshRateRatio.value));
+                if (resolution.width != width || resolution.height != height) {
+                    continue;
                 }
+                refreshRate = Mathf.Max(refreshRate, Mathf.RoundToInt((float)resolution.refreshRateRatio.value));
             }
 
 
@@ -80,33 +78,112 @@ namespace _Project.Scripts.MainMenu {
             ApplyToGame(Saved);
         }
 
+        public void Register(ISettingsReceiver receiver) {
+            if (_receivers.Contains(receiver)) {
+                return;
+            }
+            _receivers.Add(receiver);
+            if (Saved != null) {
+                receiver.ApplySettings(Saved);
+            }
+        }
+        public void Unregister(ISettingsReceiver reciever) {
+            _receivers.Remove(reciever);
+        }
+
         private void WriteToDisk(SettingsData data) {
             string json = JsonUtility.ToJson(data, true);
             File.WriteAllText(FilePath, json);
         }
 
         private void ApplyToGame(SettingsData data) {
-            AudioListener.volume = data.Volume;
-            QualitySettings.vSyncCount = data.VSync ? 1 : 0;
-            
-            
+            ApplyAudio(data);
+            ApplyVSync(data);
+            ApplyDisplay(data);
+            ApplyGameplaySettings(data);
+        }
 
-            FullScreenMode mode = data.WindowMode
-                ? FullScreenMode.Windowed
-                : FullScreenMode.FullScreenWindow;
+        private void ApplyAudio(SettingsData data) {
+            AudioListener.volume = data.Volume;
+        }
+        private void ApplyVSync(SettingsData data) {
+            QualitySettings.vSyncCount =
+                data.VSync ? 1 : 0;
+        }
+        private void ApplyDisplay(SettingsData data) {
+            if (data.WindowMode) {
+                Screen.SetResolution(
+                    data.ResolutionWidth,
+                    data.ResolutionHeight,
+                    FullScreenMode.Windowed
+                );
+
+                return;
+            }
+
+            RefreshRate refreshRate = FindRefreshRate(
+                data.ResolutionWidth,
+                data.ResolutionHeight,
+                data.RefreshRate
+            );
 
             Screen.SetResolution(
                 data.ResolutionWidth,
                 data.ResolutionHeight,
-                mode
+                FullScreenMode.ExclusiveFullScreen,
+                refreshRate
             );
-
-
-            // TODO:
-            // Apply refresh rate
-            // Apply FOV to camera
-            // Apply sensitivity to character
-            // Apply invert look to character
         }
+
+        private RefreshRate FindRefreshRate(int width, int height, int desiredRefreshRate) {
+            RefreshRate closest = new RefreshRate {
+                numerator = (uint)desiredRefreshRate,
+                denominator = 1
+            };
+
+            float closestDifference = float.MaxValue;
+
+            foreach (Resolution resolution in Screen.resolutions) {
+                if (resolution.width != width ||
+                    resolution.height != height) {
+                    continue;
+                }
+
+                float rate =
+                    (float)resolution.refreshRateRatio.value;
+
+                float difference =
+                    Mathf.Abs(rate - desiredRefreshRate);
+
+                if (difference >= closestDifference) {
+                    continue;
+                }
+
+                closestDifference = difference;
+                closest = resolution.refreshRateRatio;
+            }
+
+            return closest;
+        }
+        private void ApplyGameplaySettings(SettingsData data) {
+            _receivers.RemoveAll(IsStale);
+            // The copying of the data prevents edge case bugs where applying a setting causes applying another setting and therefore the array is modified as were trying to apply it.
+            ISettingsReceiver[] receivers = _receivers.ToArray();
+            foreach (ISettingsReceiver receiver in receivers) {
+                receiver.ApplySettings(data);
+            }
+        }
+        private static bool IsStale(ISettingsReceiver receiver) {
+            if (receiver == null) {
+                return true;
+            }
+
+            if (receiver is UnityEngine.Object unityObject) {
+                return unityObject == null;
+            }
+
+            return false;
+        }
+
     }
 }
