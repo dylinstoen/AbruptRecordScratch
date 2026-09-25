@@ -16,7 +16,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void OnSliderValueChanged(float value) {
-            _currentSession.WorkingCopy.Volume = value;
+            _currentSession.WorkingCopy.VerticalFOV = value;
         }
     }
 }

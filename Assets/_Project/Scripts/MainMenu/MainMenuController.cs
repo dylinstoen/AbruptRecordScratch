@@ -1,6 +1,7 @@
 using UnityEngine;
+using _Project.Scripts.UI.Navigation;
 namespace _Project.Scripts.MainMenu {
-    public class MainMenuView : MonoBehaviour {
+    public class MainMenuController : MonoBehaviour {
         [SerializeField] private MenuNavigationController navigation;
 
         [Header("Pages")]

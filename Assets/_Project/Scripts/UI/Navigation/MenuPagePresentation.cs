@@ -1,4 +1,4 @@
-namespace _Project.Scripts.MainMenu {
+namespace _Project.Scripts.UI.Navigation {
     public enum MenuPagePresentation {
         Replace,
         Overlay

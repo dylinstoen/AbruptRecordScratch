@@ -2,6 +2,7 @@
 using _Project.Scripts.Combat;
 using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay;
+using _Project.Scripts.GameRoot;
 using _Project.Scripts.Input;
 using _Project.Scripts.UI.Reticle;
 using UnityEngine;
@@ -21,5 +22,6 @@ namespace _Project.Scripts.Actors {
         public IAudioService AudioService;
         public ILevelStateSource LevelStateSource;
         public ILevelController levelController;
+        public ISettingsService SettingsService;
     }
 }

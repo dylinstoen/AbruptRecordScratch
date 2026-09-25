@@ -2,6 +2,8 @@ using NUnit.Framework;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.UI.Navigation;
 namespace _Project.Scripts.MainMenu {
     public class MenuBootstrap : MonoBehaviour {
 
@@ -10,15 +12,15 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField] private MenuNavigationController navigation;
 
         [Header("Menu Page")]
-        [SerializeField] private MainMenuView mainMenuView;
+        [SerializeField] private MainMenuController mainMenuController;
         [SerializeField] private MenuPage[] menuPages;
 
 
         [Header("Settings")]
-        [SerializeField] private SettingsController settingsController;
-        [SerializeField] private SettingsMenuView settingsMenuView;
+        [SerializeField] private SettingsService settingsService;
+        [SerializeField] private SettingsMenuController settingsMenuController;
         [SerializeField] private SettingsFlowHandler settingsFlowHandler;
-        [SerializeField] private KeybindMenuView keybindMenuView;
+        [SerializeField] private KeybindMenuController keybindMenuController;
         [SerializeField] private InputBindingController inputBindingController;
         [SerializeField] private KeybindFlowHandler keybindFlowHandler;
         [SubHeader("Keybind")]
@@ -31,12 +33,12 @@ namespace _Project.Scripts.MainMenu {
 
         private void Start() {
             keybindFlowHandler.Initialize(inputBindingController, navigation);
-            settingsFlowHandler.Initialize(settingsController, navigation);
-            mainMenuView.Initalize(settingsFlowHandler);
-            settingsMenuView.Initialize(keybindFlowHandler, navigation);
+            settingsFlowHandler.Initialize(settingsService, navigation);
+            mainMenuController.Initalize(settingsFlowHandler);
+            settingsMenuController.Initialize(keybindFlowHandler, navigation);
 
-            actionContainer.Initialize(actions.FindActionMap("Gameplay"), keybindMenuView);
-            keybindMenuView.Initialize(navigation);
+            actionContainer.Initialize(actions.FindActionMap("Gameplay"), keybindMenuController);
+            keybindMenuController.Initialize(navigation);
 
             foreach(MenuPage page in menuPages) {
                 page.Initialize(inputModeTracker);

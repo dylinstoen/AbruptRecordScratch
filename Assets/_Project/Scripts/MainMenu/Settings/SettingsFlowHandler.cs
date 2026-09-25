@@ -1,6 +1,7 @@
 using KBCore.Refs;
 using UnityEngine;
-
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.UI.Navigation;
 namespace _Project.Scripts.MainMenu {
     public sealed class SettingsFlowHandler : MonoBehaviour {
         [SerializeField, Anywhere]
@@ -9,7 +10,7 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField, Anywhere]
         private InterfaceRef<ISettingsPage>[] _subPages;
 
-        private SettingsController _settingsController;
+        private ISettingsService _settingsService;
         private MenuNavigationController _navigation;
 
         public SettingsSession Session { get; private set; }
@@ -17,10 +18,10 @@ namespace _Project.Scripts.MainMenu {
         public bool IsOpen => Session != null;
 
         public void Initialize(
-            SettingsController settingsController,
+            ISettingsService settingsService,
             MenuNavigationController menuNavigationController) {
 
-            _settingsController = settingsController;
+            _settingsService = settingsService;
             _navigation = menuNavigationController;
 
             _navigation.PagePopped += HandlePagePopped;
@@ -32,7 +33,7 @@ namespace _Project.Scripts.MainMenu {
                 return;
             }
 
-            if (_settingsController == null || _navigation == null) {
+            if (_settingsService == null || _navigation == null) {
                 Debug.LogError(
                     $"{nameof(SettingsFlowHandler)} was not initialized.",
                     this
@@ -41,7 +42,7 @@ namespace _Project.Scripts.MainMenu {
                 return;
             }
 
-            Session = new SettingsSession(_settingsController);
+            Session = new SettingsSession(_settingsService);
             
             BindPages(Session);
             

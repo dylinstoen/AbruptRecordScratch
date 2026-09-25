@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using _Project.Scripts.UI.Navigation;
+#nullable enable
 namespace _Project.Scripts.MainMenu {
     public interface ISettingsPage {
         public MenuPage ThisMenuPage { get; }

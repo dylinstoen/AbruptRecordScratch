@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
-namespace _Project.Scripts.MainMenu {
+namespace _Project.Scripts.GameRoot {
 
     [System.Serializable]
     public sealed class SettingsData {

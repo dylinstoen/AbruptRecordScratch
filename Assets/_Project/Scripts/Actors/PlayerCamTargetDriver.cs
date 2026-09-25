@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.GameRoot;
+using UnityEditor;
+using UnityEngine;
 
 namespace _Project.Scripts.Actors {
-    public class PlayerCamTargetDriver : MonoBehaviour, IAimRaySource, ILookCameraSource {
+    public class PlayerCamTargetDriver : MonoBehaviour, IAimRaySource, ILookCameraSource, ISettingsReceiver {
         [Header("References")]
         [SerializeField] private Transform yawRoot;
         [SerializeField] private Transform pitchPivot;
@@ -16,9 +18,13 @@ namespace _Project.Scripts.Actors {
         private Camera _camera;
         private bool _initialized = false;
 
-        public void Initialize(Camera cam) {
+        private ISettingsService _settingsService;
+
+        public void Initialize(Camera cam, ISettingsService settingsService) {
             _camera = cam;
-            _initialized = true;   
+            _initialized = true;
+            _settingsService = settingsService;
+            _settingsService.Register(this);
         }
 
         public void SetLookInput(Vector2 lookDelta) => AddToBaseYawPitch(lookDelta * lookSensitivity);
@@ -41,6 +47,13 @@ namespace _Project.Scripts.Actors {
         public Ray GetAimRay()
         {
             return new Ray(_camera.transform.position, _camera.transform.forward);
+        }
+        public void OnDestroy() {
+            _settingsService?.Unregister(this);
+        }
+        public void ApplySettings(SettingsData settings) {
+            // TODO: Look sensitivity
+            // TODO: Invert Look
         }
     }
 }

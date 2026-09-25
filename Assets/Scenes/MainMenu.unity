@@ -3778,18 +3778,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59f0d774df2ba1e4a91692724cbe2746, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.MenuBootstrap
-  inputModeTracker: {fileID: 1799519976}
+  inputModeTracker: {fileID: 596637627}
   navigation: {fileID: 1226981163}
-  mainMenuView: {fileID: 1626117617}
+  mainMenuController: {fileID: 1626117617}
   menuPages:
   - {fileID: 1626117618}
   - {fileID: 2038523276}
   - {fileID: 1122644708}
   - {fileID: 160798788}
-  settingsController: {fileID: 1576583432}
-  settingsMenuView: {fileID: 2038523277}
+  settingsService: {fileID: 1576583432}
+  settingsMenuController: {fileID: 2038523277}
   settingsFlowHandler: {fileID: 1329981656}
-  keybindMenuView: {fileID: 1122644709}
+  keybindMenuController: {fileID: 1122644709}
   inputBindingController: {fileID: 609924457}
   keybindFlowHandler: {fileID: 986249621}
   actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
@@ -4792,6 +4792,50 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &596637625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 596637626}
+  - component: {fileID: 596637627}
+  m_Layer: 0
+  m_Name: MenuInputModeTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &596637626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596637625}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1799519974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &596637627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596637625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c230580fe1a14459be92efe7b0d943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.UI.Navigation.MenuInputModeTracker
 --- !u!1 &600114145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4801,6 +4845,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 600114146}
+  - component: {fileID: 600114147}
   m_Layer: 0
   m_Name: GameRoot
   m_TagString: Untagged
@@ -4820,9 +4865,23 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1576583431}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600114147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600114145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d87b9f3c09ae7ff4aaa184c0a913c51f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.GameRoot.GameRoot
+  <Settings>k__BackingField: {fileID: 1576583432}
 --- !u!1 &609924455
 GameObject:
   m_ObjectHideFlags: 0
@@ -7174,7 +7233,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1576583431}
   - {fileID: 1329981655}
   - {fileID: 986249620}
   - {fileID: 609924456}
@@ -8734,7 +8792,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1226981161}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8753,8 +8811,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d7d930d67e813c4e83b5aab8a7a27c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.MenuNavigationController
+  openOnStartup: 1
   defaultPage: {fileID: 1626117618}
-  inputModeTracker: {fileID: 1799519976}
+  inputModeTracker: {fileID: 596637627}
 --- !u!1 &1231857749
 GameObject:
   m_ObjectHideFlags: 0
@@ -11215,7 +11274,7 @@ GameObject:
   - component: {fileID: 1576583431}
   - component: {fileID: 1576583432}
   m_Layer: 0
-  m_Name: SettingsController
+  m_Name: SettingsService
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11234,7 +11293,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 905053797}
+  m_Father: {fileID: 600114146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1576583432
 MonoBehaviour:
@@ -11247,7 +11306,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8b39d08beab9a7b468f0158016ea95e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsController
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.SettingsService
 --- !u!1 &1611213265
 GameObject:
   m_ObjectHideFlags: 0
@@ -12014,6 +12073,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookSensitivitySlider
   slider: {fileID: 1639945724}
+--- !u!1 &1642292326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1642292327}
+  - component: {fileID: 1642292328}
+  m_Layer: 0
+  m_Name: MenuNavigationInput
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1642292327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642292326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1799519974}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1642292328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642292326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfcdeb8179b4ca7459ecd249f3a96605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.UI.Navigation.MenuNavigationInput
+  playerInput: {fileID: 1799519975}
+  navigation: {fileID: 1226981163}
 --- !u!1 &1653853178
 GameObject:
   m_ObjectHideFlags: 0
@@ -12417,10 +12522,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1799519974}
   - component: {fileID: 1799519975}
-  - component: {fileID: 1799519976}
-  - component: {fileID: 1799519977}
   m_Layer: 0
-  m_Name: MenuInputModeTracker
+  m_Name: Input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12438,7 +12541,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1642292327}
+  - {fileID: 596637626}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1799519975
@@ -12507,19 +12612,7 @@ MonoBehaviour:
     m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
     m_ActionName: 'UI/Submit[/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1799519977}
-        m_TargetAssemblyTypeName: _Project.Scripts.MainMenu.MenuNavigationInput, Assembly-CSharp
-        m_MethodName: OnCancel
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
     m_ActionName: 'UI/Cancel[/Keyboard/escape]'
   - m_PersistentCalls:
@@ -12555,31 +12648,6 @@ MonoBehaviour:
   m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 1657102070}
---- !u!114 &1799519976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799519973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0c230580fe1a14459be92efe7b0d943, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
---- !u!114 &1799519977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1799519973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfcdeb8179b4ca7459ecd249f3a96605, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.MenuNavigationInput
-  navigation: {fileID: 1226981163}
 --- !u!1 &1800635472
 GameObject:
   m_ObjectHideFlags: 0

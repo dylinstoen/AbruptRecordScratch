@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 namespace _Project.Scripts.MainMenu {
     public sealed class InputBindingController : MonoBehaviour {
@@ -19,7 +18,6 @@ namespace _Project.Scripts.MainMenu {
         private void Awake() {
             Load();
         }
-
 
         public string CaptureCurrentOverrides() {
             return _actions.SaveBindingOverridesAsJson();
@@ -48,23 +46,30 @@ namespace _Project.Scripts.MainMenu {
                 .PerformInteractiveRebinding(bindingIndex)
                 .WithTimeout(timeoutSeconds);
 
-            if (binding.effectivePath.StartsWith("<Keyboard>")) {
-                operation
-                    .WithControlsHavingToMatchPath("<Keyboard>")
-                    .WithControlsExcluding("<Mouse>")
-                    .WithControlsExcluding("<Gamepad>");
+            // Use the ORIGINAL binding path, not effectivePath.
+            //
+            // Keyboard and Mouse now belong to the same Keyboard&Mouse
+            // control scheme, but we can still restrict each individual
+            // binding slot to its original device type.
+            string originalPath = binding.path;
+
+            if (originalPath.StartsWith(
+                    "<Keyboard>",
+                    StringComparison.OrdinalIgnoreCase
+                )) {
+                operation.WithControlsHavingToMatchPath("<Keyboard>");
             }
-            else if (binding.effectivePath.StartsWith("<Mouse>")) {
-                operation
-                    .WithControlsHavingToMatchPath("<Mouse>")
-                    .WithControlsExcluding("<Keyboard>")
-                    .WithControlsExcluding("<Gamepad>");
+            else if (originalPath.StartsWith(
+                         "<Mouse>",
+                         StringComparison.OrdinalIgnoreCase
+                     )) {
+                operation.WithControlsHavingToMatchPath("<Mouse>");
             }
-            else if (binding.effectivePath.StartsWith("<Gamepad>")) {
-                operation
-                    .WithControlsHavingToMatchPath("<Gamepad>")
-                    .WithControlsExcluding("<Keyboard>")
-                    .WithControlsExcluding("<Mouse>");
+            else if (originalPath.StartsWith(
+                         "<Gamepad>",
+                         StringComparison.OrdinalIgnoreCase
+                     )) {
+                operation.WithControlsHavingToMatchPath("<Gamepad>");
             }
 
             operation
@@ -107,7 +112,12 @@ namespace _Project.Scripts.MainMenu {
         }
 
         internal void RemoveBinding(InputAction action, int bindingIndex) {
-            action.ApplyBindingOverride(bindingIndex, new InputBinding { overridePath = ""});
+            action.ApplyBindingOverride(
+                bindingIndex,
+                new InputBinding {
+                    overridePath = ""
+                }
+            );
         }
     }
 }

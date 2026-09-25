@@ -1,47 +1,62 @@
+using _Project.Scripts.Core.Level.Interface;
+using _Project.Scripts.Gameplay.Enums;
+using System;
 using UnityEngine;
 
-using System;
-using _Project.Scripts.Gameplay.Enums;
-using _Project.Scripts.Core.Level.Interface;
+public class LevelController :
+    MonoBehaviour,
+    ILevelStateSource,
+    ILevelController {
 
-namespace _Project.Scripts.Gameplay {
-    public class LevelController : MonoBehaviour, ILevelStateSource, ILevelController {
-        private LevelState state;
+    private LevelState state;
 
-        public LevelState CurrentState => state;
+    public LevelState CurrentState => state;
 
-        public bool IsGameplayActive => state == LevelState.Playing;
+    public bool IsGameplayActive =>
+        state == LevelState.Playing;
 
-        public event Action<LevelState> StateChanged;
-        public event Action LevelCompleted; // Event to notify when the level is completed, passing the score as an integer
+    public event Action<LevelState> StateChanged;
+    public event Action LevelCompleted;
 
-        public void StartLevel () {
+    public void StartLevel() {
+        SetState(LevelState.Playing);
+    }
+
+    public void CompleteLevel() {
+        SetState(LevelState.Completed);
+    }
+
+    public void PlayerDied() {
+        SetState(LevelState.Dead);
+    }
+
+    public void TogglePauseLevel(bool pausing) {
+        if (pausing) {
+            // Extra defensive check.
+            if (state != LevelState.Playing)
+                return;
+
+            SetState(LevelState.Paused);
+        }
+        else {
+            // Only resume from pause.
+            if (state != LevelState.Paused)
+                return;
+
             SetState(LevelState.Playing);
         }
-        public void CompleteLevel() {
-            SetState(LevelState.Completed);
-        }
-        public void TogglePauseLevel (bool pausing) {
-            if (pausing) {
-                SetState(LevelState.Paused);
-            }
-            else {
-                SetState(LevelState.Playing);
-            }
+    }
 
+    private void SetState(LevelState newState) {
+        if (state == newState)
+            return;
+
+        state = newState;
+
+        if (newState == LevelState.Completed) {
+            LevelCompleted?.Invoke();
         }
 
-        private void SetState(LevelState newState) {
-            if (state == newState) return;
-            switch(newState) {
-                case LevelState.Completed:
-                    LevelCompleted?.Invoke();
-                    break;
-            }
-            state = newState;
-            StateChanged?.Invoke(state);
-        }
+        StateChanged?.Invoke(state);
     }
 }
-
-

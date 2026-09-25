@@ -2,9 +2,10 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.MainMenu {
-    public sealed class KeybindMenuView :
+    public sealed class KeybindMenuController :
         MonoBehaviour,
         IKeybindPage {
 
@@ -13,7 +14,7 @@ namespace _Project.Scripts.MainMenu {
 
         [Header("Keybind UI")]
         [SerializeField] private ActionContainer _actionContainer;
-        [SerializeField] private KeybindOptionPromptView _optionPrompt;
+        [SerializeField] private KeybindOptionPromptController _optionPrompt;
         [SerializeField] private RebindPromptView _rebindPrompt;
 
 

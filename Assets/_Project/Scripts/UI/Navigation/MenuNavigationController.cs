@@ -1,14 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace _Project.Scripts.MainMenu {
+namespace _Project.Scripts.UI.Navigation {
     public class MenuNavigationController : MonoBehaviour {
+        [SerializeField] private bool openOnStartup = true;
         [SerializeField] private MenuPage defaultPage;
         [SerializeField] private MenuInputModeTracker inputModeTracker;
-
-        public void PrintHistory() {
-            Debug.Log($"History size: {_history.Count}");
-        }
 
         private readonly Stack<MenuHistoryEntry> _history = new();
 
@@ -37,7 +34,9 @@ namespace _Project.Scripts.MainMenu {
         }
 
         private void Start() {
-            OpenRoot(defaultPage);
+            if (openOnStartup) {
+                OpenRoot(defaultPage);
+            }
         }
 
         private void OnDestroy() {
@@ -58,13 +57,19 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void OpenRoot(MenuPage rootPage) {
-            _history.Clear();
-
-            if (_currentPage != null)
-                _currentPage.Hide();
+            Close();
 
             _currentPage = rootPage;
             _currentPage.Show();
+        }
+
+        public void Close() {
+            _history.Clear();
+
+            if (_currentPage != null) {
+                _currentPage.Hide();
+                _currentPage = null;
+            }
         }
 
         public void OpenSubmenu(
@@ -90,8 +95,6 @@ namespace _Project.Scripts.MainMenu {
                 _currentPage.Hide();
             }
             else {
-                // Overlay page:
-                // keep the parent visible, but disable its options.
                 _currentPage.SetInteractable(false);
                 _currentPage.ClearCurrentSelection();
             }
@@ -101,11 +104,12 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void RequestBack() {
-            if (_currentPage != null &&
-                _currentPage.TryHandleBack()) {
+            if (_currentPage == null)
+                return;
+
+            if (_currentPage.TryHandleBack()) {
                 return;
             }
-
             GoBack();
         }
 
@@ -123,18 +127,11 @@ namespace _Project.Scripts.MainMenu {
             _currentPage = previous.Page;
 
             if (previous.WasHidden) {
-                // Normal page transition:
-                // previous page actually needs to be shown again.
                 _currentPage.Show(previous.ReturnOption);
             }
             else {
-                // Overlay transition:
-                // previous page never disappeared.
                 _currentPage.SetInteractable(true);
-
-                if (previous.ReturnOption != null) {
-                    _currentPage.RestoreSelection();
-                }
+                _currentPage.RestoreSelection();
             }
 
             return true;

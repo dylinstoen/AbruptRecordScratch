@@ -1,9 +1,10 @@
 using KBCore.Refs;
 using System.Collections.Generic;
 using UnityEngine;
+using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.MainMenu {
-    public sealed class SettingsMenuView :
+    public sealed class SettingsMenuController :
         MonoBehaviour, ISettingsPage {
 
         [SerializeField, Anywhere] private InterfaceRef<ISettingsControl>[] _controls;
@@ -33,16 +34,19 @@ namespace _Project.Scripts.MainMenu {
 
         public void BindSession(SettingsSession settingsSession) {
             _session = settingsSession;
+            
 
-            if (_session != null)
+            if (_session != null) {
                 InitializeControls();
+            }
+                
         }
 
 
         private void OnShown() {
             if (_session == null) {
                 Debug.LogError(
-                    $"{nameof(SettingsMenuView)} has no active settings session.",
+                    $"{nameof(SettingsMenuController)} has no active settings session.",
                     this
                 );
 
@@ -61,6 +65,7 @@ namespace _Project.Scripts.MainMenu {
                 return;
 
             _session.Apply();
+            
         }
 
         public void RestoreDefaults() {
@@ -78,7 +83,7 @@ namespace _Project.Scripts.MainMenu {
 
                 if (control == null) {
                     Debug.LogError(
-                        $"{nameof(SettingsMenuView)} contains a missing settings control.",
+                        $"{nameof(SettingsMenuController)} contains a missing settings control.",
                         this
                     );
                     continue;

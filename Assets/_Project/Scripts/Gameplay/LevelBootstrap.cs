@@ -15,6 +15,8 @@ using _Project.Scripts.Core.Level.Interface;
 using _Project.Scripts.Gameplay.Combat.Enemies;
 using _Project.Scripts.UI.Pause;
 using _Project.Scripts.Gameplay.Interract;
+using _Project.Scripts.GameRoot;
+using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.Gameplay {
     public class LevelBootstrap : MonoBehaviour {
@@ -26,6 +28,7 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private Camera cameraSource;
         [SerializeField] private CinemachineCamera cinemachineCamera;
         [SerializeField] private DeadCamFollower deadCamFollower;
+        [SerializeField] private MainCameraFOV mainCameraFOV;
         [Header("Player")]
         [SerializeField] private PlayerIntentSource playerIntentSource;
         [SerializeField] private PlayerSpawnService playerSpawner;
@@ -40,9 +43,15 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private InteractionPresenter interactionPresenter;
         [SerializeField] private CoinHud coinHud;
         [SerializeField] private LevelCompletedScreen levelCompletedScreen;
+        [Header("Pause")]
         [SerializeField] private PauseHud pauseHud;
+        [SerializeField] private PauseMenuController pauseMenuController;
+        [SerializeField] private MenuPage pausePage;
         [Header("Input")]
         [SerializeField] private InputModeService inputModeService;
+        [SerializeField] private MenuInputModeTracker menuInputModeTracker;
+        [SerializeField] private GameplayPauseInput gameplayPauseInput;
+
         [Header("Services")]
         [SerializeField] private GameManager gameManager;
         [SerializeField] private ImpactService impactService;
@@ -53,36 +62,44 @@ namespace _Project.Scripts.Gameplay {
         [SerializeField] private StainPool stainPool;
         [SerializeField] private SplatterPool splatterPool;
         
+        
         private void Start() {
+            // Setup
             var player = playerSpawner.Spawn(playerSpawnPoint.position, playerSpawnPoint.rotation);
             cinemachineCamera.Follow = player.AimPoint;
             deadCamFollower.SetTarget(player.AimPoint);
+            ISettingsService settingsInScene = GameRoot.GameRoot.Instance.Settings;
+            
             player.BindServices(new PlayerDeps {
-                CameraBrain =  cameraSource,
-                PlayerConfigSo = playerConfigSo, 
-                ImpactService =  impactService,
-                IntentSource = playerIntentSource, 
+                CameraBrain = cameraSource,
+                PlayerConfigSo = playerConfigSo,
+                ImpactService = impactService,
+                IntentSource = playerIntentSource,
                 ReticleMount = reticleMount,
                 WeaponViewMount = weaponViewMount,
                 InteractionPresenter = interactionPresenter,
                 AudioService = audioService,
                 LevelStateSource = levelStateSourceRef.Value,
                 levelController = levelControllerRef.Value,
+                SettingsService = settingsInScene
             });
+            // Bind Services
             healthHud.BindHealthEvents(player.HealthEvents);
             weaponHud.BindAmmoEvents(player.AmmoEvents);
-            gameManager.Initialize(player.DeathEvents, deathScreen, inputModeService, inputModeService.DeathUIIInputEvent);
+            gameManager.Initialize(player.DeathEvents, deathScreen, inputModeService, inputModeService.DeathUIIInputEvent, levelControllerRef.Value);
             playerService.Value.Initialize(player);
             coinHud.Initalize(coinService.Value);
             stainPool.Initialize(levelStateSourceRef.Value);
             splatterPool.Initialize(levelStateSourceRef.Value);
-
             enemySpawnService.SpawnEnemies(levelStateSourceRef.Value);
             pauseHud.Initialize(levelStateSourceRef.Value);
-
             endLevelTrigger.Initialize(levelControllerRef.Value);
             levelCompletedScreen.Initialize(levelStateSourceRef.Value, coinService.Value);
             levelControllerRef.Value.StartLevel();
+            mainCameraFOV.Initialize(settingsInScene);
+
+            pausePage.Initialize(menuInputModeTracker);
+            pauseMenuController.Initialize(levelControllerRef.Value, levelStateSourceRef.Value, inputModeService, gameplayPauseInput);
         }
 
         private void OnValidate() => this.ValidateRefs();

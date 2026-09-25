@@ -2,42 +2,53 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace _Project.Scripts.MainMenu {
-    public sealed class SettingsController : MonoBehaviour, ISettingsService {
+namespace _Project.Scripts.GameRoot {
+    public sealed class SettingsService : MonoBehaviour, ISettingsService {
 
         private readonly List<ISettingsReceiver> _receivers = new();
-        public SettingsData Saved { get; private set; }
-
+        private SettingsData _saved;
+        private bool _initialized;
         private string FilePath =>
             Path.Combine(
                 Application.persistentDataPath,
                 "settings.json"
             );
 
-        private void Awake() {
+        public void Initialize() {
+            if (_initialized)
+                return;
+
+            _initialized = true;
             Load();
         }
 
 
         public SettingsData CreateEditingCopy() {
-            return new SettingsData(Saved);
+            return new SettingsData(_saved);
         }
 
         public void Load() {
+            Debug.Log($"Settings path: {FilePath}");
             if (!File.Exists(FilePath)) {
-                Saved = CreateDefaultSettings();
-
-                WriteToDisk(Saved);
-                ApplyToGame(Saved);
+                UseDefaults();
                 return;
             }
-            string json = File.ReadAllText(FilePath);
 
-            SettingsData loaded = JsonUtility.FromJson<SettingsData>(json);
-
-            Saved = loaded != null ? new SettingsData(loaded) : new SettingsData();
-
-            ApplyToGame(Saved);
+            try {
+                string json = File.ReadAllText(FilePath);
+                SettingsData loaded = JsonUtility.FromJson<SettingsData>(json);
+                _saved = loaded != null ? new SettingsData(loaded) : CreateDefaultSettings();
+            }
+            catch (System.Exception exception) {
+                Debug.LogWarning($"Failed to load settings. Using defaults.\n{exception}");
+                _saved = CreateDefaultSettings();
+            }
+            ApplyToGame(_saved);
+        }
+        private void UseDefaults() {
+            _saved = CreateDefaultSettings();
+            WriteToDisk(_saved);
+            ApplyToGame(_saved);
         }
         public SettingsData CreateDefaultSettings() {
             int width = Display.main.systemWidth;
@@ -72,10 +83,10 @@ namespace _Project.Scripts.MainMenu {
             }
 
             // Never keep a reference to the session's WorkingCopy.
-            Saved = new SettingsData(data);
+            _saved = new SettingsData(data);
 
-            WriteToDisk(Saved);
-            ApplyToGame(Saved);
+            WriteToDisk(_saved);
+            ApplyToGame(_saved);
         }
 
         public void Register(ISettingsReceiver receiver) {
@@ -83,8 +94,8 @@ namespace _Project.Scripts.MainMenu {
                 return;
             }
             _receivers.Add(receiver);
-            if (Saved != null) {
-                receiver.ApplySettings(Saved);
+            if (_saved != null) {
+                receiver.ApplySettings(_saved);
             }
         }
         public void Unregister(ISettingsReceiver reciever) {
@@ -100,7 +111,7 @@ namespace _Project.Scripts.MainMenu {
             ApplyAudio(data);
             ApplyVSync(data);
             ApplyDisplay(data);
-            ApplyGameplaySettings(data);
+            ApplyToReceivers(data);
         }
 
         private void ApplyAudio(SettingsData data) {
@@ -165,7 +176,7 @@ namespace _Project.Scripts.MainMenu {
 
             return closest;
         }
-        private void ApplyGameplaySettings(SettingsData data) {
+        private void ApplyToReceivers(SettingsData data) {
             _receivers.RemoveAll(IsStale);
             // The copying of the data prevents edge case bugs where applying a setting causes applying another setting and therefore the array is modified as were trying to apply it.
             ISettingsReceiver[] receivers = _receivers.ToArray();
@@ -185,5 +196,8 @@ namespace _Project.Scripts.MainMenu {
             return false;
         }
 
+        public float GetVerticalFOV() {
+            return _saved.VerticalFOV;
+        }
     }
 }

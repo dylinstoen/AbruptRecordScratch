@@ -6,6 +6,7 @@ namespace _Project.Scripts.Gameplay.Enums {
         Paused,
         Completed,
         Loading,
+        Dead
     }
 }
 

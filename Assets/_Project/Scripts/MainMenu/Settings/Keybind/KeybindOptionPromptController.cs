@@ -3,25 +3,26 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class KeybindOptionPromptView : MonoBehaviour
+using _Project.Scripts.UI.Navigation;
+public class KeybindOptionPromptController : MonoBehaviour
 {
     [SerializeField] private TMP_Text _actionText;
     [SerializeField] private TMP_Text _bindingText;
     [SerializeField] private MenuPage keybindPromptMenuPage;
 
 
-    KeybindMenuView _owner;
+    KeybindMenuController _owner;
 
     private InputAction _action;
     
     private int _bindingIndex;
     private MenuNavigationController _navigation;
 
-    public void Initialize(KeybindMenuView owner, MenuNavigationController navigation) {
+    public void Initialize(KeybindMenuController owner, MenuNavigationController navigation) {
         _owner = owner;
         _navigation = navigation;
-        Hide();
+        gameObject.SetActive(false);
+        //Hide();
     }
 
     public void Show(string actionLabel, string bindingLabel, MenuOption optionThatOpenedIt) {
@@ -43,8 +44,6 @@ public class KeybindOptionPromptView : MonoBehaviour
 
     public void Hide() {
         //gameObject.SetActive(false);
-        _navigation.RequestBack();
-        _navigation.PrintHistory();
-        
+        _navigation.RequestBack();        
     }
 }

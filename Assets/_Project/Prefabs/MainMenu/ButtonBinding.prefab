@@ -115,7 +115,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
-  m_ActiveFontFeatures: 6e72656b
+  m_ActiveFontFeatures: 6e72656bu
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 1990576255975798767}
   - component: {fileID: 432996739074008813}
   - component: {fileID: -7169264788757795177}
+  - component: {fileID: 8667877074982235197}
   m_Layer: 5
   m_Name: ButtonBinding
   m_TagString: Untagged
@@ -257,9 +258,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7838467f5220a7b449837656c8f18e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Project.Scripts.MainMenu.BindingButton
+  canvasGroup: {fileID: 8667877074982235197}
   menuOption: {fileID: 432996739074008813}
   button: {fileID: 1990576255975798767}
   bindingLabel: {fileID: 5189116952489909901}
+--- !u!225 &8667877074982235197
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415004488195391958}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2101077363991704500
 GameObject:
   m_ObjectHideFlags: 0

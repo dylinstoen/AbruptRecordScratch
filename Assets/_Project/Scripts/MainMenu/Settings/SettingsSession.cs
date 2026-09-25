@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics;
+using _Project.Scripts.GameRoot;
 
 namespace _Project.Scripts.MainMenu {
     public sealed class SettingsSession {
-        private readonly SettingsController _controller;
+        private readonly ISettingsService _settingService;
         private SettingsData _original;
 
         public SettingsData WorkingCopy { get; private set; }
@@ -12,11 +14,16 @@ namespace _Project.Scripts.MainMenu {
         public bool HasChanges =>
             !SettingsDataComparer.AreEqual(WorkingCopy, _original);
 
-        public SettingsSession(SettingsController controller) {
-            _controller = controller;
+        public SettingsSession(ISettingsService settingService) {
+            _settingService = settingService;
 
-            _original = controller.CreateEditingCopy();
+            _original = _settingService.CreateEditingCopy();
             WorkingCopy = new SettingsData(_original);
+            
+        }
+
+        public float GetVerticalFOV() {
+            return _settingService.GetVerticalFOV();
         }
 
         public void SetResolution(int width, int height) {
@@ -36,9 +43,9 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void Apply() {
-            _controller.Save(WorkingCopy);
+            _settingService.Save(WorkingCopy);
 
-            _original = _controller.CreateEditingCopy();
+            _original = _settingService.CreateEditingCopy();
             WorkingCopy = new SettingsData(_original);
 
             ResolutionChanged?.Invoke();
@@ -51,7 +58,7 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public void RestoreDefaults() {
-            WorkingCopy = _controller.CreateDefaultSettings();
+            WorkingCopy = _settingService.CreateDefaultSettings();
 
             ResolutionChanged?.Invoke();
         }

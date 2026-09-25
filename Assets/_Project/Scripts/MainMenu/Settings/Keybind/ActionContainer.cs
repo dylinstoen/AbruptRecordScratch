@@ -2,20 +2,25 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 namespace _Project.Scripts.MainMenu {
     public class ActionContainer : MonoBehaviour {
         [SerializeField] private ActionRow actionRowPrefab;
         [SerializeField] private Transform rowParent;
+
         private readonly Dictionary<RowKey, ActionRow> _rows = new();
 
-        public void Initialize(InputActionMap actionMap, KeybindMenuView keybindMenuView) {
+        public void Initialize(
+            InputActionMap actionMap,
+            KeybindMenuController keybindMenuController
+        ) {
             Clear();
-            foreach(InputAction action in actionMap.actions) {
-                BuildRows(action, keybindMenuView);
+
+            foreach (InputAction action in actionMap.actions) {
+                BuildRows(action, keybindMenuController);
             }
-            foreach(ActionRow row in _rows.Values) {
+
+            foreach (ActionRow row in _rows.Values) {
                 row.Build();
             }
         }
@@ -26,30 +31,53 @@ namespace _Project.Scripts.MainMenu {
             }
         }
 
-        private void BuildRows(InputAction action, KeybindMenuView keybindMenuView) {
-            for(int bindingIndex = 0; bindingIndex < action.bindings.Count; bindingIndex++) {
+        private void BuildRows(
+            InputAction action,
+            KeybindMenuController keybindMenuController
+        ) {
+            for (int bindingIndex = 0;
+                 bindingIndex < action.bindings.Count;
+                 bindingIndex++) {
+
                 InputBinding binding = action.bindings[bindingIndex];
+
+                // Composite roots such as "2D Vector" aren't actual
+                // bindable controls, so don't create buttons for them.
                 if (binding.isComposite)
                     continue;
+
                 BindingDevice device = GetDevice(binding);
+
                 RowKey key = GetRowKey(action, bindingIndex);
-                if(!_rows.TryGetValue(key, out ActionRow row)) {
+
+                if (!_rows.TryGetValue(key, out ActionRow row)) {
                     row = Instantiate(actionRowPrefab, rowParent);
-                    row.Initialize(action, GetRowDisplayName(action, action.bindings[bindingIndex]), keybindMenuView);
+
+                    row.Initialize(
+                        action,
+                        GetRowDisplayName(action, binding),
+                        keybindMenuController
+                    );
+
                     _rows.Add(key, row);
                 }
+
                 row.AddBinding(device, bindingIndex);
             }
-            
         }
 
         private void Clear() {
-            foreach(Transform child in rowParent) {
+            foreach (Transform child in rowParent) {
                 Destroy(child.gameObject);
             }
+
             _rows.Clear();
         }
-        private string GetRowDisplayName(InputAction action, InputBinding binding) {
+
+        private string GetRowDisplayName(
+            InputAction action,
+            InputBinding binding
+        ) {
             string actionName = FormatActionName(action.name);
 
             if (!binding.isPartOfComposite)
@@ -80,24 +108,45 @@ namespace _Project.Scripts.MainMenu {
             };
         }
 
-        private string FormatName(string value) => string.IsNullOrEmpty(value) ? "" : char.ToUpper(value[0]) + value.Substring(1);
+        private string FormatName(string value) {
+            return string.IsNullOrEmpty(value)
+                ? ""
+                : char.ToUpper(value[0]) + value.Substring(1);
+        }
 
         private BindingDevice GetDevice(InputBinding binding) {
-            if (binding.groups.Contains("Gamepad"))
-                return BindingDevice.Gamepad;
-
-            if (binding.groups.Contains("Mouse"))
-                return BindingDevice.Mouse;
-
-            if (binding.groups.Contains("Keyboard"))
+            string path = binding.path;
+            if (path.StartsWith(
+                    "<Keyboard>",
+                    StringComparison.OrdinalIgnoreCase
+                )) {
                 return BindingDevice.Keyboard;
+            }
+
+            if (path.StartsWith(
+                    "<Mouse>",
+                    StringComparison.OrdinalIgnoreCase
+                )) {
+                return BindingDevice.Mouse;
+            }
+
+            if (path.StartsWith(
+                    "<Gamepad>",
+                    StringComparison.OrdinalIgnoreCase
+                )) {
+                return BindingDevice.Gamepad;
+            }
 
             throw new InvalidOperationException(
-                $"No device associated with binding '{binding.name}'"
+                $"Unsupported binding path '{path}' " +
+                $"for binding '{binding.name}'."
             );
         }
 
-        private RowKey GetRowKey(InputAction action, int bindingIndex) {
+        private RowKey GetRowKey(
+            InputAction action,
+            int bindingIndex
+        ) {
             InputBinding binding = action.bindings[bindingIndex];
 
             if (!binding.isPartOfComposite)
@@ -107,4 +156,3 @@ namespace _Project.Scripts.MainMenu {
         }
     }
 }
-

@@ -21,10 +21,9 @@ namespace _Project.Scripts.Actors {
         [SerializeField] private PlayerInteraction playerInteraction;
         [SerializeField] private PlayerCamTargetDriver playerCamTargetDriver;
         [SerializeField] private PlayerMoverPresenter playerMoverPresenter;
-        [SerializeField] private PlayerPause playerPause;
         
         public void BindServices(PlayerDeps deps) {
-            playerCamTargetDriver.Initialize(deps.CameraBrain);
+            playerCamTargetDriver.Initialize(deps.CameraBrain, deps.SettingsService);
             playerMover.Initialize(deps.IntentSource, playerCamTargetDriver);
             playerLookController.Initialize(deps.IntentSource, playerCamTargetDriver);
             health.Initialize(deps.PlayerConfigSo.startingHealth);
@@ -33,7 +32,6 @@ namespace _Project.Scripts.Actors {
             playerInteraction.Initialize(deps.InteractionPresenter, deps.IntentSource, playerCamTargetDriver);
             playerMoverPresenter.Initialize(deps.ImpactService);
             playerBrain.Initialize(deps.LevelStateSource, deps.levelController);
-            playerPause.Initialize(deps.levelController, deps.LevelStateSource, deps.IntentSource);
         }
     }
 }

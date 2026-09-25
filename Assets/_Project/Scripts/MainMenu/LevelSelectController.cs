@@ -1,6 +1,7 @@
 using UnityEngine;
+using _Project.Scripts.UI.Navigation;
 namespace _Project.Scripts.MainMenu {
-    public class LevelSelectView : MonoBehaviour {
+    public class LevelSelectController : MonoBehaviour {
         [SerializeField]
         private MenuNavigationController navigation;
         public void OnReturnPressed() {

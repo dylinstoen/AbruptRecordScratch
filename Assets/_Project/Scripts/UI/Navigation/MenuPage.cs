@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _Project.Scripts.MainMenu {
+namespace _Project.Scripts.UI.Navigation {
     public class MenuPage : MonoBehaviour {
         [Header("Navigation")]
         [SerializeField] private MenuOption defaultOption;
@@ -57,7 +57,7 @@ namespace _Project.Scripts.MainMenu {
             ClearSelection();
 
             Hidden?.Invoke();
-
+            
             gameObject.SetActive(false);
         }
 
@@ -68,8 +68,8 @@ namespace _Project.Scripts.MainMenu {
         }
 
         public bool TryHandleBack() {
-            return _backHandler != null &&
-                   _backHandler.TryHandleBack();
+            
+            return _backHandler != null && _backHandler.TryHandleBack();
         }
 
         public void RememberSelection(MenuOption option) {

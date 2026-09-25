@@ -1,6 +1,7 @@
 using KBCore.Refs;
 using UnityEditor;
 using UnityEngine;
+using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.MainMenu {
     public sealed class KeybindFlowHandler : MonoBehaviour {

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.MainMenu {
     public class ActionRow : MonoBehaviour {
@@ -16,7 +17,7 @@ namespace _Project.Scripts.MainMenu {
         [SerializeField] private BindingButton bindingButtonPrefab;
 
         private InputAction _action;
-        private KeybindMenuView _keybindMenuView;
+        private KeybindMenuController _keybindMenuController;
 
         private readonly List<int> _keyboardBindings = new();
         private readonly List<int> _mouseBindings = new();
@@ -27,10 +28,10 @@ namespace _Project.Scripts.MainMenu {
         public void Initialize(
             InputAction action,
             string displayName,
-            KeybindMenuView keybindMenuView
+            KeybindMenuController keybindMenuController
         ) {
             _action = action;
-            _keybindMenuView = keybindMenuView;
+            _keybindMenuController = keybindMenuController;
 
             actionLabel.text = displayName;
         }
@@ -87,7 +88,7 @@ namespace _Project.Scripts.MainMenu {
                     button.Initialize(
                         _action,
                         bindings[i],
-                        _keybindMenuView,
+                        _keybindMenuController,
                         actionLabel.text
                     );
                 }

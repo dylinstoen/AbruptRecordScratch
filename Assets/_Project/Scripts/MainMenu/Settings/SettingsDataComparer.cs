@@ -1,3 +1,4 @@
+using _Project.Scripts.GameRoot;
 namespace _Project.Scripts.MainMenu {
     public static class SettingsDataComparer {
         public static bool AreEqual(

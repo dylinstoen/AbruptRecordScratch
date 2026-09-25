@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace _Project.Scripts.MainMenu {
+namespace _Project.Scripts.UI.Navigation {
     public sealed class MenuOption : MonoBehaviour,
         IPointerEnterHandler,
         IPointerExitHandler,

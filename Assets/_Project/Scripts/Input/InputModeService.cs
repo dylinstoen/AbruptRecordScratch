@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 
 namespace _Project.Scripts.Input {
-    public class InputModeService : MonoBehaviour, IInputModeService {
+    public sealed class InputModeService : MonoBehaviour, IInputModeService {
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private DeathUiInput deathUiInput;
         public IDeathUIIInputEvent DeathUIIInputEvent => deathUiInput; 
@@ -18,6 +18,11 @@ namespace _Project.Scripts.Input {
             playerInput.SwitchCurrentActionMap("Dead");
         }
 
-        
+        public void SetUI() {
+            playerInput.SwitchCurrentActionMap("UI");
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }
