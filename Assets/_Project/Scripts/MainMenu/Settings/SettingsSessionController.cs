@@ -3,7 +3,7 @@ using UnityEngine;
 using _Project.Scripts.GameRoot;
 using _Project.Scripts.UI.Navigation;
 namespace _Project.Scripts.MainMenu {
-    public sealed class SettingsFlowHandler : MonoBehaviour {
+    public sealed class SettingsSessionController : MonoBehaviour {
         [SerializeField, Anywhere]
         private InterfaceRef<ISettingsPage> _rootPage;
 
@@ -34,11 +34,7 @@ namespace _Project.Scripts.MainMenu {
             }
 
             if (_settingsService == null || _navigation == null) {
-                Debug.LogError(
-                    $"{nameof(SettingsFlowHandler)} was not initialized.",
-                    this
-                );
-
+                Debug.LogError($"{nameof(SettingsSessionController)} was not initialized.", this);
                 return;
             }
 
@@ -66,7 +62,7 @@ namespace _Project.Scripts.MainMenu {
             
             if (page == null) {
                 Debug.LogError(
-                    $"{nameof(SettingsFlowHandler)} contains a missing settings page.",
+                    $"{nameof(SettingsSessionController)} contains a missing settings page.",
                     this
                 );
 

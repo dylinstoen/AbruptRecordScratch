@@ -19,10 +19,10 @@ namespace _Project.Scripts.MainMenu {
         [Header("Settings")]
         [SerializeField] private SettingsService settingsService;
         [SerializeField] private SettingsMenuController settingsMenuController;
-        [SerializeField] private SettingsFlowHandler settingsFlowHandler;
+        [SerializeField] private SettingsSessionController settingsSessionController;
         [SerializeField] private KeybindMenuController keybindMenuController;
         [SerializeField] private InputBindingController inputBindingController;
-        [SerializeField] private KeybindFlowHandler keybindFlowHandler;
+        [SerializeField] private KeybindSessionController keybindSessionController;
         [SubHeader("Keybind")]
         [SerializeField] private InputActionAsset actions;
         [SerializeField] private ActionContainer actionContainer;
@@ -32,10 +32,10 @@ namespace _Project.Scripts.MainMenu {
         //[SerializeField] private MenuPage videoMenu;
 
         private void Start() {
-            keybindFlowHandler.Initialize(inputBindingController, navigation);
-            settingsFlowHandler.Initialize(settingsService, navigation);
-            mainMenuController.Initalize(settingsFlowHandler);
-            settingsMenuController.Initialize(keybindFlowHandler, navigation);
+            keybindSessionController.Initialize(inputBindingController, navigation);
+            settingsSessionController.Initialize(settingsService, navigation);
+            mainMenuController.Initalize(settingsSessionController, GameRoot.GameRoot.Instance.Progress);
+            settingsMenuController.Initialize(keybindSessionController, navigation);
 
             actionContainer.Initialize(actions.FindActionMap("Gameplay"), keybindMenuController);
             keybindMenuController.Initialize(navigation);

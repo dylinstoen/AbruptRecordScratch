@@ -4,7 +4,7 @@ using UnityEngine;
 using _Project.Scripts.UI.Navigation;
 
 namespace _Project.Scripts.MainMenu {
-    public sealed class KeybindFlowHandler : MonoBehaviour {
+    public sealed class KeybindSessionController : MonoBehaviour {
         [SerializeField, Anywhere]
         private InterfaceRef<IKeybindPage> _page;
 
@@ -39,7 +39,7 @@ namespace _Project.Scripts.MainMenu {
                 _navigation == null) {
 
                 Debug.LogError(
-                    $"{nameof(KeybindFlowHandler)} was not initialized.",
+                    $"{nameof(KeybindSessionController)} was not initialized.",
                     this
                 );
 
@@ -50,7 +50,7 @@ namespace _Project.Scripts.MainMenu {
 
             if (page == null) {
                 Debug.LogError(
-                    $"{nameof(KeybindFlowHandler)} contains a missing keybind page.",
+                    $"{nameof(KeybindSessionController)} contains a missing keybind page.",
                     this
                 );
 

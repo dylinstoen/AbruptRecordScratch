@@ -14,7 +14,7 @@ namespace _Project.Scripts.MainMenu {
         private MenuNavigationController _navigation;
         private SettingsSession _session;
 
-        private KeybindFlowHandler _KeybindFlowHandler;
+        private KeybindSessionController _keybindSessionController;
 
         public MenuPage ThisMenuPage => _menuPage;
 
@@ -23,13 +23,13 @@ namespace _Project.Scripts.MainMenu {
             _menuPage.Hidden += OnHidden;
         }
 
-        public void Initialize(KeybindFlowHandler keyBindFlowHandler, MenuNavigationController menuNavigationController) {
+        public void Initialize(KeybindSessionController keybindSessionController, MenuNavigationController menuNavigationController) {
             _navigation = menuNavigationController;
-            _KeybindFlowHandler = keyBindFlowHandler;
+            _keybindSessionController = keybindSessionController;
         }
 
         public void OpenKeybindMenu() {
-            _KeybindFlowHandler.Open(openKeyBindButton);
+            _keybindSessionController.Open(openKeyBindButton);
         }
 
         public void BindSession(SettingsSession settingsSession) {
